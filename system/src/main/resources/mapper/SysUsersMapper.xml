@@ -36,19 +36,29 @@
     <select id="getList" resultType="com.iris.model.vo.system.UsersListVO">
 
         select list.id, list.login_name, list.real_name, list.gender, list.genderName, list.phone_number, list.remark, list.is_locked, list.is_deleted,
-                list.created_by, list.created_time, list.modified_by, list.modified_time, group_concat(list.sr_name) roleNameJoin,
-                list.is_default
+                list.created_by, list.created_time, list.modified_by, list.modified_time, group_concat(list.sr_name) roleNameJoin, list.organization_id,
+                list.is_platform, list.is_default
         from (
-        select su.id, su.login_name, su.real_name, su.gender, sc1.name genderName, su.phone_number, su.remark, su.is_locked,
-                su.is_deleted, su.created_by, su.created_time, su.modified_by, su.modified_time, sr.name sr_name, su.is_default
+        select su.id, su.login_name, su.real_name, su.gender, sc1.name genderName, su.phone_number, su.remark, su.is_locked, oei.is_platform,
+                su.is_deleted, su.created_by, su.created_time, su.modified_by, su.modified_time, sr.name sr_name, mieiuio.organization_id, su.is_default
         from sys_users su
         left join sys_user_in_role suir on suir.is_deleted = 0 and su.id = suir.user_id
         left join sys_roles sr on sr.is_deleted = 0 and sr.id = suir.role_id
         left join sys_code sc on sc.is_deleted = 0 and sr.type = sc.value
         left join sys_code sc1 on sc1.is_deleted = 0 and su.gender = sc1.value
+        left join member_in_employee_in_user_in_organization mieiuio on mieiuio.is_deleted = 0 and mieiuio.user_id = su.id
+        left join organization_extra_info oei on oei.organization_id = mieiuio.organization_id and oei.is_deleted = 0
         ) list
         <where>
             list.is_deleted = 0 and list.is_default = 0
+            <choose>
+                <when test="userListDTO.isPlatform == 0">
+                    and list.is_platform = 0 and list.organization_id = #{userListDTO.organizationId}
+                </when>
+                <otherwise>
+                    and (list.is_platform = 1 or list.organization_id is null)
+                </otherwise>
+            </choose>
             <if test="userListDTO.loginName != null and userListDTO.loginName != ''">
                 and list.login_name like concat('%',#{userListDTO.loginName},'%')
             </if>

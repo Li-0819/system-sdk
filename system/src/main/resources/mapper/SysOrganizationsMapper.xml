@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iris.mapper.ISysOrganizationsMapper">
 
+
     <resultMap id="SysOrganizationsMapBaseVO" type="com.iris.model.vo.system.SysOrganizationsMapBaseVO">
         <id property="id" column="id" />
         <result column="code" jdbcType="VARCHAR" property="code" />
@@ -14,19 +15,36 @@
         <result column="modified_by" jdbcType="VARCHAR" property="modifiedBy"/>
         <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime"/>
 
-        <association property="usersListVO" javaType="com.iris.model.vo.system.UsersListVO">
-            <id column="user_id" property="id"/>
-            <result column="login_name" property="loginName"/>
-            <result column="real_name" property="realName"/>
-            <result column="user_gender" property="gender"/>
-            <result column="user_genderName" property="genderName"/>
-            <result column="phone_number" property="phoneNumber"/>
-            <result column="user_remark" property="remark"/>
-            <result column="is_locked" property="isLocked"/>
-            <result column="user_createBy" property="createdBy"/>
-            <result column="user_createdTime" property="createdTime"/>
-            <result column="user_modifiedBy" property="modifiedBy"/>
-            <result column="user_modifiedTime" property="modifiedTime"/>
+        <association property="organizationExtraInfoDetailVO" javaType="com.iris.model.vo.organization.OrganizationExtraInfoDetailVO">
+            <id column="extraInfo_id" property="id"/>
+            <id column="organization_id" property="organizationId"/>
+            <result column="organization_name" property="organizationName"/>
+            <result column="organization_short_name" property="organizationShortName"/>
+            <result column="organization_class" property="organizationClass"/>
+            <result column="organizationClassName" property="organizationClassName"/>
+            <result column="organization_logo" property="organizationLogo"/>
+            <result column="organization_size" property="organizationSize"/>
+            <result column="organization_code" property="organizationCode"/>
+            <result column="organizationSizeName" property="organizationSizeName"/>
+            <result column="legal_person" property="legalPerson"/>
+            <result column="legal_person_number" property="legalPersonNumber"/>
+            <result column="organization_status" property="organizationStatus"/>
+            <result column="organizationStatusName" property="organizationStatusName"/>
+            <result column="region" property="region"/>
+            <result column="business_scope" property="businessScope"/>
+            <result column="is_enterpriseAuth" property="isEnterpriseAuth"/>
+            <result column="is_platform" property="isPlatform"/>
+
+            <result column="gender" property="gender"/>
+            <result column="genderName" property="genderName"/>
+            <result column="customer_phone" property="customerPhone"/>
+            <result column="establishment_date" property="establishmentDate"/>
+            <result column="longitude" property="longitude"/>
+            <result column="latitude" property="latitude"/>
+            <result column="address" property="address"/>
+            <result column="organization_profile" property="organizationProfile"/>
+            <result column="remark" property="remark"/>
+            <result column="unified_credit_code" property="unifiedCreditCode"/>
         </association>
     </resultMap>
 
@@ -49,8 +67,15 @@
     <select id="getList" resultMap="SysOrganizationsListVO">
 
         select so.id, so.parent_id, so.code, so.parent_code, so.name, so.sequence, so.remark, so.is_locked, so.is_deleted,
-                so.created_by, so.created_time, so.modified_by, so.modified_time
+                so.created_by, so.created_time, so.modified_by, so.modified_time,
+               oei.id extraInfo_id, oei.organization_id, oei.organization_short_name, oei.organization_class, sc.name organizationClassName,
+               oei.organization_logo,  oei.organization_size, sc_size.name organizationSizeName, oei.legal_person, oei.legal_person_number,
+               oei.organization_status, sc_status.name organizationStatusName, oei.region, oei.business_scope, oei.is_enterprise_auth, oei.is_platform
         from sys_organizations so
+                join organization_extra_info oei on oei.is_deleted = 0 and oei.organization_id = so.id
+                left join sys_code sc on sc.value = oei.organization_class and sc.is_deleted = 0
+                left join sys_code sc_size on sc_size.value = oei.organization_size and sc_size.is_deleted = 0
+                left join sys_code sc_status on sc_status.value = oei.organization_status and sc_status.is_deleted = 0
         <where>
                 so.is_deleted = 0
             <if test="sysOrganizationsListDTO.code != null and sysOrganizationsListDTO.code != ''">
@@ -64,6 +89,18 @@
             </if>
             <if test="sysOrganizationsListDTO.endTime != null and sysOrganizationsListDTO.endTime != ''">
                 and so.created_time &lt;= #{sysOrganizationsListDTO.endTime}
+            </if>
+            <if test="sysOrganizationsListDTO.isPlatform != null">
+                and oei.is_platform = #{sysOrganizationsListDTO.isPlatform}
+            </if>
+            <if test="sysOrganizationsListDTO.organizationStatus != null and sysOrganizationsListDTO.organizationStatus != ''">
+                and oei.organization_status = #{sysOrganizationsListDTO.organizationStatus}
+            </if>
+            <if test="sysOrganizationsListDTO.organizationClass != null and sysOrganizationsListDTO.organizationClass != ''">
+                and oei.organization_class = #{sysOrganizationsListDTO.organizationClass}
+            </if>
+            <if test="sysOrganizationsListDTO.organizationSize != null and sysOrganizationsListDTO.organizationSize != ''">
+                and oei.organization_size = #{sysOrganizationsListDTO.organizationSize}
             </if>
             <choose>
                 <when test="sysOrganizationsListDTO.parentId != null and sysOrganizationsListDTO.parentId != ''">
@@ -83,29 +120,37 @@
     <select id="getDetail" resultMap= "SysOrganizationsDetailVO">
 
         select so.id, so.parent_id, so.code, so.parent_code, so.name, so.sequence, so.remark, so.is_locked, so.is_deleted,
-                so.created_by, so.created_time, so.modified_by, so.modified_time,
-                su.remark user_remark, su.is_locked, su.created_by user_createdBy, su.modified_by user_modifiedBy,
-                su.modified_time user_modifiedTime, su.modified_by user_modifiedBy
+               so.created_by, so.created_time, so.modified_by, so.modified_time,
+               oei.id extraInfo_id, oei.organization_id, oei.organization_short_name, oei.organization_code, oei.organization_class, sc.name organizationClassName,
+               oei.organization_logo,  oei.organization_size, sc_size.name organizationSizeName, oei.legal_person, oei.legal_person_number,
+               oei.organization_status, sc_status.name organizationStatusName, oei.region, oei.business_scope, oei.is_enterprise_auth, oei.is_platform,
+               oei.gender, sc_gender.name genderName, oei.customer_phone, oei.establishment_date, oei.longitude, oei.latitude, oei.address, oei.organization_profile,
+               oei.remark, oei.unified_credit_code
         from sys_organizations so
-            left join sys_user_in_organization suio on suio.is_deleted = 0 and suio.organization_id = so.id
-            left join sys_users su on su.is_deleted = 0 and su.id = suio.user_id and su.is_default = 1
+                 join organization_extra_info oei on oei.is_deleted = 0 and oei.organization_id = so.id
+                 left join sys_code sc on sc.value = oei.organization_class and sc.is_deleted = 0
+                 left join sys_code sc_size on sc_size.value = oei.organization_size and sc_size.is_deleted = 0
+                 left join sys_code sc_status on sc_status.value = oei.organization_status and sc_status.is_deleted = 0
+                 left join sys_code sc_gender on sc_gender.value = oei.gender and sc_gender.is_deleted = 0
+
          where so.is_deleted = 0 and so.id = #{id}
         <choose>
             <when test="parentId != null and parentId != ''">
                 and so.parent_id = #{parentId}
             </when>
             <otherwise>
-                and so.id  = #{id}
+                and so.id = #{id}
             </otherwise>
         </choose>
-        group by so.id
+<!--        group by so.id-->
     </select>
 
     <select id="checkRepeat" resultType="java.lang.Integer">
 
         select count(so.id)
         from sys_organizations so
-        where so.is_deleted = 0
+                 join organization_extra_info oei on oei.is_deleted = 0 and oei.organization_id = so.id
+        where so.is_deleted = 0 and oei.is_deleted = 0 and oei.is_platform = #{isPlatform}
         <choose>
             <when test="parentId != null and parentId != ''">
                 and so.parent_id = #{parentId}
@@ -120,8 +165,21 @@
         </if>
     </select>
 
+    <update id="updateExtraStatusByRefId">
+        update organization_extra_info set organization_status = #{status} where organization_id = #{id}
+    </update>
+
     <update id="updateIsLockedById">
         update sys_organizations set sys_organizations.is_locked = #{isLocked} where id = #{id}
     </update>
 
+    <select id="getIsDefaultUserByOrgId" resultType="com.iris.model.vo.system.UsersListVO">
+
+        select su.id, su.login_name, su.real_name, su.gender, sc_user_gender.name genderName, su.phone_number,
+               su.remark, su.is_locked, su.is_default, su.created_by , su.modified_by, su.modified_time, su.modified_by
+        from member_in_employee_in_user_in_organization mieiuio
+            join sys_users su on su.is_deleted = 0 and su.is_default = 1 and su.id = mieiuio.user_id
+            left join sys_code sc_user_gender on sc_user_gender.is_deleted = 0 and sc_user_gender.value = su.gender
+        where mieiuio.organization_id = #{orgId,jdbcType=VARCHAR} and mieiuio.is_deleted = 0
+    </select>
 </mapper>

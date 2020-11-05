@@ -4,19 +4,22 @@
 
     <sql id="rolesCommonColumn">
         sr.id, sr.name, sr.code, sr.type, sc.name typeName, sr.remark, sr.is_locked, sr.is_deleted,
-        sr.is_default, sr.created_by, sr.created_time, sr.modified_by, sr.modified_time
+        oei.is_platform,oei.organization_id, so.name organizationName,sr.is_default, sr.created_by,
+        sr.created_time, sr.modified_by, sr.modified_time
     </sql>
 
     <select id="getList" resultType="com.iris.model.vo.system.SysRolesVO">
 
         select list.id, list.name, list.code, list.type, list.typeName, list.remark, list.is_locked, list.is_deleted,
-                list.is_default, list.created_by, list.created_time, list.modified_by, list.modified_time
+                list.is_platform,list.organization_id, list.organizationName,list.is_default, list.created_by,
+                list.created_time, list.modified_by, list.modified_time
         from (
             select <include refid="rolesCommonColumn"></include>
             from sys_roles sr
                 left join sys_code sc on sc.is_deleted = 0 and sc.value = sr.type
-<!--                left join role_in_organization rio on rio.role_id = sr.id and rio.is_deleted = 0-->
-<!--                left join sys_organizations so on so.id = rio.organization_id and so.is_deleted = 0-->
+                left join role_in_organization rio on rio.role_id = sr.id and rio.is_deleted = 0
+                left join sys_organizations so on so.id = rio.organization_id and so.is_deleted = 0
+                left join organization_extra_info oei on oei.organization_id = rio.organization_id and oei.is_deleted = 0
         ) list
         <where>
             list.is_deleted = 0 and list.is_default = 0
@@ -29,14 +32,14 @@
             <if test="sysRolesListDTO.type != null and sysRolesListDTO.type != ''">
                 and list.type = #{sysRolesListDTO.type}
             </if>
-<!--            <choose>-->
-<!--                <when test="sysRolesListDTO.isPlatform == 0">-->
-<!--                    and list.is_platform = 0 and list.organization_id = #{sysRolesListDTO.organizationId}-->
-<!--                </when>-->
-<!--                <otherwise>-->
-<!--                    and (list.is_platform = 1 or list.organization_id is null)-->
-<!--                </otherwise>-->
-<!--            </choose>-->
+            <choose>
+                <when test="sysRolesListDTO.isPlatform == 0">
+                    and list.is_platform = 0 and list.organization_id = #{sysRolesListDTO.organizationId}
+                </when>
+                <otherwise>
+                    and (list.is_platform = 1 or list.organization_id is null)
+                </otherwise>
+            </choose>
         </where>
         order by list.created_time
     </select>
@@ -46,8 +49,9 @@
         select <include refid="rolesCommonColumn"></include>
             from sys_roles sr
                     left join sys_code sc on sc.is_deleted = 0 and sc.value = sr.type
-<!--                    left join role_in_organization rio on rio.role_id = sr.id and rio.is_deleted = 0-->
-<!--                    left join sys_organizations so on so.id = rio.organization_id and so.is_deleted = 0-->
+                    left join role_in_organization rio on rio.role_id = sr.id and rio.is_deleted = 0
+                    left join sys_organizations so on so.id = rio.organization_id and so.is_deleted = 0
+                    left join organization_extra_info oei on oei.organization_id = rio.organization_id and oei.is_deleted = 0
         where sr.id = #{id} and sr.is_deleted = 0
 </select>
 

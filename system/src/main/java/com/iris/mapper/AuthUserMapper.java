@@ -34,12 +34,12 @@ public interface AuthUserMapper {
      */
     List<UserOrganizationVO> getOrganizationList(@Param("userId") String userId);
 
-    /**
-     * 查询菜单
-     * @param userId 用户ID
-     * @return {@link UserSiteMapVO}
-     */
-    List<UserSiteMapVO> getUserSiteMapList(@Param("userId") String userId);
+//    /**
+//     * 查询菜单
+//     * @param userId 用户ID
+//     * @return {@link UserSiteMapVO}
+//     */
+//    List<UserSiteMapVO> getUserSiteMapList(@Param("userId") String userId);
 
     /**
      * 校验员工编号是否正确
