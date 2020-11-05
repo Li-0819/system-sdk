@@ -1,7 +1,6 @@
 package com.iris.aspect;
 
 import com.iris.aspect.annotation.SystemLog;
-import com.iris.exception.CustomException;
 import com.iris.model.entity.SysOperationLog;
 import com.iris.model.mapper.SysOperationLogMapper;
 import com.iris.utils.request.RequestUtil;
@@ -52,9 +51,9 @@ public class SystemLogAspect {
             result = point.proceed();
             long endTime = System.currentTimeMillis();
             insertLog(point,request,endTime-beginTime);
-        } catch (CustomException | BadCredentialsException | InternalAuthenticationServiceException e){
-            throw e;
+        } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
 
+            throw e;
         } catch (Throwable throwable) {
 
             throwable.printStackTrace();

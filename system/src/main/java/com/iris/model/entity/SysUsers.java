@@ -40,7 +40,4 @@ public class SysUsers extends BaseEntity {
 
     @Schema(name = "isLocked", description = "是否锁定")
     private Integer isLocked;
-
-    @Schema(name = "isDefault", description = "是否默认")
-    private Integer isDefault;
 }

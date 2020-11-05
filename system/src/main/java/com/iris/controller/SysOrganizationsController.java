@@ -1,16 +1,12 @@
 package com.iris.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.iris.aspect.annotation.SystemLog;
 import com.iris.model.PageResponseVO;
 import com.iris.model.dto.system.SysOrganizationsEditDTO;
 import com.iris.model.dto.system.SysOrganizationsListDTO;
-import com.iris.model.entity.OrganizationExtraInfo;
-import com.iris.model.vo.system.SysOrganizationsListVO;
-import com.iris.service.IOrganizationExtraInfoService;
+import com.iris.model.vo.system.SysOrganizationsVO;
 import com.iris.service.ISysOrganizationsService;
 import com.iris.utils.common.PageConditionUtil;
-import com.iris.utils.constants.SystemCommonField;
 import com.iris.utils.constants.SystemMsgConstants;
 import com.iris.utils.response.ResponseVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,16 +31,14 @@ public class SysOrganizationsController {
 
     @Resource private ISysOrganizationsService iSysOrganizationsService;
 
-    @Resource private IOrganizationExtraInfoService iOrganizationExtraInfoService;
-
     @SystemLog(description = "获取组织机构列表")
     @Operation(summary = "获取组织机构列表 -- WindChaser", tags = "System")
     @GetMapping("/getList")
-    public ResponseVO<PageResponseVO<SysOrganizationsListVO>> getList(SysOrganizationsListDTO sysOrganizationsListDTO){
+    public ResponseVO<PageResponseVO<SysOrganizationsVO>> getList(SysOrganizationsListDTO sysOrganizationsListDTO){
 
         PageConditionUtil.checkDefaultPage(sysOrganizationsListDTO);
 
-        PageResponseVO<SysOrganizationsListVO> pageResponseVO = iSysOrganizationsService.getList(sysOrganizationsListDTO);
+        PageResponseVO<SysOrganizationsVO> pageResponseVO = iSysOrganizationsService.getList(sysOrganizationsListDTO);
 
         return ResponseVO.ok(pageResponseVO);
     }
@@ -52,14 +46,13 @@ public class SysOrganizationsController {
     @SystemLog(description = "编辑组织机构列表")
     @Operation(summary = "编辑组织机构列表 -- WindChaser", tags = "System")
     @PostMapping("/edit")
-    public ResponseVO<?> edit(@Valid @RequestBody SysOrganizationsEditDTO sysOrganizationsEditDTO){
+    public ResponseVO<SysOrganizationsVO> edit(@Valid @RequestBody SysOrganizationsEditDTO sysOrganizationsEditDTO){
 
        if (iSysOrganizationsService.checkRepeat(
                 sysOrganizationsEditDTO.getId(),
                 sysOrganizationsEditDTO.getParentId(),
                 sysOrganizationsEditDTO.getCode(),
-                sysOrganizationsEditDTO.getName(),
-                sysOrganizationsEditDTO.getOrganizationExtraInfoEditDTO().getIsPlatform()
+                sysOrganizationsEditDTO.getName()
                 )){
 
             return ResponseVO.error(SystemMsgConstants.CODE_OR_NAME_NOT_REPEAT);
@@ -73,9 +66,9 @@ public class SysOrganizationsController {
     @SystemLog(description = "获取组织机构详情")
     @Operation(summary = "获取组织机构详情 -- WindChaser", tags = "System")
     @GetMapping("/getDetail/{id}")
-    public ResponseVO<SysOrganizationsListVO> getDetail(@PathVariable String id){
+    public ResponseVO<SysOrganizationsVO> getDetail(@PathVariable String id){
 
-        SysOrganizationsListVO sysOrganizations = iSysOrganizationsService.getDetail(id);
+        SysOrganizationsVO sysOrganizations = iSysOrganizationsService.getDetail(id);
 
         return ResponseVO.ok(sysOrganizations);
     }
@@ -87,21 +80,6 @@ public class SysOrganizationsController {
 
         iSysOrganizationsService.removeById(id);
 
-        QueryWrapper<OrganizationExtraInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(SystemCommonField.ORGANIZATION_ID, id);
-        iOrganizationExtraInfoService.remove(queryWrapper);
-
         return ResponseVO.ok(SystemMsgConstants.SYS_ORGANIZATIONS_DELETE_SUCCESS);
-    }
-
-    @SystemLog(description = "审核组织机构信息")
-    @Operation(summary = "审核组织机构信息 -- WindChaser", tags = "Organization")
-    @GetMapping("/audit")
-    public ResponseVO<?> audit(@RequestParam("id") String id, @RequestParam("status") String status){
-
-
-        iSysOrganizationsService.audit(id, status);
-
-        return ResponseVO.ok();
     }
 }

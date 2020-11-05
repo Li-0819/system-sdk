@@ -3,30 +3,21 @@ package com.iris.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
-import com.iris.mapper.EmployeeMapper;
 import com.iris.mapper.ISysOrganizationsMapper;
 import com.iris.model.PageResponseVO;
 import com.iris.model.dto.system.SysOrganizationsEditDTO;
 import com.iris.model.dto.system.SysOrganizationsListDTO;
-import com.iris.model.dto.system.UserEditDTO;
-import com.iris.model.entity.*;
-import com.iris.model.mapper.OrganizationExtraInfoMapper;
+import com.iris.model.entity.SysOrganizations;
 import com.iris.model.mapper.SysOrganizationsMapper;
-import com.iris.model.mapper.SysRolesMapper;
-import com.iris.model.vo.system.SysOrganizationsListVO;
-import com.iris.service.IMemberInEmployeeInUserInOrganizationService;
+import com.iris.model.vo.system.SysOrganizationsVO;
 import com.iris.service.ISysOrganizationsService;
-import com.iris.service.ISysUsersService;
 import com.iris.utils.common.JudgeParam;
 import com.iris.utils.constants.SystemCommonField;
 import com.iris.utils.constants.SystemMsgConstants;
-import com.iris.utils.constants.SystemSpecialCode;
 import com.iris.utils.transfer.DataTransferUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,75 +33,73 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
 
     @Resource private ISysOrganizationsMapper iSysOrganizationsMapper;
 
-    @Resource private OrganizationExtraInfoMapper organizationExtraInfoMapper;
-
-    @Resource private ISysUsersService iSysUsersService;
-
-    @Resource private SysRolesMapper sysRolesMapper;
-
-    @Resource private IMemberInEmployeeInUserInOrganizationService iMemberInEmployeeInUserInOrganizationService;
-
-    @Resource private EmployeeMapper employeeMapper;
-
-
     /**
      * 获取组织机构列表
      * @param sysOrganizationsListDTO {@link SysOrganizationsListDTO}
      * @return
      */
     @Override
-    public PageResponseVO<SysOrganizationsListVO> getList(SysOrganizationsListDTO sysOrganizationsListDTO) {
+    public PageResponseVO<SysOrganizationsVO> getList(SysOrganizationsListDTO sysOrganizationsListDTO) {
 
         PageHelper.startPage(sysOrganizationsListDTO.getCurrentPage(), sysOrganizationsListDTO.getPageSize());
 
-        List<SysOrganizationsListVO> sysOrganizations = iSysOrganizationsMapper.getList(sysOrganizationsListDTO);
+        List<SysOrganizationsVO> sysOrganizations = iSysOrganizationsMapper.getList(sysOrganizationsListDTO);
 
-        return PageResponseVO.of(sysOrganizations, SysOrganizationsListVO.class);
+        return PageResponseVO.of(sysOrganizations, SysOrganizationsVO.class);
     }
 
     /**
-     * 校验组织机构相同parentId下是否有重复名称或者编码
+     * 校验组织机构相同parentId下是否有重新名称或者编码
      * @param id 组织机构ID
      * @param parentId 父节点ID
      * @param code 编码
      * @param name 名称
-     * @param isPlatform 是否为平台
      * @return
      */
     @Override
-    public boolean checkRepeat(String id, String parentId, String code, String name, Integer isPlatform) {
+    public boolean checkRepeat(String id, String parentId, String code, String name) {
 
-        Integer integer = iSysOrganizationsMapper.checkRepeat(id, parentId, code, name, isPlatform);
+        List<SysOrganizations> sysOrganizations = baseMapper.selectList(new QueryWrapper<SysOrganizations>() {{
 
-        return integer> 0;
+            if (JudgeParam.isNullOrUndefined(parentId)){
+
+                and(wrapper -> {
+                    wrapper.eq(SystemCommonField.PARENT_ID,"")
+                            .or()
+                            .isNull(SystemCommonField.PARENT_ID);
+                });
+            } else {
+
+                eq(SystemCommonField.PARENT_ID, parentId);
+            }
+
+            and(wrapper -> {
+                wrapper.eq(SystemCommonField.CODE, code)
+                        .or()
+                        .eq(SystemCommonField.NAME, name);
+            });
+
+            if (!JudgeParam.isNullOrUndefined(id)) {
+
+                ne(SystemCommonField.ID, id);
+            }
+        }});
+
+        return sysOrganizations.size() > 0;
     }
 
     /**
      * 编辑组织机构
      * @param sysOrganizationsEditDTO {@link SysOrganizationsEditDTO}
      */
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void edit(SysOrganizationsEditDTO sysOrganizationsEditDTO) {
 
         SysOrganizations sysOrganizations = DataTransferUtil.model(sysOrganizationsEditDTO, new SysOrganizations());
 
-        OrganizationExtraInfo organizationExtraInfo = DataTransferUtil.model(sysOrganizationsEditDTO.getOrganizationExtraInfoEditDTO(), new OrganizationExtraInfo());
-
         if (JudgeParam.isNullOrUndefined(sysOrganizations.getId())){
 
             baseMapper.insert(sysOrganizations);
-
-            organizationExtraInfo.setOrganizationId(sysOrganizations.getId());
-            organizationExtraInfo.setOrganizationStatus(SystemSpecialCode.TO_AUDIT);
-
-            organizationExtraInfoMapper.insert(organizationExtraInfo);
-
-            // 是否为平台
-            if (!organizationExtraInfo.getIsPlatform().equals(1)){
-
-                this.saveOrgAttachInfo(sysOrganizationsEditDTO, sysOrganizations.getId(), sysOrganizations.getCode());
-            }
         }else {
 
             SysOrganizations organizations = baseMapper.selectOne(new QueryWrapper<SysOrganizations>() {{
@@ -121,15 +110,6 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
             JudgeParam.entityIsNotNull(organizations, SystemMsgConstants.SYS_ORGANIZATIONS_NOT_EXIST);
 
             baseMapper.updateById(sysOrganizations);
-
-            if (JudgeParam.isNullOrUndefined(organizationExtraInfo.getOrganizationId())){
-
-                organizationExtraInfo.setOrganizationId(sysOrganizations.getId());
-            }
-
-            organizationExtraInfoMapper.updateById(organizationExtraInfo);
-
-            iSysUsersService.updateById(DataTransferUtil.model(sysOrganizationsEditDTO.getUserEditDTO(), new SysUsers()));
         }
     }
 
@@ -139,74 +119,8 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
      * @return
      */
     @Override
-    public SysOrganizationsListVO getDetail(String id) {
+    public SysOrganizationsVO getDetail(String id) {
 
-        SysOrganizationsListVO detail = iSysOrganizationsMapper.getDetail(id, null);
-
-        if (null != detail){
-
-            detail.setUsersListVO(iSysOrganizationsMapper.getIsDefaultUserByOrgId(id));
-        }
-
-        return detail;
-    }
-
-    /**
-     * 审核
-     * @param id 机构ID
-     * @param status 状态
-     */
-    @Override
-    public void audit(String id, String status) {
-
-        Integer isLocked = status.equals(SystemSpecialCode.AUDIT_LOCK) ? 1 : 0;
-
-        iSysOrganizationsMapper.updateExtraStatusByRefId(id,status);
-
-        iSysOrganizationsMapper.updateIsLockedById(id,isLocked);
-    }
-
-    /**
-     * 新建机构保存关联信息
-     * @param sysOrganizationsEditDTO
-     * @param organizationId
-     * @param organizationCode
-     */
-    public void saveOrgAttachInfo(SysOrganizationsEditDTO sysOrganizationsEditDTO, String organizationId, String organizationCode){
-
-        JudgeParam.entityIsNotNull(sysOrganizationsEditDTO.getUserEditDTO(), SystemMsgConstants.SUPER_ADMIN_NOT_FOUNT);
-        UserEditDTO userEditDTO = sysOrganizationsEditDTO.getUserEditDTO();
-        userEditDTO.setIsDefault(1);
-
-        SysRoles sysRoles = sysRolesMapper.selectOne(new QueryWrapper<SysRoles>() {{
-            eq(SystemCommonField.CODE, SystemCommonField.ORG_ADMIN);
-        }});
-
-        if (null != sysRoles){
-
-            ArrayList<String> roleIds = new ArrayList<>();
-            roleIds.add(sysRoles.getId());
-
-            userEditDTO.setRoleIds(roleIds);
-        }
-
-        SysUsers sysUsers = iSysUsersService.edit(userEditDTO);
-
-        EmployeeInfoEntity employeeInfoEntity = new EmployeeInfoEntity();
-        employeeInfoEntity.setEmployeeCode(organizationCode+ '-' + 1);
-        employeeInfoEntity.setEmployeeName(sysUsers.getRealName());
-        employeeInfoEntity.setGender(sysUsers.getGender());
-        employeeInfoEntity.setRemark(sysUsers.getRemark());
-        employeeInfoEntity.setEmployeeClass(SystemSpecialCode.ORG_ADMIN);
-        employeeInfoEntity.setMobileNumber(sysUsers.getPhoneNumber());
-        employeeInfoEntity.setEmployeeStatus(SystemSpecialCode.BE_ON_THE_JOB);
-        employeeInfoEntity.setIsDefault(1);
-        employeeMapper.insert(employeeInfoEntity);
-
-        MemberInEmployeeInUserInOrganization memberInEmployeeInUserInOrganization = new MemberInEmployeeInUserInOrganization();
-        memberInEmployeeInUserInOrganization.setUserId(sysUsers.getId());
-        memberInEmployeeInUserInOrganization.setOrganizationId(organizationId);
-        memberInEmployeeInUserInOrganization.setEmployeeId(employeeInfoEntity.getId());
-        iMemberInEmployeeInUserInOrganizationService.save(memberInEmployeeInUserInOrganization);
+        return iSysOrganizationsMapper.getDetail(id,null);
     }
 }

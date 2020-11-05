@@ -59,26 +59,6 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        if (null != authentication && authentication.isAuthenticated()){
-
-            String userId = SecurityUtil.getCurrentUser().get(SystemCommonField.ID).toString();
-
-            // 验证员工编号
-            if (!loginRequest.getIsPlatform()){
-
-                JudgeParam.paramIsNotNull(loginRequest.getEmployeeCode(), SystemMsgConstants.EMPLOYEE_CODE_NOT_FOUNT);
-
-                Boolean b = authUserService.employeeCodeIsCorrect(userId, loginRequest.getEmployeeCode());
-                if (null == b || !b){
-
-                    return ResponseVO.error(SystemMsgConstants.EMPLOYEE_NUMBER_ERROR_OR_USER_INFORMATION_DOES_NOT_EXIST);
-                }
-            }else if (authUserService.isPlatformUser(userId) > 0){
-
-                return ResponseVO.error(SystemMsgConstants.USER_NOT_EXIST);
-            }
-        }
-
         String jwt = jwtUtil.createJWT(authentication, loginRequest.getRememberMe());
 
         JwtResponseVO jwtResponseVO = new JwtResponseVO(jwt);
@@ -122,7 +102,7 @@ public class AuthController {
             return ResponseVO.error(SystemMsgConstants.TARGET_ID_NOT_FOUNT);
         }
 
-        List<SitemapsAuthVO> sitemapsAuthVos = authUserService.getAuthSiteMapByTargetId(authListDTO.getTargetIds(),authListDTO.getIsPlatform());
+        List<SitemapsAuthVO> sitemapsAuthVos = authUserService.getAuthSiteMapByTargetId(authListDTO.getTargetIds());
 
         return ResponseVO.ok(sitemapsAuthVos);
     }
@@ -147,10 +127,8 @@ public class AuthController {
     @Operation(summary = "获取权限列表 -- WindChaser", tags = "Auth")
     @GetMapping("/getSiteMapRelevanceByType")
     public ResponseVO<List<SitemapsAuthListVO>> getSiteMapRelevanceByType(@RequestParam("type") String type,
-                                                                          @RequestParam("targetId") String targetId,
-                                                                          @RequestParam("isPlatform") Integer isPlatform
-                                                                          ) {
-        List<SitemapsAuthListVO> sitemapsVOS = authUserService.getSiteMapRelevanceByType(type,targetId, isPlatform);
+                                                                          @RequestParam("targetId") String targetId) {
+        List<SitemapsAuthListVO> sitemapsVOS = authUserService.getSiteMapRelevanceByType(type,targetId);
 
         return ResponseVO.ok(sitemapsVOS);
     }

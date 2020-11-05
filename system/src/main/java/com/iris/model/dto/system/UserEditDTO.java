@@ -45,9 +45,6 @@ public class UserEditDTO {
     @Schema(name = "isLocked", description = "是否锁定")
     private Integer isLocked;
 
-    @Schema(name = "isDefault", description = "是否默认")
-    private Integer isDefault;
-
     @Schema(name = "roleIds", description = "角色ID集合")
     private List<String> roleIds;
 

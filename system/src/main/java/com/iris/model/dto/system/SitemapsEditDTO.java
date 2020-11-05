@@ -31,9 +31,6 @@ public class SitemapsEditDTO {
     @Schema(name = "icon", description = "图标")
     private String icon;
 
-    @Schema(name = "是否是平台")
-    private Integer isPlatform;
-
     @NotBlank(message = SystemMsgConstants.COMPONENT_NOT_NULL)
     @Schema(name = "component", description = "组件名称")
     private String component;

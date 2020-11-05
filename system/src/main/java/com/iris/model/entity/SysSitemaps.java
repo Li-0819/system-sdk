@@ -38,9 +38,6 @@ public class SysSitemaps extends BaseEntity {
     @Schema(name = "组件名称")
     private String component;
 
-    @Schema(name = "是否是平台")
-    private Integer isPlatform;
-
     private String url;
 
     @Schema(name = "排序")

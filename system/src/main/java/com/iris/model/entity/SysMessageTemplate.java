@@ -21,7 +21,7 @@ public class SysMessageTemplate extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @Schema(name = "平台ID")
-    private String platformId;
+    private Integer platformId;
 
     @Schema(name = "分类(通知/验证码)")
     private String type;

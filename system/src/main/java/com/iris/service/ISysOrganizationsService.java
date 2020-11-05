@@ -5,7 +5,7 @@ import com.iris.model.PageResponseVO;
 import com.iris.model.dto.system.SysOrganizationsEditDTO;
 import com.iris.model.dto.system.SysOrganizationsListDTO;
 import com.iris.model.entity.SysOrganizations;
-import com.iris.model.vo.system.SysOrganizationsListVO;
+import com.iris.model.vo.system.SysOrganizationsVO;
 
 
 /**
@@ -23,7 +23,7 @@ public interface ISysOrganizationsService extends IService<SysOrganizations> {
      * @param sysOrganizationsListDTO {@link SysOrganizationsListDTO}
      * @return
      */
-    PageResponseVO<SysOrganizationsListVO> getList(SysOrganizationsListDTO sysOrganizationsListDTO);
+    PageResponseVO<SysOrganizationsVO> getList(SysOrganizationsListDTO sysOrganizationsListDTO);
 
     /**
      * 校验组织机构相同parentId下是否有重新名称或者编码
@@ -31,10 +31,9 @@ public interface ISysOrganizationsService extends IService<SysOrganizations> {
      * @param parentId 父节点ID
      * @param code 编码
      * @param name 名称
-     * @param isPlatform 是否为平台
      * @return
      */
-    boolean checkRepeat(String id, String parentId, String code, String name, Integer isPlatform);
+    boolean checkRepeat(String id, String parentId, String code, String name);
 
     /**
      * 编辑组织机构
@@ -47,12 +46,5 @@ public interface ISysOrganizationsService extends IService<SysOrganizations> {
      * @param id ID
      * @return
      */
-    SysOrganizationsListVO getDetail(String id);
-
-    /**
-     * 审核
-     * @param id 机构ID
-     * @param status 状态
-     */
-    void audit(String id, String status);
+    SysOrganizationsVO getDetail(String id);
 }

@@ -3,19 +3,19 @@
 <mapper namespace="com.iris.mapper.ICommonSearchMapper">
 
     <resultMap id="enumProvinceDetailDropDownVO" type="com.iris.model.vo.EnumProvinceDetailDropDownVO">
-        <result column="code"  jdbcType="VARCHAR" property="code"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="code"  jdbcType="VARCHAR" property="code"></result>
+        <result column="name" jdbcType="VARCHAR" property="name"></result>
 
-        <collection property="enumCityList" resultMap="enumCity"/>
+        <collection property="enumCityList" resultMap="enumCity"></collection>
     </resultMap>
 
     <resultMap id="enumCity" type="com.iris.model.vo.EnumProvinceDetailDropDownVO$EnumCity">
-        <result column="ec_code"  jdbcType="VARCHAR" property="code"/>
-        <result column="ec_name" jdbcType="VARCHAR" property="name"/>
+        <result column="ec_code"  jdbcType="VARCHAR" property="code"></result>
+        <result column="ec_name" jdbcType="VARCHAR" property="name"></result>
 
         <collection property="enumCityList" ofType="com.iris.model.vo.EnumProvinceDetailDropDownVO$EnumCity$EnumCounty">
-            <result column="ect_code"  jdbcType="VARCHAR" property="code"/>
-            <result column="ect_name" jdbcType="VARCHAR" property="name"/>
+            <result column="ect_code"  jdbcType="VARCHAR" property="code"></result>
+            <result column="ect_name" jdbcType="VARCHAR" property="name"></result>
         </collection>
     </resultMap>
 

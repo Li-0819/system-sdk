@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 public class SysMessageTemplateVO extends BaseVO {
 
     @Schema(name = "platformId", description = "平台ID")
-    private String platformId;
+    private Integer platformId;
 
     @Schema(name = "type", description = "分类(通知/验证码)")
     private String type;

@@ -102,8 +102,7 @@ public class SystemMsgConstants {
 
     public static final String APP_TYPE_NOT_FOUND = "应用类型不能为空！";
     public static final String APP_NAME_NOT_FOUND = "应用版本名称不能为空！";
-    public static final String APP_CODE_NOT_FOUND = "应用版本编码不能为空！";
-    public static final String THERE_IS_A_DUPLICATE_ENCODING_OR_NAME = "存在重复的编码或名称！";
+    public static final String APP_NAME_NOT_REPEAT = "应用名称名称不能重复！";
     public static final String APP_PUBLISH_PLATFORM_NOT_FOUND = "发布平台不能为空！";
     public static final String APP_VERSION_NOT_FOUND = "应用版本信息不存在！";
     public static final String APP_VERSION_EDIT_SUCCESS = "应用版本信息编辑成功！";
@@ -131,22 +130,5 @@ public class SystemMsgConstants {
     public static final String SITE_MAPS_EDIT_SUCCESS = "菜单管理编辑成功！";
     public static final String SITE_MAPS_DELETE_SUCCESS = "菜单管理删除成功！";
     public static final String SAME_PARENT_NAME_NOT_REPEAT = "同一父级菜单下名称不能重复！";
-
-    public static final String ORGANIZATION_INFO_DELETE_SUCCESS = "机构信息删除成功！";
-    public static final String ORGANIZATION_INFO_EDIT_SUCCESS = "机构信息编辑成功！";
-    public static final String ORGANIZATION_INFO_NOT_EXIST = "机构信息不存在或已锁定！";
-    public static final String ORGANIZATION_NAME_NOT_FOUNT = "机构名称不能为空！";
-    public static final String ORGANIZATION_TYPE_NOT_FOUNT = "机构类型不能为空！";
-    public static final String ORGANIZATION_SIZE_NOT_FOUNT = "机构规模不能为空！";
-    public static final String LONGITUDE_AND_LATITUDE_NOT_FOUNT = "经纬度不能为空！";
-    public static final String REGION_NOT_FOUNT = "所在地区不能为空！";
-    public static final String ORGANIZATION_AUDIT_SUCCESS = "机构信息审核成功！";
-    public static final String UNIFIED_CREDIT_CODE_NOT_REPEAT = "统一信用代码不能重复！";
-    public static final String EMPLOYEE_NAME = "员工名称不能为空！";
-    public static final String EMPLOYEE_CODE_NOT_FOUNT = "员工编号不能为空！";
-    public static final String EMPLOYEE_NUMBER_ERROR_OR_USER_INFORMATION_DOES_NOT_EXIST = "员工编号错误或用户信息不存在！";
-    public static final String BIRTH = "出生日期不能为空！";
-    public static final String MOBILE_NUMBER = "手机号不能为空！";
-    public static final String SUPER_ADMIN_NOT_FOUNT = "机构超级管理员不能为空！";
 
 }

@@ -38,7 +38,7 @@ public interface ISysUsersService extends IService<SysUsers> {
      * 编辑用户信息
      * @param userEditDTO {@link UserEditDTO}
      */
-    SysUsers edit(UserEditDTO userEditDTO);
+    void edit(UserEditDTO userEditDTO);
 
     /**
      * 获取用户详情

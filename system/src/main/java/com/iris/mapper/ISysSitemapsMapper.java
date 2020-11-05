@@ -19,9 +19,9 @@ import java.util.List;
 @Mapper
 public interface ISysSitemapsMapper {
 
-    List<SitemapsAuthVO> getAuthList(@Param("isPlatform") Integer isPlatform);
+    List<SitemapsAuthVO> getAuthList();
 
-    List<SitemapsVO> getList(@Param("parentId") String parentId,@Param("isPlatform") Integer isPlatform);
+    List<SitemapsVO> getList(@Param("parentId") String parentId);
 
     /**
      * 根据ID修改菜单管理
@@ -32,20 +32,18 @@ public interface ISysSitemapsMapper {
     /**
      * 获取权限菜单
      * @param targetIds 授权对象ID
-     * @param isPlatform 是否为平台
      * @return
      */
-    List<SitemapsAuthVO> getAuthSiteMapByTargetId(@Param("targetIds") List<String> targetIds,@Param("isPlatform") Integer isPlatform);
+    List<SitemapsAuthVO> getAuthSiteMapByTargetId(@Param("targetIds") List<String> targetIds);
 
     /**
      *
      * 根据不同的type获取权限列表
      * @param type 授权目标类型
      * @param targetId 授权目标ID
-     * @param isPlatform 是否是平台
      * @return
      */
-    List<SitemapsAuthListVO> getSiteMapRelevanceByType(@Param("type") String type, @Param("targetId") String targetId, @Param("isPlatform") Integer isPlatform);
+    List<SitemapsAuthListVO> getSiteMapRelevanceByType(@Param("type") String type, @Param("targetId") String targetId);
 
     /**
      * 获取按钮权限

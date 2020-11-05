@@ -38,9 +38,6 @@ public class UsersDetailVO extends BaseVO {
     @Schema(name = "isLocked", description = "是否已锁定")
     private Integer isLocked;
 
-    @Schema(name = "isDefault", description = "是否默认")
-    private Integer isDefault;
-
     @Schema(name = "rolesBaseVOS", description = "基础角色信息列表")
     private List<RolesBaseVO> rolesBaseVOS;
 

@@ -26,9 +26,6 @@ public class SitemapsBaseVO {
     @Schema(name = "component", description = "组件名称")
     private String component;
 
-    @Schema(name = "isPlatform", description = "是否是平台")
-    private Integer isPlatform;
-
     @Schema(name = "sequence", description = "排序")
     private Integer sequence;
 }

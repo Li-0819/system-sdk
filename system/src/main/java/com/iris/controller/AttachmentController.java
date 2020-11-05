@@ -28,7 +28,6 @@ public class AttachmentController {
 
     @Resource private AttachmentService attachmentService;
 
-    @Deprecated
     @Operation(summary = "通用文件上传(多) - izanagi", tags = "Attachment")
     @PostMapping(path = "/commonFileUpload",headers="content-type=multipart/form-data")
     public ResponseVO<List<AttachmentInfoVO>> commonFileUpload(@RequestPart("files") List<MultipartFile> multipartFiles, @Valid CommonFileUploadDTO dto) {

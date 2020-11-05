@@ -13,7 +13,8 @@ public class UserOrganizationVO {
     private String id;
     private String code;
     private String name;
+    private String codeName;
     private String parentId;
     private String parentCode;
-    private Integer isPlatform;
+    private String parentCodeName;
 }

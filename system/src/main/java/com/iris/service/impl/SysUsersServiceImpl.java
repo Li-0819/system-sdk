@@ -88,7 +88,7 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUsers> i
      * @param userEditDTO {@link UserEditDTO}
      */
     @Override
-    public SysUsers edit(UserEditDTO userEditDTO) {
+    public void edit(UserEditDTO userEditDTO) {
 
         SysUsers sysUsers = DataTransferUtil.model(userEditDTO, new SysUsers());
 
@@ -123,8 +123,6 @@ public class SysUsersServiceImpl extends ServiceImpl<SysUsersMapper, SysUsers> i
 
             iCommonMapper.insertUserInPosition(sysUsers.getId(), userEditDTO.getPositionIds());
         }
-
-        return sysUsers;
     }
 
     /**

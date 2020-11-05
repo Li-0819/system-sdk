@@ -7,16 +7,13 @@ import com.iris.mapper.ISysActionMapper;
 import com.iris.mapper.ISysSitemapsMapper;
 import com.iris.model.dto.system.*;
 import com.iris.model.entity.SitemapActionAuthority;
-import com.iris.model.entity.SysRoles;
 import com.iris.model.entity.SysUsers;
 import com.iris.model.mapper.SitemapActionAuthorityMapper;
-import com.iris.model.mapper.SysRolesMapper;
 import com.iris.model.mapper.SysUsersMapper;
 import com.iris.model.vo.UserOrganizationVO;
 import com.iris.model.vo.UserPrincipalVO;
 import com.iris.model.vo.UserRoleVO;
 import com.iris.model.vo.UserSiteMapVO;
-import com.iris.model.vo.system.EmployeeInfoVO;
 import com.iris.model.vo.system.SitemapsAuthListVO;
 import com.iris.model.vo.system.SitemapsAuthVO;
 import com.iris.model.vo.system.SysActionVO;
@@ -44,8 +41,6 @@ import java.util.List;
 public class AuthUserServiceImpl implements AuthUserService {
 
     @Resource private SysUsersMapper sysUsersMapper;
-
-    @Resource private SysRolesMapper sysRolesMapper;
 
     @Resource private AuthUserMapper authUserMapper;
 
@@ -78,16 +73,13 @@ public class AuthUserServiceImpl implements AuthUserService {
         //获取用户角色
         List<UserRoleVO> roleList = authUserMapper.getRoles(usersId);
 
-        //获取用户角色
-        EmployeeInfoVO employeeInfo = authUserMapper.getEmployeeInfo(usersId);
-
         //获取组织部门
         List<UserOrganizationVO> organizationList = authUserMapper.getOrganizationList(usersId);
 
         //TODO 获取菜单权限 authUserMapper.getUserSiteMapList(usersId);
         List<UserSiteMapVO> siteMapList = new ArrayList<>(0);
 
-        return UserPrincipalVO.create(sysUsers, roleList, organizationList, siteMapList, employeeInfo);
+        return UserPrincipalVO.create(sysUsers, roleList, organizationList, siteMapList);
     }
 
     /**
@@ -118,16 +110,16 @@ public class AuthUserServiceImpl implements AuthUserService {
      * @return
      */
     @Override
-    public List<SitemapsAuthVO> getAuthSiteMapByTargetId(List<String> targetIds, Integer isPlatform) {
+    public List<SitemapsAuthVO> getAuthSiteMapByTargetId(List<String> targetIds) {
 
         List<SitemapsAuthVO> sitemapsAuthVOS;
 
         if (this.checkIsAdmin(targetIds)) {
 
-            sitemapsAuthVOS = iSysSitemapsMapper.getAuthList(isPlatform);
+            sitemapsAuthVOS = iSysSitemapsMapper.getAuthList();
         }else {
 
-            sitemapsAuthVOS = iSysSitemapsMapper.getAuthSiteMapByTargetId(targetIds, isPlatform);
+            sitemapsAuthVOS = iSysSitemapsMapper.getAuthSiteMapByTargetId(targetIds);
         }
         return sitemapsAuthVOS;
     }
@@ -178,13 +170,12 @@ public class AuthUserServiceImpl implements AuthUserService {
      * 根据不同的type获取权限列表
      * @param type 授权目标类型
      * @param targetId 授权目标ID
-     * @param isPlatform 是否为平台
      * @return
      */
     @Override
-    public List<SitemapsAuthListVO> getSiteMapRelevanceByType(String type, String targetId, Integer isPlatform) {
+    public List<SitemapsAuthListVO> getSiteMapRelevanceByType(String type, String targetId) {
 
-        return iSysSitemapsMapper.getSiteMapRelevanceByType(type, targetId, isPlatform);
+        return iSysSitemapsMapper.getSiteMapRelevanceByType(type, targetId);
 
     }
 
@@ -237,44 +228,8 @@ public class AuthUserServiceImpl implements AuthUserService {
             eq(SystemCommonField.LOGIN_NAME, SystemCommonField.ADMIN);
         }});
 
-        boolean contains = false;
-        QueryWrapper<SysRoles> wrapper = new QueryWrapper<>();
-        wrapper.eq(SystemCommonField.CODE, SystemCommonField.SYS_ADMIN);
-
-        SysRoles sysRoles = sysRolesMapper.selectOne(wrapper);
-
-        if (null != sysRoles){
-
-            contains = targetIds.contains(sysRoles.getId());
-        }
-
-        if (null != sysUsers){
-            contains = targetIds.contains(sysUsers.getId());
-        }
+        boolean contains = targetIds.contains(sysUsers.getId());
 
         return contains;
-    }
-
-    /**
-     * 校验员工编号是否正确
-     * @param userId 用户ID
-     * @param employeeCode 员工Code
-     * @return
-     */
-    @Override
-    public Boolean employeeCodeIsCorrect(String userId, String employeeCode) {
-
-        return authUserMapper.employeeCodeIsCorrect(userId, employeeCode);
-    }
-
-    /**
-     * 验证是否是平台用户
-     * @param userId 用户ID
-     * @return
-     */
-    @Override
-    public Integer isPlatformUser(String userId) {
-
-        return authUserMapper.isPlatformUser(userId);
     }
 }

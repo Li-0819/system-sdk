@@ -23,7 +23,7 @@ public class SysMessageTemplateEditDTO {
 
     @NotNull(message = SystemMsgConstants.SMS_PLATFORM_ID_NOT_FOUND)
     @Schema(name = "platformId", description = "平台ID")
-    private String platformId;
+    private Integer platformId;
 
     @NotBlank(message = SystemMsgConstants.TYPE_NOT_FOUNT)
     @Schema(name = "type", description = "分类(通知/验证码)")

@@ -23,14 +23,8 @@ public class ManualLoginDTO {
     @Schema(name = "password", description = "密码", example = "123456", required = true)
     private String password;
 
-    @Schema(name = "employeeCode", description = "员工编码")
-    private String employeeCode;
-
     @Schema(name = "rememberMe", description = "是否记住我(不传默认true)")
     private Boolean rememberMe;
-
-    @Schema(name = "isPlatform", description = "是否为平台", defaultValue = "true")
-    private Boolean isPlatform;
 
     public void setRememberMe(Boolean rememberMe) {
         this.rememberMe = rememberMe == null ? true : rememberMe;

@@ -47,10 +47,9 @@ public class SysAppVersionController {
     @PostMapping("/edit")
     public ResponseVO<?> edit(@RequestBody SysAppVersionEditDTO sysAppVersionEditDTO){
 
-        if (iSysAppVersionService.checkRepeat(
-                sysAppVersionEditDTO.getAppName(), sysAppVersionEditDTO.getAppCode(), sysAppVersionEditDTO.getId())){
+        if (iSysAppVersionService.checkRepeat(sysAppVersionEditDTO.getAppName(),sysAppVersionEditDTO.getId())){
 
-            return ResponseVO.error(SystemMsgConstants.THERE_IS_A_DUPLICATE_ENCODING_OR_NAME);
+            return ResponseVO.error(SystemMsgConstants.APP_NAME_NOT_REPEAT);
         }
 
         iSysAppVersionService.edit(sysAppVersionEditDTO);

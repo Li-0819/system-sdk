@@ -20,13 +20,7 @@ public interface ISysSitemapsService extends IService<SysSitemaps> {
 
     PageResponseVO<SitemapsAuthVO> getAuthList();
 
-    /**
-     * 获取菜单按钮
-     * @param parentId 父ID
-     * @param isPlatform 是否是平台
-     * @return
-     */
-    PageResponseVO<SitemapsVO> getList(String parentId, Integer isPlatform);
+    PageResponseVO<SitemapsVO> getList(String parentId);
 
     /**
      * 获取菜单管理详情

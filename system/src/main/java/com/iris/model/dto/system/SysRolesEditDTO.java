@@ -23,9 +23,6 @@ public class SysRolesEditDTO {
     @Schema(name = "name", description = "名称")
     private String name;
 
-    @Schema(name = "organizationId", description = "机构ID")
-    private String organizationId;
-
     @NotBlank(message = SystemMsgConstants.CODE_NOT_FOUNT)
     @Schema(name = "code", description = "编码")
     private String code;

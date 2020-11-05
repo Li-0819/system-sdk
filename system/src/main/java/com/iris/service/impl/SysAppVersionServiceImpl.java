@@ -85,15 +85,10 @@ public class SysAppVersionServiceImpl extends ServiceImpl<SysAppVersionMapper, S
      * @return
      */
     @Override
-    public boolean checkRepeat(String appName, String appCode, String id) {
+    public boolean checkRepeat(String appName, String id) {
 
         List<SysAppVersion> sysAppVersion = baseMapper.selectList(new QueryWrapper<SysAppVersion>(){{
-            and(wrapper->{
-
-                wrapper.eq(SystemCommonField.APP_TYPE, appName)
-                        .or()
-                        .eq(SystemCommonField.APP_CODE, appCode);
-            });
+            eq(SystemCommonField.APP_TYPE, appName);
 
             if (!JudgeParam.isNullOrUndefined(id)) {
 

@@ -29,10 +29,6 @@ public class SysAppVersionEditDTO {
     @Schema(name = "appName", description = "应用名称")
     private String appName;
 
-    @NotBlank(message = SystemMsgConstants.APP_CODE_NOT_FOUND)
-    @Schema(name = "appCode", description = "应用编码")
-    private String appCode;
-
     @Schema(name = "versionNumber", description = "版本号")
     private String versionNumber;
 

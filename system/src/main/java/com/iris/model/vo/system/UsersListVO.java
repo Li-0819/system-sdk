@@ -36,12 +36,6 @@ public class UsersListVO extends BaseVO {
     @Schema(name = "isLocked", description = "是否已锁定")
     private Integer isLocked;
 
-    @Schema(name = "isDefault", description = "是否默认")
-    private Integer isDefault;
-
     @Schema(name = "roleNameJoin", description = "角色名拼接")
     private String roleNameJoin;
-
-    @Schema(name = "roleIds", description = "角色id拼接")
-    private String roleIds;
 }

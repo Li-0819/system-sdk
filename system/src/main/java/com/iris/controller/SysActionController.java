@@ -73,7 +73,7 @@ public class SysActionController {
 
     @SystemLog(description = "删除功能管理")
     @Operation(summary = "删除功能管理 -- WindChaser", tags = "System")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete{id}")
     public ResponseVO<?> delete(@PathVariable String id){
 
         iSysActionService.removeById(id);

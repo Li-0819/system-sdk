@@ -18,8 +18,4 @@ public class AuthListDTO {
 
     @Schema(name = "sitemapId", description = "菜单id")
     private String sitemapId;
-
-    @Schema(name = "isPlatform", description = "是否是平台级别")
-    private Integer isPlatform;
-
 }

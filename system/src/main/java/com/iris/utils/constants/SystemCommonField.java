@@ -33,7 +33,6 @@ public class SystemCommonField {
     public static final String CODE = "code";
     public static final String SEQUENCE = "sequence";
     public static final String APP_TYPE = "app_type";
-    public static final String APP_CODE = "app_code";
     public static final String KEY = "key";
 
     public static final String OPERATION_TITLE = "operation_title";
@@ -50,9 +49,4 @@ public class SystemCommonField {
     public static final String PATH = "path";
     public static final String EXTENSION = "extension";
     public static final String EXTRAINFO = "extraInfo";
-    public static final String UNIFIED_CREDIT_CODE = "unified_credit_code";
-    public static final String ORGANIZATION_STATUS = "organization_status";
-    public static final String ORGANIZATION_ID = "organization_id";
-    public static final String SYS_ADMIN = "sys_admin";
-    public static final String ORG_ADMIN = "org_admin";
 }

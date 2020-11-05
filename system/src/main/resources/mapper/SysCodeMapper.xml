@@ -3,16 +3,16 @@
 <mapper namespace="com.iris.mapper.ISysCodeMapper">
 
     <resultMap id="SysCodeBaseMateVO" type="com.iris.model.vo.system.SysCodeBaseMateVO">
-        <id property="id" column="id"/>
-        <result property="code" column="code"/>
-        <result property="value" column="value"/>
-        <result property="name" column="name"/>
-        <result property="type" column="type"/>
-        <result property="sequence" column="sequence"/>
-        <result property="createdBy" column="created_by"/>
-        <result property="createdTime" column="created_time"/>
-        <result property="modifiedBy" column="modified_by"/>
-        <result property="modifiedTime" column="modified_time"/>
+        <id property="id" column="id"></id>
+        <result property="code" column="code"></result>
+        <result property="value" column="value"></result>
+        <result property="name" column="name"></result>
+        <result property="type" column="type"></result>
+        <result property="sequence" column="sequence"></result>
+        <result property="createdBy" column="created_by"></result>
+        <result property="createdTime" column="created_time"></result>
+        <result property="modifiedBy" column="modified_by"></result>
+        <result property="modifiedTime" column="modified_time"></result>
     </resultMap>
 
     <resultMap id="getList" type="com.iris.model.vo.system.SysCodeVO" extends="SysCodeBaseMateVO">
@@ -32,14 +32,14 @@
             </when>
             <otherwise>
                and (sc.type is null or sc.type = '')
+               <if test="sysCodeListDTO.name != null and sysCodeListDTO.name != ''">
+                   and sc.name like concat('%',#{sysCodeListDTO.name},'%')
+               </if>
+                <if test="sysCodeListDTO.value != null and sysCodeListDTO.value != ''">
+                    and sc.value = #{sysCodeListDTO.value}
+                </if>
             </otherwise>
         </choose>
-        <if test="sysCodeListDTO.name != null and sysCodeListDTO.name != ''">
-            and sc.name like concat('%',#{sysCodeListDTO.name},'%')
-        </if>
-        <if test="sysCodeListDTO.value != null and sysCodeListDTO.value != ''">
-            and sc.value = #{sysCodeListDTO.value}
-        </if>
         order by sc.sequence
     </select>
 

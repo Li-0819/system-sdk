@@ -14,7 +14,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(name = "SysOrganizationsVO", description = "组织机构表")
-public class SysOrganizationsListVO extends SysOrganizationsMapBaseVO {
+public class SysOrganizationsVO extends SysOrganizationsMapBaseVO {
 
     @Schema(name = "parentId", description = "上级节点ID")
     private String parentId;
