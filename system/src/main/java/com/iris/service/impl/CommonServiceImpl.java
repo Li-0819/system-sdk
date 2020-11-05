@@ -1,8 +1,6 @@
 package com.iris.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.iris.mapper.SysSignInMoodLibraryInfoInClassificationMapper;
-import com.iris.model.entity.SysSignInMoodLibraryInfoInClassification;
 import com.iris.model.entity.SysUserInOrganization;
 import com.iris.model.entity.SysUserInPosition;
 import com.iris.model.entity.SysUserInRole;
@@ -13,7 +11,6 @@ import com.iris.service.ICommonService;
 import com.iris.utils.constants.SystemCommonField;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Resource;
 
 /**
@@ -30,37 +27,29 @@ public class CommonServiceImpl implements ICommonService {
 
     @Resource private SysUserInOrganizationMapper sysUserInOrganizationMapper;
 
-    @Resource private SysSignInMoodLibraryInfoInClassificationMapper sysSignInMoodLibraryInfoInClassificationMapper;
-
     /**
-     * 根据不同的关联类型删除不同的 关联表
-     * @param targetId 目标ID
+     * 根据不同的关联类型删除不同的 user关联表
+     * @param userId 用户ID
      * @param relevanceType 关联类型  position/roles/organization ...
      */
     @Override
-    public void deleteUserRelevance(String targetId, @Nonnull String relevanceType) {
+    public void deleteUserRelevance(String userId, String relevanceType) {
 
         if (SystemCommonField.ROLE.equals(relevanceType)){
 
             sysUserInRoleMapper.delete(new QueryWrapper<SysUserInRole>(){{
-                eq(SystemCommonField.USER_ID, targetId);
+                eq(SystemCommonField.USER_ID, userId);
             }});
+
         }else if (SystemCommonField.POSITION.equals(relevanceType)){
 
             sysUserInPositionMapper.delete(new QueryWrapper<SysUserInPosition>(){{
-                eq(SystemCommonField.USER_ID, targetId);
+                eq(SystemCommonField.USER_ID, userId);
             }});
         }else if (SystemCommonField.ORGANIZATION.equals(relevanceType)){
 
-            // 员工与机构
             sysUserInOrganizationMapper.delete(new QueryWrapper<SysUserInOrganization>(){{
-                eq(SystemCommonField.USER_ID, targetId);
-            }});
-        }else if (SystemCommonField.SIGN_IN_MOOD_LIBRARY.equals(relevanceType)){
-
-            //  图文素材库与分类
-            sysSignInMoodLibraryInfoInClassificationMapper.delete(new QueryWrapper<SysSignInMoodLibraryInfoInClassification>(){{
-                eq(SystemCommonField.MOOD_LIBRARY_INFO_ID, targetId);
+                eq(SystemCommonField.USER_ID, userId);
             }});
         }
     }

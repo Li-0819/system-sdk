@@ -1,6 +1,7 @@
 package com.iris.model.vo.system;
 
 import com.iris.model.vo.BaseVO;
+import com.iris.model.vo.organization.OrganizationExtraInfoDetailVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,9 @@ public class SysOrganizationsMapBaseVO extends BaseVO {
 
     @Schema(name = "name", description = "机构名称")
     private String name;
+
+    @Schema(name = "organizationExtraInfoDetailVO", description = "机构附属信息详情")
+    private OrganizationExtraInfoDetailVO organizationExtraInfoDetailVO;
 
     @Schema(name = "usersListVO", description = "机构超级管理员信息")
     private UsersListVO usersListVO;

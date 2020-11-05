@@ -40,8 +40,9 @@ public interface ISysAppVersionService extends IService<SysAppVersion> {
     /**
      * 校验应用版本信息是否重复
      * @param appName 应用名称
+     * @param appCode 应用编码
      * @param id 应用版本信息
      * @return
      */
-    boolean checkRepeat(String appName, String id);
+    boolean checkRepeat(String appName, String appCode, String id);
 }

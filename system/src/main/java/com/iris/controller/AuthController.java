@@ -59,25 +59,25 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-//        if (null != authentication && authentication.isAuthenticated()){
-//
-//            String userId = SecurityUtil.getCurrentUser().get(SystemCommonField.ID).toString();
-//
-//            // 验证员工编号
-//            if (!loginRequest.getIsPlatform()){
-//
-//                JudgeParam.paramIsNotNull(loginRequest.getEmployeeCode(), SystemMsgConstants.EMPLOYEE_CODE_NOT_FOUNT);
-//
-//                Boolean b = authUserService.employeeCodeIsCorrect(userId, loginRequest.getEmployeeCode());
-//                if (null == b || !b){
-//
-//                    return ResponseVO.error(SystemMsgConstants.EMPLOYEE_NUMBER_ERROR_OR_USER_INFORMATION_DOES_NOT_EXIST);
-//                }
-//            }else if (authUserService.isPlatformUser(userId) > 0){
-//
-//                return ResponseVO.error(SystemMsgConstants.USER_NOT_EXIST);
-//            }
-//        }
+        if (null != authentication && authentication.isAuthenticated()){
+
+            String userId = SecurityUtil.getCurrentUser().get(SystemCommonField.ID).toString();
+
+            // 验证员工编号
+            if (!loginRequest.getIsPlatform()){
+
+                JudgeParam.paramIsNotNull(loginRequest.getEmployeeCode(), SystemMsgConstants.EMPLOYEE_CODE_NOT_FOUNT);
+
+                Boolean b = authUserService.employeeCodeIsCorrect(userId, loginRequest.getEmployeeCode());
+                if (null == b || !b){
+
+                    return ResponseVO.error(SystemMsgConstants.EMPLOYEE_NUMBER_ERROR_OR_USER_INFORMATION_DOES_NOT_EXIST);
+                }
+            }else if (authUserService.isPlatformUser(userId) > 0){
+
+                return ResponseVO.error(SystemMsgConstants.USER_NOT_EXIST);
+            }
+        }
 
         String jwt = jwtUtil.createJWT(authentication, loginRequest.getRememberMe());
 

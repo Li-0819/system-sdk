@@ -22,11 +22,11 @@ public class SysRolesListDTO extends PageConditionDTO {
     @Schema(name = "code", description = "编码")
     private String code;
 
-//    @Schema(name = "organizationId", description = "机构ID")
-//    private String organizationId;
+    @Schema(name = "organizationId", description = "机构ID")
+    private String organizationId;
 
-//    @Schema(name = "isPlatform", description = "是否是平台")
-//    private String isPlatform;
+    @Schema(name = "isPlatform", description = "是否是平台")
+    private String isPlatform;
 
     @Schema(name = "type", description = "类型")
     private String type;

@@ -61,7 +61,6 @@ public class SystemMsgConstants {
     public static final String AUTHORITY_TARGET_TYPE_NOT_FOUNT = "目标权限类型！";
     public static final String TARGET_ID_NOT_FOUNT = "目标ID不能为空！";
     public static final String AUTH_SUCCESS = "授权成功！";
-    public static final String TYPE_NOT_REPEAT = "类型不能重复！";
 
     public static final String CODE_NOT_FOUNT = "编码不能为空！";
     public static final String CODE_NOT_REPEAT = "编码不能重复！";
@@ -103,7 +102,8 @@ public class SystemMsgConstants {
 
     public static final String APP_TYPE_NOT_FOUND = "应用类型不能为空！";
     public static final String APP_NAME_NOT_FOUND = "应用版本名称不能为空！";
-    public static final String APP_NAME_NOT_REPEAT = "应用名称名称不能重复！";
+    public static final String APP_CODE_NOT_FOUND = "应用版本编码不能为空！";
+    public static final String THERE_IS_A_DUPLICATE_ENCODING_OR_NAME = "存在重复的编码或名称！";
     public static final String APP_PUBLISH_PLATFORM_NOT_FOUND = "发布平台不能为空！";
     public static final String APP_VERSION_NOT_FOUND = "应用版本信息不存在！";
     public static final String APP_VERSION_EDIT_SUCCESS = "应用版本信息编辑成功！";
@@ -148,49 +148,5 @@ public class SystemMsgConstants {
     public static final String BIRTH = "出生日期不能为空！";
     public static final String MOBILE_NUMBER = "手机号不能为空！";
     public static final String SUPER_ADMIN_NOT_FOUNT = "机构超级管理员不能为空！";
-
-    public static final String CLASSIFY_ID = "分类不能为空 ！";
-    public static final String CONTENT = "内容不能为空 ！";
-    public static final String SYS_PART_TIME_JOB_LIBRARY_INFO_NOT_EXIST = "职位描述素材库信息不存在或已锁定 ！";
-
-    public static final String APP_TYPE_NOT_REPEAT = "应用类型不能重复！";
-    public static final String APP_PUBLISH_PLATFORM_NOT_REPEAT = "发布平台不能重复！";
-    public static final String APP_VERSION_NOT_REPEAT = "应用版本信息不能重复！";
-
-    public static final String SIGN_IN_MOOD_NAME_NOT_FOUND  = "心情名称不能为空！";
-    public static final String SIGN_IN_MOOD_CODE_NOT_FOUND  = "心情编码不能为空！";
-    public static final String SIGN_IN_MOOD_CODE_OR_NAME_NOT_REPEAT  = "心情名称或编码不能重复！";
-    public static final String SIGN_IN_MOOD_SETTING_NOT_FOUND = "签到心情配置信息不存在！";
-    public static final String SIGN_IN_MOOD_SETTING_EDIT_SUCCESS = "签到心情配置信息编辑成功！";
-    public static final String SIGN_IN_MOOD_SETTING_DELETE_SUCCESS = "签到心情配置信息删除成功！";
-
-    public static final String COMMODITY_LIBRARY_TYPE_EDIT_SUCCESS = "素材库分类编辑成功！";
-    public static final String COMMODITY_LIBRARY_TYPE_DELETE_SUCCESS = "素材库分类删除成功！";
-    public static final String COMMODITY_LIBRARY_TYPE_NOT_FOUND = "素材库分类不存在！";
-
-    public static final String MEMBER_PRIVILEGE_CARD_TYPE_NOT_FOUND = "会员特权卡分类不能为空！";
-    public static final String MEMBER_PRIVILEGE_CARD_TYPE_NOT_REPEAT = "会员特权卡分类不能重复！";
-    public static final String MEMBER_PRIVILEGE_CARD_CASH_PRICE_NOT_LESS_ZERO= "会员特权卡现金单价不能小于0！";
-    public static final String MEMBER_PRIVILEGE_CARD_INTEGRAL_PRICE_NOT_LESS_ZERO = "会员特权卡积分单价不能小于0！";
-    public static final String MEMBER_PRIVILEGE_CARD_EDIT_SUCCESS = "会员特权卡编辑成功！";
-    public static final String MEMBER_PRIVILEGE_CARD_DELETE_SUCCESS = "会员特权卡删除成功！";
-    public static final String MEMBER_PRIVILEGE_CARD_NOT_EXIST = "会员特权卡不存在！";
-
-    public static final String INTEGRAL_NAME_NOT_FOUND = "积分名称不能为空！";
-    public static final String INTEGRAL_CODE_NOT_FOUND = "积分编码不能为空！";
-    public static final String INTEGRAL_SETTING_INFO_NOT_EXIST = "积分配置信息不存在！";
-    public static final String INTEGRAL_SETTING_EDIT_SUCCESS = "积分配置信息编辑成功！";
-    public static final String INTEGRAL_SETTING_DELETE_SUCCESS = "积分配置信息删除成功！";
-
-    public static final String SERVICE_FEE_DELETE_SUCCESS = "服务费分润比例删除成功！";
-    public static final String SERVICE_FEE_EDIT_SUCCESS = "服务费分润比例编辑成功！";
-    public static final String SERVICE_FEE_NOT_EXIST= "服务费分润比例不存在或已锁定！";
-    public static final String SERVICE_FEE_PROPORTION_NOT_LESS_ZERO= "服务费分润比例占比数不能小于0！";
-
-    public static final String COMMODITY_LIBRARY_NOT_FOUND = "素材库不存在！";
-    public static final String LIBRARY_NAME_NOT_REPEAT = "素材名称不能重复！";
-    public static final String LIBRARY_NAME_NOT_FOUND = "素材名称不能为空！";
-    public static final String COMMODITY_LIBRARY_EDIT_SUCCESS = "素材库编辑成功！";
-    public static final String COMMODITY_LIBRARY_DELETE_SUCCESS = "素材库删除成功！";
 
 }

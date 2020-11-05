@@ -74,12 +74,13 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
      * @param parentId 父节点ID
      * @param code 编码
      * @param name 名称
+     * @param isPlatform 是否为平台
      * @return
      */
     @Override
-    public boolean checkRepeat(String id, String parentId, String code, String name) {
+    public boolean checkRepeat(String id, String parentId, String code, String name, Integer isPlatform) {
 
-        Integer integer = iSysOrganizationsMapper.checkRepeat(id, parentId, code, name);
+        Integer integer = iSysOrganizationsMapper.checkRepeat(id, parentId, code, name, isPlatform);
 
         return integer> 0;
     }
@@ -94,15 +95,22 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
 
         SysOrganizations sysOrganizations = DataTransferUtil.model(sysOrganizationsEditDTO, new SysOrganizations());
 
+        OrganizationExtraInfo organizationExtraInfo = DataTransferUtil.model(sysOrganizationsEditDTO.getOrganizationExtraInfoEditDTO(), new OrganizationExtraInfo());
+
         if (JudgeParam.isNullOrUndefined(sysOrganizations.getId())){
 
             baseMapper.insert(sysOrganizations);
 
+            organizationExtraInfo.setOrganizationId(sysOrganizations.getId());
+            organizationExtraInfo.setOrganizationStatus(SystemSpecialCode.TO_AUDIT);
+
+            organizationExtraInfoMapper.insert(organizationExtraInfo);
+
             // 是否为平台
-//            if (!organizationExtraInfo.getIsPlatform().equals(1)){
-//
-//                this.saveOrgAttachInfo(sysOrganizationsEditDTO, sysOrganizations.getId(), sysOrganizations.getCode());
-//            }
+            if (!organizationExtraInfo.getIsPlatform().equals(1)){
+
+                this.saveOrgAttachInfo(sysOrganizationsEditDTO, sysOrganizations.getId(), sysOrganizations.getCode());
+            }
         }else {
 
             SysOrganizations organizations = baseMapper.selectOne(new QueryWrapper<SysOrganizations>() {{
@@ -113,6 +121,15 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
             JudgeParam.entityIsNotNull(organizations, SystemMsgConstants.SYS_ORGANIZATIONS_NOT_EXIST);
 
             baseMapper.updateById(sysOrganizations);
+
+            if (JudgeParam.isNullOrUndefined(organizationExtraInfo.getOrganizationId())){
+
+                organizationExtraInfo.setOrganizationId(sysOrganizations.getId());
+            }
+
+            organizationExtraInfoMapper.updateById(organizationExtraInfo);
+
+            iSysUsersService.updateById(DataTransferUtil.model(sysOrganizationsEditDTO.getUserEditDTO(), new SysUsers()));
         }
     }
 
@@ -124,7 +141,14 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
     @Override
     public SysOrganizationsListVO getDetail(String id) {
 
-        return iSysOrganizationsMapper.getDetail(id,null);
+        SysOrganizationsListVO detail = iSysOrganizationsMapper.getDetail(id, null);
+
+        if (null != detail){
+
+            detail.setUsersListVO(iSysOrganizationsMapper.getIsDefaultUserByOrgId(id));
+        }
+
+        return detail;
     }
 
     /**
@@ -136,6 +160,8 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
     public void audit(String id, String status) {
 
         Integer isLocked = status.equals(SystemSpecialCode.AUDIT_LOCK) ? 1 : 0;
+
+        iSysOrganizationsMapper.updateExtraStatusByRefId(id,status);
 
         iSysOrganizationsMapper.updateIsLockedById(id,isLocked);
     }
@@ -174,6 +200,7 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
         employeeInfoEntity.setEmployeeClass(SystemSpecialCode.ORG_ADMIN);
         employeeInfoEntity.setMobileNumber(sysUsers.getPhoneNumber());
         employeeInfoEntity.setEmployeeStatus(SystemSpecialCode.BE_ON_THE_JOB);
+        employeeInfoEntity.setIsDefault(1);
         employeeMapper.insert(employeeInfoEntity);
 
         MemberInEmployeeInUserInOrganization memberInEmployeeInUserInOrganization = new MemberInEmployeeInUserInOrganization();

@@ -28,14 +28,14 @@ public class SysRolesVO extends BaseVO {
     @Schema(name = "typeName", description = "类型名称")
     private String typeName;
 
-//    @Schema(name = "organizationId", description = "机构ID")
-//    private String organizationId;
-//
-//    @Schema(name = "organizationName", description = "机构名称")
-//    private String organizationName;
-//
-//    @Schema(name = "isPlatform", description = "是否是平台")
-//    private Integer isPlatform;
+    @Schema(name = "organizationId", description = "机构ID")
+    private String organizationId;
+
+    @Schema(name = "organizationName", description = "机构名称")
+    private String organizationName;
+
+    @Schema(name = "isPlatform", description = "是否是平台")
+    private Integer isPlatform;
 
     @Schema(name = "remark", description = "备注")
     private String remark;

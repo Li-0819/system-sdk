@@ -22,20 +22,20 @@ public class SysOrganizationsListDTO extends PageConditionDTO {
     @Schema(name = "name", description = "机构名称")
     private String name;
 
-//    @Schema(name = "organizationStatus", description = "机构状态")
-//    private String organizationStatus;
+    @Schema(name = "organizationStatus", description = "机构状态")
+    private String organizationStatus;
 
     @Schema(name = "organizationId", description = "机构Id")
     private String organizationId;
-//
-//    @Schema(name = "organizationClass", description = "机构类型")
-//    private String organizationClass;
-//
-//    @Schema(name = "organizationSize", description = "机构规模")
-//    private String organizationSize;
-//
-//    @Schema(name = "isPlatform", description = "是否为平台")
-//    private Integer isPlatform;
+
+    @Schema(name = "organizationClass", description = "机构类型")
+    private String organizationClass;
+
+    @Schema(name = "organizationSize", description = "机构规模")
+    private String organizationSize;
+
+    @Schema(name = "isPlatform", description = "是否为平台")
+    private Integer isPlatform;
 
     @Schema(name = "parentId", description = "父节点ID")
     private String parentId;

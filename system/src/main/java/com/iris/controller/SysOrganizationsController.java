@@ -7,6 +7,7 @@ import com.iris.model.dto.system.SysOrganizationsEditDTO;
 import com.iris.model.dto.system.SysOrganizationsListDTO;
 import com.iris.model.entity.OrganizationExtraInfo;
 import com.iris.model.vo.system.SysOrganizationsListVO;
+import com.iris.service.IOrganizationExtraInfoService;
 import com.iris.service.ISysOrganizationsService;
 import com.iris.utils.common.PageConditionUtil;
 import com.iris.utils.constants.SystemCommonField;
@@ -34,6 +35,8 @@ public class SysOrganizationsController {
 
     @Resource private ISysOrganizationsService iSysOrganizationsService;
 
+    @Resource private IOrganizationExtraInfoService iOrganizationExtraInfoService;
+
     @SystemLog(description = "获取组织机构列表")
     @Operation(summary = "获取组织机构列表 -- WindChaser", tags = "System")
     @GetMapping("/getList")
@@ -55,7 +58,8 @@ public class SysOrganizationsController {
                 sysOrganizationsEditDTO.getId(),
                 sysOrganizationsEditDTO.getParentId(),
                 sysOrganizationsEditDTO.getCode(),
-                sysOrganizationsEditDTO.getName()
+                sysOrganizationsEditDTO.getName(),
+                sysOrganizationsEditDTO.getOrganizationExtraInfoEditDTO().getIsPlatform()
                 )){
 
             return ResponseVO.error(SystemMsgConstants.CODE_OR_NAME_NOT_REPEAT);
@@ -85,6 +89,7 @@ public class SysOrganizationsController {
 
         QueryWrapper<OrganizationExtraInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(SystemCommonField.ORGANIZATION_ID, id);
+        iOrganizationExtraInfoService.remove(queryWrapper);
 
         return ResponseVO.ok(SystemMsgConstants.SYS_ORGANIZATIONS_DELETE_SUCCESS);
     }

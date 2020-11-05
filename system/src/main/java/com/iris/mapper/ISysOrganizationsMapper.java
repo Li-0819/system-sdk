@@ -3,6 +3,7 @@ package com.iris.mapper;
 
 import com.iris.model.dto.system.SysOrganizationsListDTO;
 import com.iris.model.vo.system.SysOrganizationsListVO;
+import com.iris.model.vo.system.UsersListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -38,9 +39,17 @@ public interface ISysOrganizationsMapper {
      * @param parentId 父节点ID
      * @param code 编码
      * @param name 名称
+     * @param isPlatform 是否为平台
      * @return
      */
-    Integer checkRepeat(String id, String parentId, String code, String name);
+    Integer checkRepeat(String id, String parentId, String code, String name, Integer isPlatform);
+
+    /**
+     * 修改附属信息状态
+     * @param id 组织机构ID
+     * @param status 状态
+     */
+    void updateExtraStatusByRefId(@Param("id") String id, @Param("status") String status);
 
     /**
      * 修改机构信息锁定状态
@@ -48,4 +57,11 @@ public interface ISysOrganizationsMapper {
      * @param isLocked 是否锁定
      */
     void updateIsLockedById(@Param("id")String id, @Param("isLocked") Integer isLocked);
+
+    /**
+     * 根据机构获取超级管理员
+     * @param orgId 机构ID
+     * @return
+     */
+    UsersListVO getIsDefaultUserByOrgId(@Param("orgId") String orgId);
 }

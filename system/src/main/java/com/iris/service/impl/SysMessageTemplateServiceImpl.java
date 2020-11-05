@@ -63,7 +63,7 @@ public class SysMessageTemplateServiceImpl extends ServiceImpl<SysMessageTemplat
 
         SysMessageTemplate sysMessageTemplate = DataTransferUtil.model(modelForDeleteOrRecover, new SysMessageTemplate());
 
-        baseMapper.deleteById(sysMessageTemplate.getId());
+        baseMapper.deleteById(sysMessageTemplate);
     }
 
     /**

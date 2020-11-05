@@ -16,6 +16,12 @@ import lombok.EqualsAndHashCode;
 @Schema(name = "UserListDTO", description = "查询用户列表")
 public class UserListDTO extends PageConditionDTO {
 
+    @Schema(name = "organizationId", description = "组织机构ID")
+    private String organizationId;
+
+    @Schema(name = "isPlatform", description = "是否是平台")
+    private Integer isPlatform;
+
     @Schema(name = "loginName", description = "登陆名")
     private String loginName;
 

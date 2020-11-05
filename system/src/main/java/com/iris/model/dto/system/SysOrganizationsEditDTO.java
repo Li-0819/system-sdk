@@ -1,5 +1,6 @@
 package com.iris.model.dto.system;
 
+import com.iris.model.dto.organization.OrganizationExtraInfoEditDTO;
 import com.iris.utils.constants.SystemMsgConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -24,6 +25,9 @@ public class SysOrganizationsEditDTO {
 
     @Schema(name = "parentId", description = "上级节点ID")
     private String parentId;
+
+    @Schema(name = "organizationExtraInfoEditDTO", description = "机构附属信息")
+    private OrganizationExtraInfoEditDTO organizationExtraInfoEditDTO;
 
     @Schema(name = "userEditDTO", description = "用户信息")
     private UserEditDTO userEditDTO;

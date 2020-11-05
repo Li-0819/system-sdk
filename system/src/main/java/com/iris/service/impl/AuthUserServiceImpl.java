@@ -12,9 +12,11 @@ import com.iris.model.entity.SysUsers;
 import com.iris.model.mapper.SitemapActionAuthorityMapper;
 import com.iris.model.mapper.SysRolesMapper;
 import com.iris.model.mapper.SysUsersMapper;
+import com.iris.model.vo.UserOrganizationVO;
 import com.iris.model.vo.UserPrincipalVO;
 import com.iris.model.vo.UserRoleVO;
 import com.iris.model.vo.UserSiteMapVO;
+import com.iris.model.vo.system.EmployeeInfoVO;
 import com.iris.model.vo.system.SitemapsAuthListVO;
 import com.iris.model.vo.system.SitemapsAuthVO;
 import com.iris.model.vo.system.SysActionVO;
@@ -76,10 +78,16 @@ public class AuthUserServiceImpl implements AuthUserService {
         //获取用户角色
         List<UserRoleVO> roleList = authUserMapper.getRoles(usersId);
 
+        //获取用户角色
+        EmployeeInfoVO employeeInfo = authUserMapper.getEmployeeInfo(usersId);
+
+        //获取组织部门
+        List<UserOrganizationVO> organizationList = authUserMapper.getOrganizationList(usersId);
+
         //TODO 获取菜单权限 authUserMapper.getUserSiteMapList(usersId);
         List<UserSiteMapVO> siteMapList = new ArrayList<>(0);
 
-        return UserPrincipalVO.create(sysUsers, roleList, siteMapList);
+        return UserPrincipalVO.create(sysUsers, roleList, organizationList, siteMapList, employeeInfo);
     }
 
     /**
@@ -247,26 +255,26 @@ public class AuthUserServiceImpl implements AuthUserService {
         return contains;
     }
 
-//    /**
-//     * 校验员工编号是否正确
-//     * @param userId 用户ID
-//     * @param employeeCode 员工Code
-//     * @return
-//     */
-//    @Override
-//    public Boolean employeeCodeIsCorrect(String userId, String employeeCode) {
-//
-//        return authUserMapper.employeeCodeIsCorrect(userId, employeeCode);
-//    }
-//
-//    /**
-//     * 验证是否是平台用户
-//     * @param userId 用户ID
-//     * @return
-//     */
-//    @Override
-//    public Integer isPlatformUser(String userId) {
-//
-//        return authUserMapper.isPlatformUser(userId);
-//    }
+    /**
+     * 校验员工编号是否正确
+     * @param userId 用户ID
+     * @param employeeCode 员工Code
+     * @return
+     */
+    @Override
+    public Boolean employeeCodeIsCorrect(String userId, String employeeCode) {
+
+        return authUserMapper.employeeCodeIsCorrect(userId, employeeCode);
+    }
+
+    /**
+     * 验证是否是平台用户
+     * @param userId 用户ID
+     * @return
+     */
+    @Override
+    public Integer isPlatformUser(String userId) {
+
+        return authUserMapper.isPlatformUser(userId);
+    }
 }

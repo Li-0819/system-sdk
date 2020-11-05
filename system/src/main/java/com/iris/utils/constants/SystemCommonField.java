@@ -33,14 +33,9 @@ public class SystemCommonField {
     public static final String CODE = "code";
     public static final String SEQUENCE = "sequence";
     public static final String APP_TYPE = "app_type";
+    public static final String APP_CODE = "app_code";
     public static final String KEY = "key";
 
-    public static final String MOOD_NAME = "mood_name";
-    public static final String MOOD_CODE = "mood_code";
-    public static final String THEME_COLOR = "theme_color";
-    public static final String APP_NAME = "app_name";
-    public static final String PUBLISH_PLATFORM = "publish_platform";
-    public static final String LIBRARY_NAME = "library_name";
     public static final String OPERATION_TITLE = "operation_title";
     public static final String OPERATION_TYPE = "operation_type";
     public static final String PARENT_ID = "parent_id";
@@ -60,9 +55,4 @@ public class SystemCommonField {
     public static final String ORGANIZATION_ID = "organization_id";
     public static final String SYS_ADMIN = "sys_admin";
     public static final String ORG_ADMIN = "org_admin";
-    public static final String MOOD_LIBRARY_INFO_ID = "mood_library_info_id";
-    public static final String INTEGRAL_NAME = "integral_name";
-    public static final String INTEGRAL_CODE = "integral_code";
-    public static final String SETTING_TYPE = "setting_type";
-    public static final String SIGN_IN_MOOD_LIBRARY = "sign_in_mood_library";
 }

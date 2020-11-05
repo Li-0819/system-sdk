@@ -1,6 +1,5 @@
 package com.iris.model.entity;
 
-
 import com.iris.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

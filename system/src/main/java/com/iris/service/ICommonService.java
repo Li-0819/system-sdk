@@ -10,7 +10,7 @@ import org.springframework.lang.NonNull;
 public interface ICommonService {
 
     /**
-     * 根据不同的关联类型删除不同的 关联表
+     * 根据不同的关联类型删除不同的 user关联表
      * @param userId 用户ID
      * @param relevanceType 关联类型  position/roles/organization ...
      */

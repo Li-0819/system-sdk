@@ -62,4 +62,13 @@ public class EmployeeInfoEntity extends BaseEntity {
 
     @Schema(description = "备注")
     private String remark;
+
+    @Schema(description = "总余额(单位是分)")
+    private Integer totalBalance;
+
+    @Schema(description = "冻结余额(单位是分)")
+    private Integer freezeBalance;
+
+    @Schema(name = "isDefault", description = "是否默认")
+    private Integer isDefault;
 }

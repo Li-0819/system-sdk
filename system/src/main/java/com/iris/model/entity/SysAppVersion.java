@@ -29,6 +29,9 @@ public class SysAppVersion extends BaseEntity {
     @Schema(name = "appName", description = "应用名称")
     private String appName;
 
+    @Schema(name = "appCode", description = "应用编码")
+    private String appCode;
+
     @Schema(name = "versionNumber", description = "版本号")
     private String versionNumber;
 

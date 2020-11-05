@@ -54,18 +54,18 @@ public interface AuthUserService extends UserDetailsService {
      */
     List<SysActionVO> getAuthActionByTargetIds(List<String> targetIds, String sitemapId);
 
-//    /**
-//     * 校验员工编号是否正确
-//     * @param userId 用户ID
-//     * @param employeeCode 员工Code
-//     * @return
-//     */
-//    Boolean employeeCodeIsCorrect(String userId, String employeeCode);
-//
-//    /**
-//     * 验证是否是平台用户
-//     * @param userId 用户ID
-//     * @return
-//     */
-//    Integer isPlatformUser(String userId);
+    /**
+     * 校验员工编号是否正确
+     * @param userId 用户ID
+     * @param employeeCode 员工Code
+     * @return
+     */
+    Boolean employeeCodeIsCorrect(String userId, String employeeCode);
+
+    /**
+     * 验证是否是平台用户
+     * @param userId 用户ID
+     * @return
+     */
+    Integer isPlatformUser(String userId);
 }

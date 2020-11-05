@@ -1,6 +1,7 @@
 package com.iris.model.vo;
 
 import com.iris.model.entity.SysUsers;
+import com.iris.model.vo.system.EmployeeInfoVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserPrincipalVO implements UserDetails {
 
+    private String name;
+    private String avatar;
+    private Boolean service;
     /**
      * id
      */
@@ -78,15 +82,23 @@ public class UserPrincipalVO implements UserDetails {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
+    private List<UserOrganizationVO> organizationList;
+
     private List<UserSiteMapVO> userSiteMapList;
 
 
-    public static UserPrincipalVO create(SysUsers user, List<UserRoleVO> roles, List<UserSiteMapVO> sysSiteMaps) {
+    public static UserPrincipalVO create(SysUsers user, List<UserRoleVO> roles, List<UserOrganizationVO> organizations, List<UserSiteMapVO> sysSiteMaps, EmployeeInfoVO employeeInfoVO) {
 
         List<GrantedAuthority> authorities = sysSiteMaps.stream().map(permission -> new SimpleGrantedAuthority(permission.getName())).collect(Collectors.toList());
 
-        return new UserPrincipalVO(user.getId(), user.getLoginName(), user.getLoginPwd(), user.getRealName(), user.getGender(), user.getPhoneNumber(),
-                user.getRemark(), user.getIsLocked(), user.getIsDeleted(), roles, authorities, sysSiteMaps);
+        String employeeNoteName = null, avatar = null;
+        if (null != employeeInfoVO){
+            employeeNoteName = employeeInfoVO.getEmployeeNoteName();
+            avatar = employeeInfoVO.getAvatar();
+        }
+
+        return new UserPrincipalVO(employeeNoteName, avatar, true, user.getId(), user.getLoginName(), user.getLoginPwd(), user.getRealName(), user.getGender(), user.getPhoneNumber(),
+                user.getRemark(), user.getIsLocked(), user.getIsDeleted(), roles, authorities, organizations, sysSiteMaps);
     }
 
     @Override

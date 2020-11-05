@@ -31,9 +31,10 @@ public interface ISysOrganizationsService extends IService<SysOrganizations> {
      * @param parentId 父节点ID
      * @param code 编码
      * @param name 名称
+     * @param isPlatform 是否为平台
      * @return
      */
-    boolean checkRepeat(String id, String parentId, String code, String name);
+    boolean checkRepeat(String id, String parentId, String code, String name, Integer isPlatform);
 
     /**
      * 编辑组织机构
