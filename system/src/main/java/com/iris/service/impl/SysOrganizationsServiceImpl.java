@@ -106,11 +106,6 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
 
             organizationExtraInfoMapper.insert(organizationExtraInfo);
 
-            // 是否为平台
-            if (!organizationExtraInfo.getIsPlatform().equals(1)){
-
-                this.saveOrgAttachInfo(sysOrganizationsEditDTO, sysOrganizations.getId(), sysOrganizations.getCode());
-            }
         }else {
 
             SysOrganizations organizations = baseMapper.selectOne(new QueryWrapper<SysOrganizations>() {{
@@ -128,8 +123,20 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
             }
 
             organizationExtraInfoMapper.updateById(organizationExtraInfo);
+        }
 
-            iSysUsersService.updateById(DataTransferUtil.model(sysOrganizationsEditDTO.getUserEditDTO(), new SysUsers()));
+        // 是否为平台
+        if (organizationExtraInfo.getIsPlatform().equals(0)){
+
+            if (JudgeParam.isNullOrUndefined(sysOrganizationsEditDTO.getUserEditDTO().getId())){
+
+                this.saveOrgAttachInfo(sysOrganizationsEditDTO, sysOrganizations.getId(), sysOrganizations.getCode());
+            }else {
+
+                sysOrganizationsEditDTO.getUserEditDTO().setIsDefault(1);
+                iSysUsersService.updateById(DataTransferUtil.model(sysOrganizationsEditDTO.getUserEditDTO(), new SysUsers()));
+            }
+
         }
     }
 
