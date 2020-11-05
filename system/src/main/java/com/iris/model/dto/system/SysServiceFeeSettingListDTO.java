@@ -20,4 +20,10 @@ public class SysServiceFeeSettingListDTO extends PageConditionDTO {
 
     @Schema(name = "isLocked", description = "是否锁定")
     private Integer isLocked;
+
+    @Schema(name = "startTime", description = "开始时间")
+    private String startTime;
+
+    @Schema(name = "endTime", description = "结束时间")
+    private String endTime;
 }

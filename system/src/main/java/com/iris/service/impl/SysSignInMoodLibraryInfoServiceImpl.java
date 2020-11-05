@@ -10,7 +10,8 @@ import com.iris.model.PageResponseVO;
 import com.iris.model.dto.system.SysSignInMoodLibraryInfoEditDTO;
 import com.iris.model.dto.system.SysSignInMoodLibraryInfoListDTO;
 import com.iris.model.entity.SysSignInMoodLibraryInfo;
-import com.iris.model.vo.system.SysSignInMoodLibraryInfoVO;
+import com.iris.model.vo.system.SysSignInMoodLibraryInfoDetailVO;
+import com.iris.model.vo.system.SysSignInMoodLibraryInfoListVO;
 import com.iris.service.ICommonService;
 import com.iris.service.ISysSignInMoodLibraryInfoService;
 import com.iris.utils.common.JudgeParam;
@@ -41,25 +42,17 @@ public class SysSignInMoodLibraryInfoServiceImpl extends ServiceImpl<SysSignInMo
 
     /**
      * 获取签到心情图文素材库列表
-     * @param sysSignInMoodLibraryInfoListDTO {@link SysSignInMoodLibraryInfoListDTO}
+     * @param listDTO {@link SysSignInMoodLibraryInfoListDTO}
      * @return
      */
     @Override
-    public PageResponseVO<SysSignInMoodLibraryInfoVO> getList(SysSignInMoodLibraryInfoListDTO sysSignInMoodLibraryInfoListDTO) {
+    public PageResponseVO<SysSignInMoodLibraryInfoListVO> getList(SysSignInMoodLibraryInfoListDTO listDTO) {
 
-        PageHelper.startPage(sysSignInMoodLibraryInfoListDTO.getCurrentPage(), sysSignInMoodLibraryInfoListDTO.getPageSize());
+        PageHelper.startPage(listDTO.getCurrentPage(), listDTO.getPageSize());
 
-        List<SysSignInMoodLibraryInfo> pageList = baseMapper.selectList(new QueryWrapper<SysSignInMoodLibraryInfo>() {{
+        List<SysSignInMoodLibraryInfoListVO> list = iSysSignInMoodLibraryInfoMapper.getList(listDTO);
 
-            if (!JudgeParam.isNullOrUndefined(sysSignInMoodLibraryInfoListDTO.getLibraryName())){
-
-                like(SystemCommonField.LIBRARY_NAME, sysSignInMoodLibraryInfoListDTO.getLibraryName());
-            }
-
-            orderByDesc(SystemCommonField.CREATED_TIME);
-        }});
-
-        return PageResponseVO.of(pageList, SysSignInMoodLibraryInfoVO.class);
+        return PageResponseVO.of(list, SysSignInMoodLibraryInfoListVO.class);
     }
 
     /**
@@ -117,7 +110,7 @@ public class SysSignInMoodLibraryInfoServiceImpl extends ServiceImpl<SysSignInMo
      * @return
      */
     @Override
-    public SysSignInMoodLibraryInfoVO getDetail(String id) {
+    public SysSignInMoodLibraryInfoDetailVO getDetail(String id) {
 
         return iSysSignInMoodLibraryInfoMapper.getDetail(id);
     }

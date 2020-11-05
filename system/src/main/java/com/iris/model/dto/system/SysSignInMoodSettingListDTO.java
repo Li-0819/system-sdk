@@ -21,6 +21,9 @@ public class SysSignInMoodSettingListDTO extends PageConditionDTO {
     @Schema(name = "moodCode", description = "心情编码")
     private String moodCode;
 
-    @Schema(name = "themeColor", description = "主题色")
-    private String themeColor;
+    @Schema(name = "startTime", description = "开始时间")
+    private String startTime;
+
+    @Schema(name = "endTime", description = "结束时间")
+    private String endTime;
 }

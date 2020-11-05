@@ -5,7 +5,8 @@ import com.iris.model.PageResponseVO;
 import com.iris.model.dto.system.SysSignInMoodLibraryInfoEditDTO;
 import com.iris.model.dto.system.SysSignInMoodLibraryInfoListDTO;
 import com.iris.model.entity.SysSignInMoodLibraryInfo;
-import com.iris.model.vo.system.SysSignInMoodLibraryInfoVO;
+import com.iris.model.vo.system.SysSignInMoodLibraryInfoDetailVO;
+import com.iris.model.vo.system.SysSignInMoodLibraryInfoListVO;
 
 /**
  * <p>
@@ -22,7 +23,7 @@ public interface ISysSignInMoodLibraryInfoService extends IService<SysSignInMood
      * @param sysSignInMoodLibraryInfoListDTO {@link SysSignInMoodLibraryInfoListDTO}
      * @return
      */
-    PageResponseVO<SysSignInMoodLibraryInfoVO> getList(SysSignInMoodLibraryInfoListDTO sysSignInMoodLibraryInfoListDTO);
+    PageResponseVO<SysSignInMoodLibraryInfoListVO> getList(SysSignInMoodLibraryInfoListDTO sysSignInMoodLibraryInfoListDTO);
 
     /**
      * 校验素材库素材名称是否重复
@@ -43,5 +44,5 @@ public interface ISysSignInMoodLibraryInfoService extends IService<SysSignInMood
      * @param id 素材库ID
      * @return
      */
-    SysSignInMoodLibraryInfoVO getDetail(String id);
+    SysSignInMoodLibraryInfoDetailVO getDetail(String id);
 }

@@ -17,4 +17,13 @@ public class SysSignInMoodLibraryInfoListDTO extends PageConditionDTO {
 
     @Schema(name = "libraryName", description = "素材名称")
     private String libraryName;
+
+    @Schema(name = "classifyId", description = "分类")
+    private String classifyId;
+
+    @Schema(name = "startTime", description = "开始时间")
+    private String startTime;
+
+    @Schema(name = "endTime", description = "结束时间")
+    private String endTime;
 }

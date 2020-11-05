@@ -2,24 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iris.mapper.ISysMemberPrivilegeCardSettingMapper">
 
-    <select id="getList"
-            resultType="com.iris.model.vo.system.SysMemberPrivilegeCardSettingVO">
+    <select id="getList" resultType="com.iris.model.vo.system.SysMemberPrivilegeCardSettingVO">
 
-        select list.id, list.type, list.typeName, list.cash_price, list.integral_price, list.icon, list.back_img,
-                list.is_enabled, list.is_deleted, list.created_by, list.created_time, list.modified_by, list.modified_time
-        from (
-            select smpcs.id, smpcs.type, sc.name typeName, smpcs.cash_price, smpcs.integral_price, smpcs.icon, smpcs.back_img,
-                    smpcs.is_enabled, smpcs.is_deleted, smpcs.created_by, smpcs.created_time, smpcs.modified_by, smpcs.modified_time
-            from sys_member_privilege_card_setting smpcs
-            left join sys_code sc on sc.is_deleted = 0 and sc.value = smpcs.type
-        ) list
+        select smpcs.id, smpcs.type, sc.name typeName, smpcs.cash_price, smpcs.integral_price, smpcs.icon, smpcs.back_img,
+                smpcs.is_enabled, smpcs.is_deleted, smpcs.created_by, smpcs.created_time, smpcs.modified_by, smpcs.modified_time
+        from sys_member_privilege_card_setting smpcs
+        left join sys_code sc on sc.is_deleted = 0 and sc.value = smpcs.type
         <where>
-            list.is_deleted = 0
-            <if test="sysMemberPrivilegeCardSettingListDTO.type != null and sysMemberPrivilegeCardSettingListDTO.type != ''">
-                and list.type = #{sysMemberPrivilegeCardSettingListDTO.type}
+            smpcs.is_deleted = 0
+            <if test="listDTO.type != null and listDTO.type != ''">
+                and smpcs.type = #{listDTO.type}
+            </if>
+            <if test="listDTO.startTime != null and listDTO.startTime != ''">
+                and smpcs.created_time &gt;= #{listDTO.startTime}
+            </if>
+            <if test="listDTO.endTime != null and listDTO.endTime != ''">
+                and smpcs.created_time &lt;= #{listDTO.endTime}
             </if>
         </where>
-        order by list.created_time desc
+        order by smpcs.created_time desc
     </select>
 
     <select id="getDetail" resultType="com.iris.model.vo.system.SysMemberPrivilegeCardSettingVO">

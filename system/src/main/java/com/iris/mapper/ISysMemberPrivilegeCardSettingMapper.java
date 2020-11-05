@@ -18,11 +18,11 @@ public interface ISysMemberPrivilegeCardSettingMapper {
 
     /**
      * 获取会员特权卡列表
-     * @param sysMemberPrivilegeCardSettingListDTO {@link SysMemberPrivilegeCardSettingListDTO}
+     * @param listDTO {@link SysMemberPrivilegeCardSettingListDTO}
      * @return
      */
     List<SysMemberPrivilegeCardSettingVO> getList(
-            @Param("sysMemberPrivilegeCardSettingListDTO") SysMemberPrivilegeCardSettingListDTO sysMemberPrivilegeCardSettingListDTO);
+            @Param("listDTO") SysMemberPrivilegeCardSettingListDTO listDTO);
 
     /**
      * 获取会员特权卡详情

@@ -18,10 +18,10 @@ public interface ISysServiceFeeSettingMapper {
 
     /**
      * 获取服务费分润比例设置列表
-     * @param sysServiceFeeSettingListDTO
+     * @param listDTO {@link SysServiceFeeSettingListDTO}
      * @return
      */
-    List<SysServiceFeeSettingVO> getList(@Param("sysServiceFeeSettingListDTO") SysServiceFeeSettingListDTO sysServiceFeeSettingListDTO);
+    List<SysServiceFeeSettingVO> getList(@Param("listDTO") SysServiceFeeSettingListDTO listDTO);
 
     /**
      * 获取服务费分润比例详情

@@ -3,6 +3,7 @@ package com.iris.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
+import com.iris.mapper.ISysSignInMoodSettingMapper;
 import com.iris.mapper.SysSignInMoodSettingMapper;
 import com.iris.model.PageResponseVO;
 import com.iris.model.dto.system.SysSignInMoodSettingEditDTO;
@@ -16,6 +17,7 @@ import com.iris.utils.constants.SystemMsgConstants;
 import com.iris.utils.transfer.DataTransferUtil;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -29,34 +31,21 @@ import java.util.List;
 @Service
 public class SysSignInMoodSettingServiceImpl extends ServiceImpl<SysSignInMoodSettingMapper, SysSignInMoodSetting> implements ISysSignInMoodSettingService {
 
+    @Resource private ISysSignInMoodSettingMapper iSysSignInMoodSettingMapper;
+
     /**
      * 获取签到心情配置信息列表
-     * @param sysSignInMoodSettingListDTO {@link SysSignInMoodSettingListDTO}
+     * @param listDTO {@link SysSignInMoodSettingListDTO}
      * @return
      */
     @Override
-    public PageResponseVO<SysSignInMoodSettingVO> getList(SysSignInMoodSettingListDTO sysSignInMoodSettingListDTO) {
+    public PageResponseVO<SysSignInMoodSettingVO> getList(SysSignInMoodSettingListDTO listDTO) {
 
-        PageHelper.startPage(sysSignInMoodSettingListDTO.getCurrentPage(),sysSignInMoodSettingListDTO.getPageSize());
+        PageHelper.startPage(listDTO.getCurrentPage(),listDTO.getPageSize());
 
-        List<SysSignInMoodSetting> sysSignInMoodSettings = baseMapper.selectList(new QueryWrapper<SysSignInMoodSetting>() {{
+        List<SysSignInMoodSettingVO> list = iSysSignInMoodSettingMapper.getList(listDTO);
 
-            if (!JudgeParam.isNullOrUndefined(sysSignInMoodSettingListDTO.getMoodName())) {
-
-                like(SystemCommonField.MOOD_NAME, sysSignInMoodSettingListDTO.getMoodName());
-            }
-
-            if (!JudgeParam.isNullOrUndefined(sysSignInMoodSettingListDTO.getMoodCode())) {
-
-                eq(SystemCommonField.MOOD_CODE, sysSignInMoodSettingListDTO.getMoodCode());
-            }
-
-            if (!JudgeParam.isNullOrUndefined(sysSignInMoodSettingListDTO.getThemeColor())) {
-                eq(SystemCommonField.THEME_COLOR, sysSignInMoodSettingListDTO.getThemeColor());
-            }
-        }});
-
-        return PageResponseVO.of(sysSignInMoodSettings, SysSignInMoodSettingVO.class);
+        return PageResponseVO.of(list, SysSignInMoodSettingVO.class);
     }
 
     /**
@@ -104,5 +93,16 @@ public class SysSignInMoodSettingServiceImpl extends ServiceImpl<SysSignInMoodSe
         }});
 
         return sysSignInMoodSettings.size() > 0;
+    }
+
+    /**
+     * 获取签到心情配置信息详情
+     * @param id ID
+     * @return
+     */
+    @Override
+    public SysSignInMoodSettingVO getDetail(String id) {
+
+        return iSysSignInMoodSettingMapper.getDetail(id);
     }
 }

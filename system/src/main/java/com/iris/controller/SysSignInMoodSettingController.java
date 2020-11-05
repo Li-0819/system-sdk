@@ -36,11 +36,11 @@ public class SysSignInMoodSettingController {
 
     @Operation(summary = "获取签到心情配置信息列表 -- WindChaser", tags = "System")
     @GetMapping("/getList")
-    public ResponseVO<PageResponseVO<SysSignInMoodSettingVO>> getList(SysSignInMoodSettingListDTO sysSignInMoodSettingListDTO){
+    public ResponseVO<PageResponseVO<SysSignInMoodSettingVO>> getList(SysSignInMoodSettingListDTO listDTO){
 
-        PageConditionUtil.checkDefaultPage (sysSignInMoodSettingListDTO);
+        PageConditionUtil.checkDefaultPage(listDTO);
 
-        PageResponseVO<SysSignInMoodSettingVO> pageResponseVO = iSysSignInMoodSettingService.getList(sysSignInMoodSettingListDTO);
+        PageResponseVO<SysSignInMoodSettingVO> pageResponseVO = iSysSignInMoodSettingService.getList(listDTO);
 
         return ResponseVO.ok(pageResponseVO);
     }
@@ -64,9 +64,9 @@ public class SysSignInMoodSettingController {
 
     @Operation(summary = "获取签到心情配置信息详情 --WindChaser", tags = "System")
     @GetMapping("/getDetail/{id}")
-    public ResponseVO<SysSignInMoodSetting> getDetail(@PathVariable String id){
+    public ResponseVO<SysSignInMoodSettingVO> getDetail(@PathVariable String id){
 
-       return ResponseVO.ok(iSysSignInMoodSettingService.getById(id));
+       return ResponseVO.ok(iSysSignInMoodSettingService.getDetail(id));
     }
 
     @Operation(summary = "删除签到心情配置信息 --WindChaser", tags = "System")

@@ -4,7 +4,8 @@ package com.iris.controller;
 import com.iris.model.PageResponseVO;
 import com.iris.model.dto.system.SysSignInMoodLibraryInfoEditDTO;
 import com.iris.model.dto.system.SysSignInMoodLibraryInfoListDTO;
-import com.iris.model.vo.system.SysSignInMoodLibraryInfoVO;
+import com.iris.model.vo.system.SysSignInMoodLibraryInfoDetailVO;
+import com.iris.model.vo.system.SysSignInMoodLibraryInfoListVO;
 import com.iris.service.ISysSignInMoodLibraryInfoService;
 import com.iris.utils.common.PageConditionUtil;
 import com.iris.utils.constants.SystemMsgConstants;
@@ -35,11 +36,11 @@ public class SysSignInMoodLibraryInfoController {
 
     @Operation(summary = "获取签到心情图文素材库列表 -- WindChaser", tags = "System")
     @GetMapping("/getList")
-    public ResponseVO<PageResponseVO<SysSignInMoodLibraryInfoVO>> getList(SysSignInMoodLibraryInfoListDTO sysSignInMoodLibraryInfoListDTO){
+    public ResponseVO<PageResponseVO<SysSignInMoodLibraryInfoListVO>> getList(SysSignInMoodLibraryInfoListDTO sysSignInMoodLibraryInfoListDTO){
 
         PageConditionUtil.checkDefaultPage (sysSignInMoodLibraryInfoListDTO);
 
-        PageResponseVO<SysSignInMoodLibraryInfoVO> pageResponseVO = iSysSignInMoodLibraryInfoService.getList(sysSignInMoodLibraryInfoListDTO);
+        PageResponseVO<SysSignInMoodLibraryInfoListVO> pageResponseVO = iSysSignInMoodLibraryInfoService.getList(sysSignInMoodLibraryInfoListDTO);
 
         return ResponseVO.ok(pageResponseVO);
     }
@@ -60,7 +61,7 @@ public class SysSignInMoodLibraryInfoController {
 
     @Operation(summary = "获取签到心情图文素材库详情 -- WindChaser", tags = "System")
     @GetMapping("/getDetail/{id}")
-    public ResponseVO<SysSignInMoodLibraryInfoVO> getDetail(@PathVariable String id){
+    public ResponseVO<SysSignInMoodLibraryInfoDetailVO> getDetail(@PathVariable String id){
 
         return ResponseVO.ok(iSysSignInMoodLibraryInfoService.getDetail(id));
     }

@@ -19,10 +19,10 @@ public interface ISysSignInMoodSettingService extends IService<SysSignInMoodSett
 
     /**
      * 获取签到心情配置信息列表
-     * @param sysSignInMoodSettingListDTO {@link SysSignInMoodSettingListDTO}
+     * @param listDTO {@link SysSignInMoodSettingListDTO}
      * @return
      */
-    PageResponseVO<SysSignInMoodSettingVO> getList(SysSignInMoodSettingListDTO sysSignInMoodSettingListDTO);
+    PageResponseVO<SysSignInMoodSettingVO> getList(SysSignInMoodSettingListDTO listDTO);
 
     /**
      * 编辑签到心情配置
@@ -38,4 +38,11 @@ public interface ISysSignInMoodSettingService extends IService<SysSignInMoodSett
      * @return
      */
     boolean checkRepeat(String moodName, String moodCode, String id);
+
+    /**
+     * 获取签到心情配置信息详情
+     * @param id ID
+     * @return
+     */
+    SysSignInMoodSettingVO getDetail(String id);
 }

@@ -10,16 +10,16 @@
         <where>
             isi.is_deleted = 0
             <if test="listDTO.integralName != null and listDTO.integralName != ''">
-                and isi.integral_name like concat('%',${listDTO.integralName,jdbcType=VARCHAR},'%')
+                and isi.integral_name like concat('%',#{listDTO.integralName,jdbcType=VARCHAR},'%')
             </if>
             <if test="listDTO.integralCode != null and listDTO.integralCode != ''">
-                and isi.integral_code like concat('%',${listDTO.integralCode,jdbcType=VARCHAR},'%')
+                and isi.integral_code like concat('%',#{listDTO.integralCode,jdbcType=VARCHAR},'%')
             </if>
             <if test="listDTO.startTime != null and listDTO.startTime != ''">
-                and isi.created_time &gt;= ${listDTO.startTime,jdbcType=VARCHAR}
+                and isi.created_time &gt;= #{listDTO.startTime,jdbcType=VARCHAR}
             </if>
             <if test="listDTO.endTime != null and listDTO.endTime != ''">
-                and isi.created_time &lt;= ${listDTO.endTime,jdbcType=VARCHAR}
+                and isi.created_time &lt;= #{listDTO.endTime,jdbcType=VARCHAR}
             </if>
         </where>
         order by isi.created_time desc

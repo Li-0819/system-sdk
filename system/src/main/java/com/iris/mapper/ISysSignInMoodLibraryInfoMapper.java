@@ -1,9 +1,14 @@
 package com.iris.mapper;
 
 
-import com.iris.model.vo.system.SysSignInMoodLibraryInfoVO;
+import com.iris.model.dto.system.SysSignInMoodLibraryInfoListDTO;
+import com.iris.model.entity.SysSignInMoodLibraryInfo;
+import com.iris.model.vo.system.SysSignInMoodLibraryInfoDetailVO;
+import com.iris.model.vo.system.SysSignInMoodLibraryInfoListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author WindChaser
@@ -18,5 +23,12 @@ public interface ISysSignInMoodLibraryInfoMapper {
      * @param id 素材库ID
      * @return
      */
-    SysSignInMoodLibraryInfoVO getDetail(@Param("id") String id);
+    SysSignInMoodLibraryInfoDetailVO getDetail(@Param("id") String id);
+
+    /**
+     * 获取图文素材库列表
+     * @param listDTO {@link SysSignInMoodLibraryInfoListDTO}
+     * @return
+     */
+    List<SysSignInMoodLibraryInfoListVO> getList(@Param("listDTO") SysSignInMoodLibraryInfoListDTO listDTO);
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysSignInMoodSettingMapper">
+
+    <select id="getList" resultType="com.iris.model.vo.system.SysSignInMoodSettingVO">
+
+        select ssims.id, ssims.mood_code, ssims.mood_name, ssims.theme_img, ssims.theme_color, ssims.theme_page_demo,
+                ssims.is_deleted, ssims.created_by, ssims.created_time, ssims.modified_by, ssims.modified_time
+        from sys_sign_in_mood_setting ssims
+        <where>
+                ssims.is_deleted = 0
+            <if test="listDTO.moodName != null and listDTO.moodName != ''">
+                and ssims.mood_name like concat('%',#{listDTO.moodName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="listDTO.moodCode != null and listDTO.moodCode != ''">
+                and ssims.mood_code like concat('%',#{listDTO.moodCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="listDTO.startTime != null and listDTO.startTime != ''">
+                and ssims.created_time &gt;= #{listDTO.startTime}
+            </if>
+            <if test="listDTO.endTime != null and listDTO.endTime != ''">
+                and ssims.created_time &lt;= #{listDTO.endTime}
+            </if>
+        </where>
+        order by ssims.created_time desc
+    </select>
+
+    <select id="getDetail" resultType="com.iris.model.vo.system.SysSignInMoodSettingVO">
+
+        select ssims.id, ssims.mood_code, ssims.mood_name, ssims.theme_img, ssims.theme_color, ssims.theme_page_demo, ssims.remark,
+                ssims.is_deleted, ssims.created_by, ssims.created_time, ssims.modified_by, ssims.modified_time
+        from sys_sign_in_mood_setting ssims
+
+        where ssims.id = #{id,jdbcType=VARCHAR} and ssims.is_deleted = 0
+    </select>
+</mapper>

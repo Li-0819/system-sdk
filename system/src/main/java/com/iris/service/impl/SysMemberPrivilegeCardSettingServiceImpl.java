@@ -35,15 +35,15 @@ public class SysMemberPrivilegeCardSettingServiceImpl extends ServiceImpl<SysMem
 
     /**
      * 获取会员特权卡设置
-     * @param sysMemberPrivilegeCardSettingListDTO {@link SysMemberPrivilegeCardSettingListDTO}
+     * @param listDTO {@link SysMemberPrivilegeCardSettingListDTO}
      * @return
      */
     @Override
-    public PageResponseVO<SysMemberPrivilegeCardSettingVO> getList(SysMemberPrivilegeCardSettingListDTO sysMemberPrivilegeCardSettingListDTO) {
+    public PageResponseVO<SysMemberPrivilegeCardSettingVO> getList(SysMemberPrivilegeCardSettingListDTO listDTO) {
 
-        PageHelper.startPage(sysMemberPrivilegeCardSettingListDTO.getCurrentPage(), sysMemberPrivilegeCardSettingListDTO.getPageSize());
+        PageHelper.startPage(listDTO.getCurrentPage(), listDTO.getPageSize());
 
-        List<SysMemberPrivilegeCardSettingVO> pageList = iSysMemberPrivilegeCardSettingMapper.getList(sysMemberPrivilegeCardSettingListDTO);
+        List<SysMemberPrivilegeCardSettingVO> pageList = iSysMemberPrivilegeCardSettingMapper.getList(listDTO);
 
         return PageResponseVO.of(pageList, SysMemberPrivilegeCardSettingVO.class);
     }
