@@ -76,22 +76,22 @@ public class UserPrincipalVO implements UserDetails {
     /**
      * 用户权限列表
      */
-    private Collection<? extends GrantedAuthority> authorities;
+//    private Collection<? extends GrantedAuthority> authorities;
 
     private List<UserSiteMapVO> userSiteMapList;
 
 
-    public static UserPrincipalVO create(SysUsers user, List<UserRoleVO> roles, List<UserSiteMapVO> sysSiteMaps) {
+    public static UserPrincipalVO create(SysUsers user, List<UserRoleVO> roles) {
 
-        List<GrantedAuthority> authorities = sysSiteMaps.stream().map(permission -> new SimpleGrantedAuthority(permission.getName())).collect(Collectors.toList());
+//        List<GrantedAuthority> authorities = sysSiteMaps.stream().map(permission -> new SimpleGrantedAuthority(permission.getName())).collect(Collectors.toList());
 
         return new UserPrincipalVO(user.getId(), user.getLoginName(), user.getLoginPwd(), user.getRealName(), user.getGender(), user.getPhoneNumber(),
-                user.getRemark(), user.getIsLocked(), user.getIsDeleted(), roles, authorities, sysSiteMaps);
+                user.getRemark(), user.getIsLocked(), user.getIsDeleted(), roles, null);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return null;
     }
 
     @Override

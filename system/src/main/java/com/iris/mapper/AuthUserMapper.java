@@ -23,40 +23,4 @@ public interface AuthUserMapper {
      * @return {@link UserRoleVO}
      */
     List<UserRoleVO> getRoles(@Param("userId") String userId);
-
-//    /**
-//     * 组织部门
-//     * @param userId 用户ID
-//     * @return {@link UserOrganizationVO}
-//     */
-//    List<UserOrganizationVO> getOrganizationList(@Param("userId") String userId);
-//
-//    /**
-//     * 查询菜单
-//     * @param userId 用户ID
-//     * @return {@link UserSiteMapVO}
-//     */
-//    List<UserSiteMapVO> getUserSiteMapList(@Param("userId") String userId);
-//
-//    /**
-//     * 校验员工编号是否正确
-//     * @param userId 用户ID
-//     * @param employeeCode 员工Code
-//     * @return
-//     */
-//    Boolean employeeCodeIsCorrect(@Param("userId") String userId, @Param("employeeCode") String employeeCode);
-//
-//    /**
-//     * 验证是否是平台用户
-//     * @param userId 用户ID
-//     * @return
-//     */
-//    Integer isPlatformUser(@Param("userId") String userId);
-//
-//    /**
-//     * 根据userID获取员工信息
-//     * @param usersId 用户ID
-//     * @return
-//     */
-//    EmployeeInfoVO getEmployeeInfo(String usersId);
 }

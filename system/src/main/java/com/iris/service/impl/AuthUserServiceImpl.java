@@ -76,10 +76,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         //获取用户角色
         List<UserRoleVO> roleList = authUserMapper.getRoles(usersId);
 
-        //TODO 获取菜单权限 authUserMapper.getUserSiteMapList(usersId);
-        List<UserSiteMapVO> siteMapList = new ArrayList<>(0);
-
-        return UserPrincipalVO.create(sysUsers, roleList, siteMapList);
+        return UserPrincipalVO.create(sysUsers, roleList);
     }
 
     /**
