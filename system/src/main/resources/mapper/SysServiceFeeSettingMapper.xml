@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysServiceFeeSettingMapper">
+
+    <select id="getList" resultType="com.iris.model.vo.system.SysServiceFeeSettingVO">
+
+        select list.id, list.setting_type, list.settingTypeName, list.proportion, list.is_locked, list.remark,
+                list.is_deleted,list.created_by, list.created_time, list.modified_by, list.modified_time
+        from (
+            select ssfs.id, ssfs.setting_type, sc.name settingTypeName, ssfs.proportion, ssfs.is_locked, ssfs.remark,
+                    ssfs.is_deleted, ssfs.created_by, ssfs.created_time, ssfs.modified_by, ssfs.modified_time
+            from sys_service_fee_setting ssfs
+                    left join sys_code sc on ssfs.setting_type = sc.value and sc.is_deleted = 0
+        ) list
+        <where>
+            list.is_deleted = 0
+            <if test="sysServiceFeeSettingListDTO.settingType != null and sysServiceFeeSettingListDTO.settingType != ''">
+               and list.setting_type = #{sysServiceFeeSettingListDTO.settingType}
+            </if>
+            <if test="sysServiceFeeSettingListDTO.isLocked != null">
+               and list.is_locked = #{sysServiceFeeSettingListDTO.isLocked}
+            </if>
+        </where>
+        order by list.created_time desc
+    </select>
+
+    <select id="getDetail" resultType="com.iris.model.vo.system.SysServiceFeeSettingVO">
+
+        select ssfs.id, ssfs.setting_type, sc.name settingTypeName, ssfs.proportion, ssfs.is_locked, ssfs.remark,
+                    ssfs.is_deleted, ssfs.created_by, ssfs.created_time, ssfs.modified_by, ssfs.modified_time
+        from sys_service_fee_setting ssfs
+                left join sys_code sc on ssfs.setting_type = sc.value and sc.is_deleted = 0
+        where ssfs.id = #{id} and ssfs.is_deleted = 0
+    </select>
+</mapper>

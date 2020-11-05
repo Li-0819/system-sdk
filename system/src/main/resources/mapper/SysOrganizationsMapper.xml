@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysOrganizationsMapper">
+
+    <resultMap id="SysOrganizationsMapBaseVO" type="com.iris.model.vo.system.SysOrganizationsMapBaseVO">
+        <id property="id" column="id" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="is_locked" jdbcType="INTEGER" property="isLocked" />
+        <result column="sequence" jdbcType="INTEGER" property="sequence" />
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="modified_by" jdbcType="VARCHAR" property="modifiedBy"/>
+        <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime"/>
+
+        <association property="usersListVO" javaType="com.iris.model.vo.system.UsersListVO">
+            <id column="user_id" property="id"/>
+            <result column="login_name" property="loginName"/>
+            <result column="real_name" property="realName"/>
+            <result column="user_gender" property="gender"/>
+            <result column="user_genderName" property="genderName"/>
+            <result column="phone_number" property="phoneNumber"/>
+            <result column="user_remark" property="remark"/>
+            <result column="is_locked" property="isLocked"/>
+            <result column="user_createBy" property="createdBy"/>
+            <result column="user_createdTime" property="createdTime"/>
+            <result column="user_modifiedBy" property="modifiedBy"/>
+            <result column="user_modifiedTime" property="modifiedTime"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="SysOrganizationsListVO" type="com.iris.model.vo.system.SysOrganizationsListVO" extends="SysOrganizationsMapBaseVO">
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
+
+        <collection property="children" column="{sysOrganizationsListDTO.parentId = id}" ofType="com.iris.model.vo.system.Children" select="getList">
+        </collection>
+    </resultMap>
+
+    <resultMap id="SysOrganizationsDetailVO" type="com.iris.model.vo.system.SysOrganizationsListVO" extends="SysOrganizationsMapBaseVO">
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
+
+        <collection property="children" column="{parentId = id}" ofType="com.iris.model.vo.system.Children" select="getDetail">
+        </collection>
+    </resultMap>
+
+    <select id="getList" resultMap="SysOrganizationsListVO">
+
+        select so.id, so.parent_id, so.code, so.parent_code, so.name, so.sequence, so.remark, so.is_locked, so.is_deleted,
+                so.created_by, so.created_time, so.modified_by, so.modified_time
+        from sys_organizations so
+        <where>
+                so.is_deleted = 0
+            <if test="sysOrganizationsListDTO.code != null and sysOrganizationsListDTO.code != ''">
+                and so.code = #{sysOrganizationsListDTO.code}
+            </if>
+            <if test="sysOrganizationsListDTO.name != null and sysOrganizationsListDTO.name != ''">
+                and so.name like concat('%',#{sysOrganizationsListDTO.name},'%')
+            </if>
+            <if test="sysOrganizationsListDTO.startTime != null and sysOrganizationsListDTO.startTime != ''">
+                and so.created_time &gt;= #{sysOrganizationsListDTO.startTime}
+            </if>
+            <if test="sysOrganizationsListDTO.endTime != null and sysOrganizationsListDTO.endTime != ''">
+                and so.created_time &lt;= #{sysOrganizationsListDTO.endTime}
+            </if>
+            <choose>
+                <when test="sysOrganizationsListDTO.parentId != null and sysOrganizationsListDTO.parentId != ''">
+                    and so.parent_id = #{sysOrganizationsListDTO.parentId}
+                </when>
+                <otherwise>
+                    and (so.parent_id is null or so.parent_id = '')
+                    <if test="sysOrganizationsListDTO.organizationId != null and sysOrganizationsListDTO.organizationId != ''">
+                        and so.id = #{sysOrganizationsListDTO.organizationId,jdbcType=VARCHAR}
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+        order by so.sequence, so.created_time desc
+    </select>
+
+    <select id="getDetail" resultMap= "SysOrganizationsDetailVO">
+
+        select so.id, so.parent_id, so.code, so.parent_code, so.name, so.sequence, so.remark, so.is_locked, so.is_deleted,
+                so.created_by, so.created_time, so.modified_by, so.modified_time,
+                su.remark user_remark, su.is_locked, su.created_by user_createdBy, su.modified_by user_modifiedBy,
+                su.modified_time user_modifiedTime, su.modified_by user_modifiedBy
+        from sys_organizations so
+            left join sys_user_in_organization suio on suio.is_deleted = 0 and suio.organization_id = so.id
+            left join sys_users su on su.is_deleted = 0 and su.id = suio.user_id and su.is_default = 1
+         where so.is_deleted = 0 and so.id = #{id}
+        <choose>
+            <when test="parentId != null and parentId != ''">
+                and so.parent_id = #{parentId}
+            </when>
+            <otherwise>
+                and so.id  = #{id}
+            </otherwise>
+        </choose>
+        group by so.id
+    </select>
+
+    <select id="checkRepeat" resultType="java.lang.Integer">
+
+        select count(so.id)
+        from sys_organizations so
+        where so.is_deleted = 0
+        <choose>
+            <when test="parentId != null and parentId != ''">
+                and so.parent_id = #{parentId}
+            </when>
+            <otherwise>
+                and (so.parent_id = '' or so.parent_id is null)
+            </otherwise>
+        </choose>
+        and (so.code = #{code} or so.name = #{name})
+        <if test="id != null and id != ''">
+            and so.id != #{id}
+        </if>
+    </select>
+
+    <update id="updateIsLockedById">
+        update sys_organizations set sys_organizations.is_locked = #{isLocked} where id = #{id}
+    </update>
+
+</mapper>

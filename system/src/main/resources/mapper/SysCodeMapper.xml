@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysCodeMapper">
+
+    <resultMap id="SysCodeBaseMateVO" type="com.iris.model.vo.system.SysCodeBaseMateVO">
+        <id property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="value" column="value"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="sequence" column="sequence"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="modifiedBy" column="modified_by"/>
+        <result property="modifiedTime" column="modified_time"/>
+    </resultMap>
+
+    <resultMap id="getList" type="com.iris.model.vo.system.SysCodeVO" extends="SysCodeBaseMateVO">
+        <collection property="children" ofType="com.iris.model.vo.system.Children"
+                    column="{sysCodeListDTO.type = code}" select="getList">
+        </collection>
+    </resultMap>
+
+    <select id="getList" resultMap="getList">
+
+        select sc.id, sc.code, sc.name, sc.type, sc.value,sc.sequence, sc.is_deleted, sc.created_by, sc.created_time, sc.modified_by, sc.modified_time
+        from sys_code sc
+        where sc.is_deleted = 0
+        <choose>
+            <when test="sysCodeListDTO.type != null and sysCodeListDTO.type != null">
+               and sc.type = #{sysCodeListDTO.type}
+            </when>
+            <otherwise>
+               and (sc.type is null or sc.type = '')
+            </otherwise>
+        </choose>
+        <if test="sysCodeListDTO.name != null and sysCodeListDTO.name != ''">
+            and sc.name like concat('%',#{sysCodeListDTO.name},'%')
+        </if>
+        <if test="sysCodeListDTO.value != null and sysCodeListDTO.value != ''">
+            and sc.value = #{sysCodeListDTO.value}
+        </if>
+        order by sc.sequence
+    </select>
+
+    <select id="getNameByValue" resultType="java.lang.String">
+        select group_concat(sc.name)
+        from sys_code sc
+        where sc.value
+        in
+        <foreach collection="values"  item="value" open="("  separator="," close=")" index="index">
+            #{value}
+        </foreach>
+        group by sc.type
+
+    </select>
+</mapper>

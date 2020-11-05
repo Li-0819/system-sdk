@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ICommonMapper">
+
+    <insert id="insertUserInRoles">
+
+        insert into sys_user_in_role (id, user_id, role_id)
+        value
+        <foreach collection="roleIds" item="roleId" separator="," index="index">
+            (
+            md5(replace(uuid(), '-', '')),
+            #{userId, jdbcType=VARCHAR},
+            #{roleId, jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertUserInOrganization">
+
+        insert into sys_user_in_organization (id, user_id, organization_id)
+        value
+        <foreach collection="organizationIds" item="organizationId" separator="," index="index">
+            (
+            md5(replace(uuid(), '-', '')),
+            #{userId, jdbcType=VARCHAR},
+            #{organizationId, jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertUserInPosition">
+
+        insert into sys_user_in_position (id, user_id, position_id)
+        value
+        <foreach collection="positionIds" item="positionId" separator="," index="index">
+            (
+            md5(replace(uuid(), '-', '')),
+            #{userId, jdbcType=VARCHAR},
+            #{positionId, jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+</mapper>

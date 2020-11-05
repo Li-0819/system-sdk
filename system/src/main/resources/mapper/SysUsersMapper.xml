@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysUsersMapper">
+
+    <resultMap id="usersDetailVO" type="com.iris.model.vo.system.UsersDetailVO">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="login_name" jdbcType="VARCHAR" property="loginName"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="gender" jdbcType="VARCHAR" property="gender"/>
+        <result column="genderName" jdbcType="VARCHAR" property="genderName"/>
+        <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="is_deleted" jdbcType="VARCHAR" property="isDeleted"/>
+        <result column="is_locked" jdbcType="INTEGER" property="isLocked"/>
+        <result column="is_default" jdbcType="INTEGER" property="isDefault"/>
+        <result column="created_by" jdbcType="TIMESTAMP" property="createdBy"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="modified_by" jdbcType="TIMESTAMP" property="modifiedBy"/>
+        <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime"/>
+
+        <collection property="rolesBaseVOS" ofType="com.iris.model.vo.system.RolesBaseVO">
+            <id column="sr_id" jdbcType="VARCHAR" property="id"/>
+            <id column="sr_name" jdbcType="VARCHAR" property="name"/>
+            <id column="sr_code" jdbcType="VARCHAR" property="code"/>
+            <id column="sr_type" jdbcType="VARCHAR" property="type"/>
+            <id column="sc_name" jdbcType="VARCHAR" property="typeName"/>
+        </collection>
+
+        <collection property="positionBaseVOS" ofType="com.iris.model.vo.system.PositionBaseVO">
+            <id column="sp_id" jdbcType="VARCHAR" property="id"/>
+            <id column="organizations_id" jdbcType="VARCHAR" property="organizationsId"/>
+            <id column="position_name" jdbcType="VARCHAR" property="positionName"/>
+        </collection>
+    </resultMap>
+
+    <select id="getList" resultType="com.iris.model.vo.system.UsersListVO">
+
+        select list.id, list.login_name, list.real_name, list.gender, list.genderName, list.phone_number, list.remark, list.is_locked, list.is_deleted,
+                list.created_by, list.created_time, list.modified_by, list.modified_time, group_concat(list.sr_name) roleNameJoin,
+                list.is_default
+        from (
+        select su.id, su.login_name, su.real_name, su.gender, sc1.name genderName, su.phone_number, su.remark, su.is_locked,
+                su.is_deleted, su.created_by, su.created_time, su.modified_by, su.modified_time, sr.name sr_name, su.is_default
+        from sys_users su
+        left join sys_user_in_role suir on suir.is_deleted = 0 and su.id = suir.user_id
+        left join sys_roles sr on sr.is_deleted = 0 and sr.id = suir.role_id
+        left join sys_code sc on sc.is_deleted = 0 and sr.type = sc.value
+        left join sys_code sc1 on sc1.is_deleted = 0 and su.gender = sc1.value
+        ) list
+        <where>
+            list.is_deleted = 0 and list.is_default = 0
+            <if test="userListDTO.loginName != null and userListDTO.loginName != ''">
+                and list.login_name like concat('%',#{userListDTO.loginName},'%')
+            </if>
+            <if test="userListDTO.realName != null and userListDTO.realName != ''">
+                and list.real_name like concat('%',#{userListDTO.realName},'%')
+            </if>
+            <if test="userListDTO.startTime != null and userListDTO.startTime != ''">
+                and list.created_time &gt;= #{userListDTO.startTime}
+            </if>
+            <if test="userListDTO.endTime != null and userListDTO.endTime != ''">
+                and list.created_time &lt;= #{userListDTO.endTime}
+            </if>
+            <if test="userListDTO.endTime != null and userListDTO.endTime != ''">
+                and list.created_time &lt;= #{userListDTO.endTime}
+            </if>
+        </where>
+        group by list.id
+        order by list.created_time desc
+    </select>
+
+    <select id="getDetail" resultMap="usersDetailVO">
+
+        select su.id, su.login_name, su.real_name, su.gender, sc1.name genderName, su.phone_number, su.remark, su.is_locked, su.is_deleted, su.created_by,
+               su.created_time, su.modified_by, su.modified_time, sr.id sr_id, sr.name sr_name, sr.code sr_code, sr.type sr_type, sc.name sc_name,
+               sp.id sp_id, sp.organizations_id, sp.position_name, su.is_deleted
+        from sys_users su
+                 left join sys_user_in_role suir on suir.is_deleted = 0 and su.id = suir.user_id
+                 left join sys_roles sr on sr.is_deleted = 0 and sr.id = suir.role_id
+                 left join sys_code sc on sc.is_deleted = 0 and sr.type = sc.value
+                 left join sys_code sc1 on sc1.is_deleted = 0 and su.gender = sc1.value
+                 left join sys_user_in_position suip on suip.is_deleted = 0 and su.id = suip.user_id
+                 left join sys_position sp on sp.is_deleted = 0 and sp.id = suip.position_id
+        where su.id = #{id} and su.is_deleted = 0 and su.is_locked = 0
+    </select>
+</mapper>

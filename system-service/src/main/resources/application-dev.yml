@@ -1,0 +1,130 @@
+server:
+  port: 9001
+
+swagger:
+  enable: true
+  host: 192.168.0.111
+  agreement:
+    - "http"
+logo:
+  path: /home/app/files/truefull/logo.jpg
+
+user:
+  loginPwd: "123456"
+
+area:
+  key:
+    offset: 100000
+
+jwt:
+  config:
+    key: business
+    ttl: 600000
+    remember: 604800000
+    expire: 300000
+spring:
+  session:
+    store-type: redis
+  datasource:
+    druid:
+      url: jdbc:mysql://124.71.150.188:3600/ykyz-dev?useSSL=false
+      username: yyk_dev
+      password: Yun2009#%!YiKeDev
+  redis:
+    host: 124.71.169.25
+    port: 6397
+    password: 1252131684042207233
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8   #最大连接数据库连接数,设 0 为没有限制
+        max-idle: 8     #最大等待连接中的数量,设 0 为没有限制
+        max-wait: 10000ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+        min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
+      shutdown-timeout: 100ms
+    #  rabbitmq:
+    #    host: 192.168.45.146
+    #    port: 5672
+    #    username: kuai0901
+    #    password: kuai930901
+    #虚拟host 可以不设置,使用server默认host
+#    virtual-host: /
+#  security:
+#    user:
+#      name: admin
+#      password: 1
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+file:
+  server-dir: E:\fruit
+  request-dir: http://localhost/9025
+  is-oss: false
+
+aliyun:
+  oss:
+    # 自定义根目录
+    root-dir: fruit
+    # OSS 访问域名
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    # AccessKey ID
+    access-key-id:
+    # AccessKey Secret
+    access-key-secret:
+    # 存储空间
+    bucket-name:
+    # client访问域名 https://xxx.com
+    access-url: https://
+  media:
+    # 地域ID
+    region-id: cn-hangzhou
+    # AccessKey ID
+    access-key-id:
+    # AccessKey Secret
+    access-key-secret:
+    # OSS Bucket
+    bucket:
+    # OSS 数据中心
+    location: oss-cn-hangzhou
+    # 作业输出配置
+    output-object:
+    # 转码输出Bucket所在的OSS Location
+    output-location: oss-cn-hangzhou
+    # 管道ID 若需要异步通知，须保证此管道绑定了可用的消息主题。
+    pipeline-id: 4d69b7fb1c3f4a07a0bc47dc62a23e9a
+    # 自定义模板
+    template-id: 58b2446935124b6d9cec5205332fb323
+#配置日志级别
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: error
+
+custom:
+  config:
+    ignores:
+      get:
+#        - "/auth/getCurrentUser"
+      # 需要过滤的 post 请求
+      post:
+        - "/auth/login"
+        - "/auth/logout"
+#        - "/auth/resetPassword"
+        - "sysUsers/edit"
+      # 需要过滤的请求，不限方法
+      pattern:
+        - "/test/*"
+        - "/"
+        - "/csrf"
+#        - "/**"
+
+#wx-pay:
+#  config:
+#    key: 3a8298d9696d667ace76a60c95df037c
+#    mch-id: 1493819852
+#    app-id: wxf1851cce70fce364
+#    cert-path: R:\pay\wxpay\cert\cert\apiclient_cert.p12
+#    notify-url: http://192.168.0.117:9008/test/payNotify
+#    sp-bill-create-ip: 47.110.241.252

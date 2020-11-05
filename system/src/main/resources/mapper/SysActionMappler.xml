@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysActionMapper">
+
+    <select id="getList" resultType="com.iris.model.vo.system.SysActionVO">
+
+        select sa.id, sa.sitemap_id sitemapId, sa.name, sa.title, sa.`key`, sa.area, sa.description, sa.sequence,
+                sa.is_deleted, sa.created_by, sa.created_time, sa.modified_by, sa.modified_time
+        from sys_action sa
+        where sa.is_deleted = 0
+        <if test="sysActionListDTO.sitemapId != null and sysActionListDTO.sitemapId != ''">
+            and sa.sitemap_id = #{sysActionListDTO.sitemapId,jdbcType=VARCHAR}
+        </if>
+        <if test="sysActionListDTO.name != null and sysActionListDTO.name != ''">
+            and sa.name like concat('%',#{sysActionListDTO.name},'%')
+        </if>
+        <if test="sysActionListDTO.title != null and sysActionListDTO.title != ''">
+            and sa.title like concat('%',#{sysActionListDTO.title},'%')
+        </if>
+        order by sa.sequence
+
+    </select>
+
+    <select id="getDetail" resultType="com.iris.model.vo.system.SysActionVO">
+
+        select sa.id, sa.sitemap_id sitemapId, sa.name, sa.title, sa.`key`, sa.area, sa.description, sa.sequence,
+                sa.is_deleted, sa.created_by, sa.created_time, sa.modified_by, sa.modified_time
+        from sys_action sa
+        where sa.id = #{id} and sa.is_deleted = 0
+
+    </select>
+</mapper>

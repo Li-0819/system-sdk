@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysMessageTemplateMapper">
+
+    <select id="getList" resultType="com.iris.model.vo.system.SysMessageTemplateVO">
+
+        select list.id, list.type, list.name as typeName, list.code, list.platform_id, list.title, list.content, list.is_enabled,
+               list.is_deleted, list.remark, list.created_by, list.created_time, list.modified_by, list.modified_time
+        from (
+                select smt.id, smt.type, sc.name, smt.code, smt.platform_id, smt.title, smt.content, smt.is_enabled,
+                        smt.is_deleted, smt.remark, smt.created_by, smt.created_time, smt.modified_by, smt.modified_time
+                from sys_message_template smt
+                    left join sys_code sc on smt.type = sc.value and sc.is_deleted = 0
+        ) list
+        <where>
+            list.is_deleted = 0
+            <if test="dto.platformId != null and dto.platformId != ''">
+                and list.platform_id = #{dto.platformId}
+            </if>
+            <if test="dto.type != null and dto.type != ''">
+                and list.type = #{dto.type}
+            </if>
+            <if test="dto.isEnabled != null">
+                and list.is_enabled = #{dto.isEnabled}
+            </if>
+            <if test="dto.title != null and dto.title != ''">
+                and list.title like concat('%',#{dto.title},'%')
+            </if>
+            <if test="dto.startTime != null and dto.startTime != ''">
+                and list.created_time &gt;= #{dto.startTime}
+            </if>
+            <if test="dto.endTime != null and dto.endTime != ''">
+                and list.created_time &lt;= #{dto.endTime}
+            </if>
+        </where>
+        order by list.created_time desc
+    </select>
+
+    <select id="getDetail" resultType="com.iris.model.vo.system.SysMessageTemplateVO">
+
+        select smt.id, smt.type, sc.name as typeName, smt.code, smt.platform_id, smt.title, smt.content, smt.is_enabled,
+               smt.is_deleted, smt.remark, smt.created_by, smt.created_time, smt.modified_by, smt.modified_time
+        from sys_message_template smt
+            left join sys_code sc on smt.type = sc.value
+        where smt.id = #{id} and sc.is_deleted = 0
+    </select>
+</mapper>

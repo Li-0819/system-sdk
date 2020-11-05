@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysPositionMapper">
+
+    <select id="getList" resultType="com.iris.model.vo.system.SysPositionVO">
+
+        select list.id, list.organizations_id, list.organizationsName, list.position_name, list.sequence, list.remark, list.is_locked,
+                list.is_deleted, list.created_by, list.created_time, list.modified_by, list.modified_time
+        from (
+            select sp.id, sp.organizations_id, so.name organizationsName, sp.position_name, sp.sequence, sp.remark, sp.is_locked,
+                    sp.is_deleted, sp.created_by, sp.created_time, sp.modified_by, sp.modified_time
+            from sys_position sp
+                    left join sys_organizations so on so.is_deleted = 0 and so.id = sp.organizations_id
+        ) list
+        <where>
+                list.is_deleted = 0
+            <if test="sysPositionListDTO.organizationsId != null and sysPositionListDTO.organizationsId != ''">
+                and list.organizations_id = #{sysPositionListDTO.organizationsId}
+            </if>
+            <if test="sysPositionListDTO.positionName != null and sysPositionListDTO.positionName != ''">
+                and list.position_name like concat('%',#{sysPositionListDTO.positionName},'%')
+            </if>
+            <if test="sysPositionListDTO.startTime != null and sysPositionListDTO.startTime != ''">
+                and list.created_time &gt;= #{sysPositionListDTO.startTime}
+            </if>
+            <if test="sysPositionListDTO.endTime != null and sysPositionListDTO.endTime != ''">
+                and list.created_time &lt;= #{sysPositionListDTO.endTime}
+            </if>
+        </where>
+        order by list.sequence
+    </select>
+
+    <select id="getDetail" resultType="com.iris.model.vo.system.SysPositionVO">
+
+         select sp.id, sp.organizations_id, so.name organizationsName, sp.position_name, sp.sequence, sp.remark, sp.is_locked,
+                    sp.is_deleted, sp.created_by, sp.created_time, sp.modified_by, sp.modified_time
+            from sys_position sp
+                    left join sys_organizations so on so.is_deleted = 0 and so.id = sp.organizations_id
+         where sp.id = #{id} and sp.is_deleted = 0
+    </select>
+</mapper>

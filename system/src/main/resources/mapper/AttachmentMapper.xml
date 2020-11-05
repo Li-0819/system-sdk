@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.AttachmentMapper">
+
+    <select id="getAttachesByRefId" resultType="com.iris.model.vo.system.SysAttachInfoVO">
+
+        select sai.id, sai.ref_id, sai.attach_type, sc.name attachTypeName, sai.attach_name,
+               sai.path, sai.transform_path, sai.extension, sai.sequence, sai.is_deleted,
+               sai.created_by, sai.created_time uploadTime, sai.modified_by, sai.modified_time
+        from sys_attach_info sai
+            left join sys_code sc on sc.value = sai.attach_type and sc.is_deleted = 0
+        where sai.is_deleted = 0 and sai.ref_id = #{refId}
+        order by sai.sequence
+    </select>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysOperationLogMapper">
+
+    <select id="getList" resultType="com.iris.model.vo.system.SysOperationLogVO">
+
+        select sol.id, sol.operation_title, sol.operation_type, sol.request_ip, sol.domain, sol.request_uri,
+               sol.request_method, sol.request_params, sol.execution_time, sol.is_deleted, sol.created_by,
+               sol.created_time, sol.modified_by, sol.modified_time
+        from sys_operation_log sol
+        <where>
+            sol.is_deleted = 0
+            <if test="dto.operationTitle != null and dto.operationTitle != ''">
+                and sol.operation_title like concat('%',#{dto.operationTitle},'%')
+            </if>
+            <if test="dto.requestParams != null and dto.requestParams != ''">
+                and sol.request_params like concat('%',#{dto.requestParams},'%')
+            </if>
+            <if test="dto.startTime != null and dto.startTime != ''">
+                and sol.created_time &gt;= #{dto.startTime}
+            </if>
+            <if test="dto.endTime != null and dto.endTime != ''">
+                and sol.created_time &lt;= #{dto.endTime}
+            </if>
+        </where>
+        order by sol.created_time desc
+    </select>
+</mapper>

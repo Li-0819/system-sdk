@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ISysSignInMoodLibraryInfoClassificationMapper">
+
+    <select id="getList" resultType="com.iris.model.vo.system.SysSignInMoodLibraryInfoClassificationVO">
+
+        select ssimlic.id, ssimlic.code, ssimlic.name, ssimlic.sequence, ssimlic.is_deleted, ssimlic.created_by,
+                ssimlic.created_time, ssimlic.modified_by, ssimlic.modified_time
+
+        from sys_sign_in_mood_library_info_classification ssimlic
+
+        <where>
+            ssimlic.is_deleted = 0
+            <if test="listDTO.code != null and listDTO.code != ''">
+                and ssimlic.code like concat('%',#{listDTO.code,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="listDTO.name != null and listDTO.name != ''">
+                and ssimlic.name like concat('%',#{listDTO.name,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by ssimlic.sequence, ssimlic.created_time desc
+    </select>
+
+    <select id="getDetail" resultType="com.iris.model.vo.system.SysSignInMoodLibraryInfoClassificationVO">
+
+        select ssimlic.id, ssimlic.code, ssimlic.name, ssimlic.sequence, ssimlic.is_deleted, ssimlic.created_by,
+                ssimlic.created_time, ssimlic.modified_by, ssimlic.modified_time, ssimlic.remark
+
+        from sys_sign_in_mood_library_info_classification ssimlic
+
+        where id = #{id,jdbcType=VARCHAR} and is_deleted = 0
+    </select>
+</mapper>

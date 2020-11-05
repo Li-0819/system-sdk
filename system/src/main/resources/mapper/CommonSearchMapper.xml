@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.ICommonSearchMapper">
+
+    <resultMap id="enumProvinceDetailDropDownVO" type="com.iris.model.vo.EnumProvinceDetailDropDownVO">
+        <result column="code"  jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+
+        <collection property="enumCityList" resultMap="enumCity"/>
+    </resultMap>
+
+    <resultMap id="enumCity" type="com.iris.model.vo.EnumProvinceDetailDropDownVO$EnumCity">
+        <result column="ec_code"  jdbcType="VARCHAR" property="code"/>
+        <result column="ec_name" jdbcType="VARCHAR" property="name"/>
+
+        <collection property="enumCityList" ofType="com.iris.model.vo.EnumProvinceDetailDropDownVO$EnumCity$EnumCounty">
+            <result column="ect_code"  jdbcType="VARCHAR" property="code"/>
+            <result column="ect_name" jdbcType="VARCHAR" property="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="getSysCodeByType" resultType="com.iris.model.vo.SysCodeDropDownVO">
+
+        select id, value, name
+        from sys_code
+        where type = #{type} and is_deleted = 0
+        order by sequence
+    </select>
+
+    <select id="getAreaDropDownListByCode" resultMap="enumProvinceDetailDropDownVO">
+
+        select ep.code, ep.name, ec.code ec_code, ec.name ec_name, ect.code ect_code, ect.name ect_name
+        from enum_province ep
+        left join enum_city ec on ec.province_id = ep.id
+        left join enum_county ect on ect.city_id = ec.id
+        <if test="code != null and code != ''">
+            where ep.code = #{code}
+        </if>
+    </select>
+</mapper>

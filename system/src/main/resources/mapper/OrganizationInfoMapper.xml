@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iris.mapper.IOrganizationExtraInfoMapper">
+
+    <sql id="commonColumns">
+        oei.id, oei.organization_name, oei.organization_short_name, oei.organization_class, sc.name organizationClassName, oei.is_deleted,
+        oei.organization_logo, oei.organization_size, sc2.name organizationSizeName, oei.legal_person, oei.legal_person_number, oei.organization_status,
+        sc3.name organizationStatusName, oei.region, oei.business_scope, oei.is_enterprise_auth, oei.
+        oei.created_by, oei.created_time, oei.modified_by, oei.modified_time
+    </sql>
+
+<!--    <resultMap id="OrganizationInfoMapBaseVO" type="com.iris.model.vo.organization.OrganizationExtraInfoMapBaseVO">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="organizationName" column="organization_name"/>-->
+<!--        <result property="organizationShortName" column="organization_short_name"/>-->
+<!--        <result property="organizationClass" column="organization_class"/>-->
+<!--        <result property="organizationClassName" column="organizationClassName"/>-->
+<!--        <result property="organizationLogo" column="organization_logo"/>-->
+<!--        <result property="organizationSize" column="organization_size"/>-->
+<!--        <result property="organizationSizeName" column="organizationSizeName"/>-->
+<!--        <result property="legalPerson" column="legal_person"/>-->
+<!--        <result property="legalPersonNumber" column="legal_person_number"/>-->
+<!--        <result property="organizationStatus" column="organization_status"/>-->
+<!--        <result property="organizationStatusName" column="organizationStatusName"/>-->
+<!--        <result property="region" column="region"/>-->
+<!--        <result property="businessScope" column="business_scope"/>-->
+<!--        <result property="isEnterpriseAuth" column="is_enterprise_auth"/>-->
+<!--        <result property="isDeleted" column="is_deleted"/>-->
+<!--        <result property="createdBy" column="created_by"/>-->
+<!--        <result property="createdTime" column="created_time"/>-->
+<!--        <result property="modifiedBy" column="modified_by"/>-->
+<!--        <result property="modifiedTime" column="modified_time"/>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap id="OrganizationInfoListVO" type="com.iris.model.vo.organization.OrganizationExtraInfoListVO" extends="OrganizationInfoMapBaseVO">-->
+<!--        <result property="parentId" column="parent_id"/>-->
+
+<!--        <collection property="children"-->
+<!--                    column="{organizationInfoListDTO.parentId = id}"-->
+<!--                    ofType="com.iris.model.vo.system.Children"-->
+<!--                    select="getList">-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap id="OrganizationInfoDetailVO" type="com.iris.model.vo.organization.OrganizationExtraInfoDetailVO" extends="OrganizationInfoMapBaseVO">-->
+<!--        <result property="parentId" column="parent_id"/>-->
+<!--        <result property="organizationCode" column="organization_code"/>-->
+<!--        <result property="gender" column="gender"/>-->
+<!--        <result property="genderName" column="genderName"/>-->
+<!--        <result property="customerPhone" column="customer_phone"/>-->
+<!--        <result property="establishmentDate" column="establishment_date"/>-->
+<!--        <result property="longitude" column="longitude"/>-->
+<!--        <result property="latitude" column="latitude"/>-->
+<!--        <result property="address" column="address"/>-->
+<!--        <result property="organizationProfile" column="organization_profile"/>-->
+<!--        <result property="remark" column="remark"/>-->
+<!--        <result property="unifiedCreditCode" column="unified_credit_code"/>-->
+<!--        <result property="enumCodesStr" column="enumCodesStr"/>-->
+
+<!--        <collection property="children"-->
+<!--                    column="{parentId = id}"-->
+<!--                    ofType="com.iris.model.vo.system.Children"-->
+<!--                    select="getDetail">-->
+<!--        </collection>-->
+
+<!--        <collection property="employeeInfoRelevanceVOS" ofType="com.iris.model.vo.EmployeeInfoRelevanceVO" resultMap="employeeInfoRelevanceVOS">-->
+<!--        </collection>-->
+
+<!--    </resultMap>-->
+<!--    -->
+<!--    <resultMap id="employeeInfoRelevanceVOS" type="com.iris.model.vo.EmployeeInfoRelevanceVO">-->
+<!--        <id property="id" column="eiId"/>-->
+<!--        <result property="employeeName" column="employee_name"/>-->
+<!--        <result property="employeeClass" column="employee_class"/>-->
+<!--        <result property="employeeCode" column="employee_code"/>-->
+<!--        <result property="employeeClassName" column="employeeClassName"/>-->
+<!--        <result property="gender" column="eiGender"/>-->
+<!--        <result property="genderName" column="eiGenderName"/>-->
+<!--        <result property="mobileNumber" column="mobileNumber"/>-->
+<!--        <result property="employeeStatus" column="employee_status"/>-->
+<!--        <result property="employeeStatusName" column="employeeStatusName"/>-->
+<!--        <result property="isAuth" column="is_auth"/>-->
+<!--&lt;!&ndash;        <collection property="memberInfoRelevanceVOS" ofType="com.iris.model.vo.MemberInfoRelevanceVO">&ndash;&gt;-->
+<!--&lt;!&ndash;            <id property="id" column="miId"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <result property="realName" column="real_name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <result property="nickName" column="nick_name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <result property="gender" column="eiGender"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <result property="genderName" column="eiGenderName"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <result property="memberPhone" column="member_phone"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <result property="isLocked" column="is_locked"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        </collection>&ndash;&gt;-->
+<!--    </resultMap>-->
+
+<!--    <select id="getList" resultMap="OrganizationInfoListVO">-->
+
+<!--        select list.id, list.parent_id, list.organization_name, list.organization_short_name, list.organization_class, list.organizationClassName, list.is_deleted,-->
+<!--                list.organization_logo, list.organization_size, list.organizationSizeName, list.legal_person, list.legal_person_number, list.organization_status,-->
+<!--                list.organizationStatusName, list.region, list.business_scope, list.is_enterprise_auth, list.created_by, list.created_time,-->
+<!--                list.modified_by, list.modified_time, list.created_time-->
+<!--        from (-->
+<!--            select <include refid="commonColumns"></include>-->
+<!--            from organization_extra_info oei-->
+<!--                left join sys_code sc on sc.is_deleted = 0 and sc.value = oei.organization_class-->
+<!--                left join sys_code sc2 on sc2.is_deleted = 0 and sc2.value = oei.organization_size-->
+<!--                left join sys_code sc3 on sc3.is_deleted = 0 and sc3.value = oei.organization_status-->
+<!--        ) list-->
+<!--        <where>-->
+<!--            list.is_deleted = 0-->
+<!--            <if test="organizationInfoListDTO.organizationName != null and organizationInfoListDTO.organizationName != ''">-->
+<!--                and list.organization_name like concat('%',#{organizationInfoListDTO.organizationName},'%')-->
+<!--            </if>-->
+<!--            <if test="organizationInfoListDTO.organizationClass != null and organizationInfoListDTO.organizationClass != ''">-->
+<!--                and list.organization_class = #{organizationInfoListDTO.organizationClass}-->
+<!--            </if>-->
+<!--            <if test="organizationInfoListDTO.organizationSize != null and organizationInfoListDTO.organizationSize != ''">-->
+<!--                and list.organization_size = #{organizationInfoListDTO.organizationSize}-->
+<!--            </if>-->
+<!--            <if test="organizationInfoListDTO.startTime != null and organizationInfoListDTO.startTime != ''">-->
+<!--                and list.created_time &gt;= #{organizationInfoListDTO.startTime}-->
+<!--            </if>-->
+<!--            <if test="organizationInfoListDTO.endTime != null and organizationInfoListDTO.endTime != ''">-->
+<!--                and list.created_time &lt;= #{organizationInfoListDTO.endTime}-->
+<!--            </if>-->
+<!--            <choose>-->
+<!--                <when test="organizationInfoListDTO.parentId != null and organizationInfoListDTO.parentId != ''">-->
+<!--                    and list.parent_id = #{organizationInfoListDTO.parentId}-->
+<!--                </when>-->
+<!--                <otherwise>-->
+<!--                    and (list.parent_id is null or list.parent_id = '')-->
+<!--                </otherwise>-->
+<!--            </choose>-->
+<!--        </where>-->
+<!--        order by list.created_time desc-->
+<!--    </select>-->
+
+<!--    <select id="getDetail" resultMap="OrganizationInfoDetailVO">-->
+
+<!--        select oi.business_scope, oi.is_enterprise_auth, oi.gender,sc4.name genderName, oi.organization_code, oi.customer_phone, oi.establishment_date,-->
+<!--                oi.longitude, oi.latitude, oi.remark, oi.address, <include refid="commonColumns"></include>, oi.unified_credit_code,-->
+<!--                ei.id eiId, ei.employee_name, ei.employee_class, ei.employee_code, sc5.name employeeClassName, ei.gender eiGender, sc6.name eiGenderName,-->
+<!--                ei.mobile_number, ei.open_id, ei.employee_status, sc7.name employeeStatusName,ei.is_auth, mi.id miId, mi.real_name, mi.nick_name, mi.gender miGender,-->
+<!--                sc8.name miGenderName, mi.member_phone, mi.open_id, mi.is_locked-->
+<!--        from organization_extra_info oei-->
+<!--            left join sys_code sc on sc.is_deleted = 0 and sc.value = oei.organization_class-->
+<!--            left join sys_code sc2 on sc2.is_deleted = 0 and sc2.value = oei.organization_size-->
+<!--            left join sys_code sc3 on sc3.is_deleted = 0 and sc3.value = oei.organization_status-->
+<!--            left join sys_code sc4 on sc4.is_deleted = 0 and sc4.value = oei.gender-->
+<!--#             left join employee_in_organization eio on eio.is_deleted = 0 and eio.organization_id = oi.id-->
+<!--#             left join employee_info ei on ei.is_deleted = 0 and ei.id = eio.employee_id-->
+<!--#             left join sys_code sc5 on sc5.is_deleted = 0 and sc5.value = ei.employee_class-->
+<!--#             left join sys_code sc6 on sc6.is_deleted = 0 and sc6.value = ei.gender-->
+<!--#             left join sys_code sc7 on sc7.is_deleted = 0 and sc7.value = ei.employee_status-->
+<!--#             left join member_in_employee mie on mie.is_deleted = 0 and mie.employee_id = ei.id-->
+<!--#             left join member_info mi on mi.is_deleted = 0 and mi.id = mie.member_id-->
+<!--#             left join sys_code sc8 on sc8.is_deleted = 0 and sc8.value = mi.gender-->
+<!--        where oei.is_deleted = 0-->
+<!--        <choose>-->
+<!--            <when test="parentId != null and parentId != ''">-->
+<!--                and oi.parent_id = #{parentId}-->
+<!--            </when>-->
+<!--            <otherwise>-->
+<!--                and oi.id  = #{id}-->
+<!--            </otherwise>-->
+<!--        </choose>-->
+<!--    </select>-->
+
+<!--    <update id="audit">-->
+<!--        update organization_info-->
+<!--        set organization_status = #{status}-->
+<!--            <if test="status == '1001-50'">-->
+<!--                , is_enterprise_auth = 1-->
+<!--            </if>-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+</mapper>
