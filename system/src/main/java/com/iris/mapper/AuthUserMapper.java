@@ -42,12 +42,12 @@ public interface AuthUserMapper {
 //    List<UserSiteMapVO> getUserSiteMapList(@Param("userId") String userId);
 
     /**
-     * 校验员工编号是否正确
+     * 校验机构编码是否正确
      * @param userId 用户ID
-     * @param employeeCode 员工Code
+     * @param organizationCode 员工Code
      * @return
      */
-    Boolean employeeCodeIsCorrect(@Param("userId") String userId, @Param("employeeCode") String employeeCode);
+    int organizationCodeIsCorrect(@Param("userId") String userId, @Param("organizationCode") String organizationCode);
 
     /**
      * 验证是否是平台用户

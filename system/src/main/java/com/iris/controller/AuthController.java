@@ -63,15 +63,15 @@ public class AuthController {
 
             String userId = SecurityUtil.getCurrentUser().get(SystemCommonField.ID).toString();
 
-            // 验证员工编号
+            // 验证机构编号
             if (!loginRequest.getIsPlatform()){
 
-                JudgeParam.paramIsNotNull(loginRequest.getEmployeeCode(), SystemMsgConstants.EMPLOYEE_CODE_NOT_FOUNT);
+                JudgeParam.paramIsNotNull(loginRequest.getOrganizationCode(), SystemMsgConstants.ORGANIZATION_CODE_NOT_FOUNT);
 
-                Boolean b = authUserService.employeeCodeIsCorrect(userId, loginRequest.getEmployeeCode());
-                if (null == b || !b){
+                int i = authUserService.organizationCodeIsCorrect(userId, loginRequest.getOrganizationCode());
+                if (i < 1){
 
-                    return ResponseVO.error(SystemMsgConstants.EMPLOYEE_NUMBER_ERROR_OR_USER_INFORMATION_DOES_NOT_EXIST);
+                    return ResponseVO.error(SystemMsgConstants.ORGANIZATIONS_CODE_ERROR_OR_USER_INFORMATION_DOES_NOT_EXIST);
                 }
             }else if (authUserService.isPlatformUser(userId) > 0){
 

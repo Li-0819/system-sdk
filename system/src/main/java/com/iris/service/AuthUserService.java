@@ -57,10 +57,10 @@ public interface AuthUserService extends UserDetailsService {
     /**
      * 校验员工编号是否正确
      * @param userId 用户ID
-     * @param employeeCode 员工Code
+     * @param organizationCode 机构编码
      * @return
      */
-    Boolean employeeCodeIsCorrect(String userId, String employeeCode);
+    int organizationCodeIsCorrect(String userId, String organizationCode);
 
     /**
      * 验证是否是平台用户

@@ -143,8 +143,8 @@ public class SystemMsgConstants {
     public static final String ORGANIZATION_AUDIT_SUCCESS = "机构信息审核成功！";
     public static final String UNIFIED_CREDIT_CODE_NOT_REPEAT = "统一信用代码不能重复！";
     public static final String EMPLOYEE_NAME = "员工名称不能为空！";
-    public static final String EMPLOYEE_CODE_NOT_FOUNT = "员工编号不能为空！";
-    public static final String EMPLOYEE_NUMBER_ERROR_OR_USER_INFORMATION_DOES_NOT_EXIST = "员工编号错误或用户信息不存在！";
+    public static final String ORGANIZATION_CODE_NOT_FOUNT = "机构编号不能为空！";
+    public static final String ORGANIZATIONS_CODE_ERROR_OR_USER_INFORMATION_DOES_NOT_EXIST = "机构编号错误或用户信息不存在！";
     public static final String BIRTH = "出生日期不能为空！";
     public static final String MOBILE_NUMBER = "手机号不能为空！";
     public static final String SUPER_ADMIN_NOT_FOUNT = "机构超级管理员不能为空！";

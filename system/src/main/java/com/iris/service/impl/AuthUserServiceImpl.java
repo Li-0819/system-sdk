@@ -258,13 +258,13 @@ public class AuthUserServiceImpl implements AuthUserService {
     /**
      * 校验员工编号是否正确
      * @param userId 用户ID
-     * @param employeeCode 员工Code
+     * @param organizationCode 员工Code
      * @return
      */
     @Override
-    public Boolean employeeCodeIsCorrect(String userId, String employeeCode) {
+    public int organizationCodeIsCorrect(String userId, String organizationCode) {
 
-        return authUserMapper.employeeCodeIsCorrect(userId, employeeCode);
+        return authUserMapper.organizationCodeIsCorrect(userId, organizationCode);
     }
 
     /**

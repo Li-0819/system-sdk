@@ -25,14 +25,13 @@
         order by organization.sequence
     </select>
 
-    <select id="employeeCodeIsCorrect" resultType="java.lang.Boolean">
+    <select id="organizationCodeIsCorrect" resultType="java.lang.Integer">
 
-        select case when count(ei.id) > 0 then true else 0 end
-            from employee_info ei
-                join member_in_employee_in_user_in_organization mieiuio on mieiuio.user_id = #{userId,jdbcType=VARCHAR} and mieiuio.is_deleted = 0
-                join organization_extra_info oei on oei.is_platform = 0 and oei.is_deleted = 0 and mieiuio.organization_id = oei.organization_id
-            where ei.is_deleted = 0
-              and ei.employee_code = #{employeeCode,jdbcType=VARCHAR}
+        select count(so.id)
+        from sys_organizations so
+               join organization_extra_info oei on oei.is_platform = 0 and oei.is_deleted = 0 and so.id = oei.organization_id
+               join member_in_employee_in_user_in_organization mieiuio on mieiuio.user_id = #{userId,jdbcType=VARCHAR} and mieiuio.is_deleted = 0
+        where so.is_deleted = 0 and so.code = #{organizationCode,jdbcType=VARCHAR}
     </select>
 
     <select id="isPlatformUser" resultType="java.lang.Integer">
