@@ -88,9 +88,9 @@ public class JwtUtil {
         }
 
         JSONArray roles = userPrincipal.getJSONArray("roles");
-        Collection<? extends GrantedAuthority> authorities = userPrincipal.getJSONArray("authorities").toJavaList(GrantedAuthority.class);
+//        Collection<? extends GrantedAuthority> authorities = userPrincipal.getJSONArray("authorities").toJavaList(GrantedAuthority.class);
 
-        return createJWT(rememberMe, userPrincipal.getString("id"), userPrincipal.getString("loginName"), roles, authorities);
+        return createJWT(rememberMe, userPrincipal.getString("id"), userPrincipal.getString("loginName"), roles, null);
     }
 
     /**

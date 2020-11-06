@@ -7,9 +7,7 @@ import com.iris.mapper.ISysRolesMapper;
 import com.iris.model.PageResponseVO;
 import com.iris.model.dto.system.SysRolesEditDTO;
 import com.iris.model.dto.system.SysRolesListDTO;
-import com.iris.model.entity.RoleInOrganization;
 import com.iris.model.entity.SysRoles;
-import com.iris.model.mapper.RoleInOrganizationMapper;
 import com.iris.model.mapper.SysRolesMapper;
 import com.iris.model.vo.system.SysRolesVO;
 import com.iris.service.ISysRolesService;
@@ -34,8 +32,6 @@ import java.util.List;
 public class SysRolesServiceImpl extends ServiceImpl<SysRolesMapper, SysRoles> implements ISysRolesService {
 
     @Resource private ISysRolesMapper iSysRolesMapper;
-
-    @Resource private RoleInOrganizationMapper roleInOrganizationMapper;
 
     /**
      * 获取角色管理列表
@@ -86,15 +82,6 @@ public class SysRolesServiceImpl extends ServiceImpl<SysRolesMapper, SysRoles> i
         if (JudgeParam.isNullOrUndefined(sysRoles.getId())){
 
             baseMapper.insert(sysRoles);
-
-            if (!JudgeParam.isNullOrUndefined(sysRolesEditDTO.getOrganizationId())){
-
-                RoleInOrganization roleInOrganization = new RoleInOrganization();
-                roleInOrganization.setOrganizationId(sysRolesEditDTO.getOrganizationId());
-                roleInOrganization.setRoleId(sysRoles.getId());
-
-                roleInOrganizationMapper.insert(roleInOrganization);
-            }
 
         }else {
 

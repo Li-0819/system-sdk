@@ -6,7 +6,6 @@ import com.iris.model.PageResponseVO;
 import com.iris.model.dto.system.SysRolesEditDTO;
 import com.iris.model.dto.system.SysRolesListDTO;
 import com.iris.model.vo.system.SysRolesVO;
-import com.iris.service.IRoleInOrganizationService;
 import com.iris.service.ISysRolesService;
 import com.iris.utils.common.PageConditionUtil;
 import com.iris.utils.constants.SystemMsgConstants;
@@ -32,8 +31,6 @@ import javax.validation.Valid;
 public class SysRolesController {
 
     @Resource private ISysRolesService iSysRolesService;
-
-    @Resource private IRoleInOrganizationService iRoleInOrganizationService;
 
     @SystemLog(description = "获取角色管理列表")
     @Operation(summary = "获取角色管理列表 -- WindChaser", tags = "System")
