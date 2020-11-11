@@ -1,5 +1,6 @@
 package com.iris.model.vo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -10,10 +11,30 @@ import lombok.Data;
 @Data
 public class UserOrganizationVO {
 
+    @Schema(description = "机构ID")
     private String id;
+
+    @Schema(description = "机构编码")
     private String code;
+
+    @Schema(description = "机构名称")
     private String name;
-    private String parentId;
-    private String parentCode;
+
+    @Schema(description = "机构类型")
+    private String orgClass;
+
+    @Schema(description = "机构名称")
+    private String orgClassName;
+
+    @Schema(description = "是否是平台")
     private Integer isPlatform;
+
+    @Schema(description = "隶属代运营ID")
+    private String belongToOrg;
+
+    @Schema(description = "父级ID")
+    private String parentId;
+
+    @Schema(description = "父级名称")
+    private String parentCode;
 }

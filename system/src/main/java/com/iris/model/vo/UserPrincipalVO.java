@@ -82,12 +82,12 @@ public class UserPrincipalVO implements UserDetails {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
-    private List<UserOrganizationVO> organizationList;
+    private UserOrganizationVO organization;
 
     private List<UserSiteMapVO> userSiteMapList;
 
 
-    public static UserPrincipalVO create(SysUsers user, List<UserRoleVO> roles, List<UserOrganizationVO> organizations, List<UserSiteMapVO> sysSiteMaps, EmployeeInfoVO employeeInfoVO) {
+    public static UserPrincipalVO create(SysUsers user, List<UserRoleVO> roles, UserOrganizationVO organization, List<UserSiteMapVO> sysSiteMaps, EmployeeInfoVO employeeInfoVO) {
 
         List<GrantedAuthority> authorities = sysSiteMaps.stream().map(permission -> new SimpleGrantedAuthority(permission.getName())).collect(Collectors.toList());
 
@@ -98,7 +98,7 @@ public class UserPrincipalVO implements UserDetails {
         }
 
         return new UserPrincipalVO(employeeNoteName, avatar, true, user.getId(), user.getLoginName(), user.getLoginPwd(), user.getRealName(), user.getGender(), user.getPhoneNumber(),
-                user.getRemark(), user.getIsLocked(), user.getIsDeleted(), roles, authorities, organizations, sysSiteMaps);
+                user.getRemark(), user.getIsLocked(), user.getIsDeleted(), roles, authorities, organization, sysSiteMaps);
     }
 
     @Override

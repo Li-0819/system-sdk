@@ -26,10 +26,11 @@ public interface AuthUserService extends UserDetailsService {
     /**
      * 根据权限ID获取菜单权限
      * @param targetIds 授权对象ID
+     * @param orgClass 机构类型
      * @param isPlatform 是否为平台
      * @return
      */
-    List<SitemapsAuthVO> getAuthSiteMapByTargetId(List<String> targetIds, Integer isPlatform);
+    List<SitemapsAuthVO> getAuthSiteMapByTargetId(List<String> targetIds, String orgClass, Integer isPlatform);
 
     /**
      * 菜单功能授权

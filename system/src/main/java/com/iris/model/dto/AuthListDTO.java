@@ -22,4 +22,7 @@ public class AuthListDTO {
     @Schema(name = "isPlatform", description = "是否是平台级别")
     private Integer isPlatform;
 
+    @Schema(name = "orgClass", description = "机构类型")
+    private String orgClass;
+
 }

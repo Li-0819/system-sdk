@@ -9,6 +9,7 @@ import com.iris.model.vo.system.SysActionVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -35,7 +36,9 @@ public interface ISysSitemapsMapper {
      * @param isPlatform 是否为平台
      * @return
      */
-    List<SitemapsAuthVO> getAuthSiteMapByTargetId(@Param("targetIds") List<String> targetIds,@Param("isPlatform") Integer isPlatform);
+    List<SitemapsAuthVO> getAuthSiteMapByTargetId(@Param("targetIds") List<String> targetIds,@Param("isPlatform") Integer isPlatform,
+                                                  @Param("orgFiltration") List<String> orgFiltration,
+                                                  @Param("orgClass")String orgClass);
 
     /**
      *
@@ -54,4 +57,11 @@ public interface ISysSitemapsMapper {
      * @return
      */
     List<SysActionVO> getAuthActionByTargetIds(@Param("targetIds") List<String> targetIds, @Param("sitemapId") String sitemapId);
+
+    /**
+     * 根据角色名称获取菜单按钮
+     * @param routeName {@link }
+     * @return
+     */
+    List<String> getFiltrationId(@Param("routeName") String routeName);
 }

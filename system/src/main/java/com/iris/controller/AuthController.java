@@ -122,7 +122,7 @@ public class AuthController {
             return ResponseVO.error(SystemMsgConstants.TARGET_ID_NOT_FOUNT);
         }
 
-        List<SitemapsAuthVO> sitemapsAuthVos = authUserService.getAuthSiteMapByTargetId(authListDTO.getTargetIds(),authListDTO.getIsPlatform());
+        List<SitemapsAuthVO> sitemapsAuthVos = authUserService.getAuthSiteMapByTargetId(authListDTO.getTargetIds(), authListDTO.getOrgClass(), authListDTO.getIsPlatform());
 
         return ResponseVO.ok(sitemapsAuthVos);
     }

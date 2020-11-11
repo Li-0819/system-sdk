@@ -17,6 +17,9 @@ public class OrganizationExtraInfoListVO extends BaseVO {
     @Schema(name = "organizationId", description = "机构ID")
     private String organizationId;
 
+    @Schema(description  = "隶属代运营机构ID")
+    private String belongToOrg;
+
     @Schema(name = "organizationName", description = "机构名称")
     private String organizationName;
 

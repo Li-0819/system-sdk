@@ -40,6 +40,17 @@ public class SystemSpecialCode {
     public static final String AUDIT_ATTESTATION  = "1001-50";
 
 
+    /**
+     * 10 自营  20 服务商 30 代运营 40 客户
+     */
+    public static final String DER_EIGENBETRIEB  = "1005-10";
+    public static final String PROVIDER  = "1005-20";
+    public static final String THIRDPARTNAR  = "1005-30";
+    public static final String CLIENT  = "1005-40";
+
+
+
+
     public static final String BE_ON_THE_JOB   = "1024-10";
 
     /**

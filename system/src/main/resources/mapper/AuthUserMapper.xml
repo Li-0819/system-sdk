@@ -14,15 +14,13 @@
 
     <select id="getOrganizationList" resultType="com.iris.model.vo.UserOrganizationVO">
 
-        select organization.id, organization.code, organization.parent_id, organization.parent_code, organization.name, oei.is_platform
-        from sys_users sys_user
-            join member_in_employee_in_user_in_organization mieiuio on sys_user.id = mieiuio.user_id
-                                                                    and mieiuio.is_deleted = 0
-                                                                    and sys_user.is_deleted = 0
-                                                                    and sys_user.id = #{userId}
-            join sys_organizations organization on mieiuio.organization_id = organization.id and organization.is_deleted = 0 and organization.is_locked = 0
-            join organization_extra_info oei on oei.organization_id = organization.id and oei.is_deleted = 0
-        order by organization.sequence
+        select so.id, so.code, so.name, oei.organization_class orgClass, sc.name orgClassName, oei.is_platform, oei.belong_to_org,
+                so.parent_id, so.parent_code
+        from sys_organizations so
+                 join organization_extra_info oei on oei.is_deleted = 0 and so.id = oei.organization_id
+                 join member_in_employee_in_user_in_organization mieiuio on mieiuio.user_id = #{userId,jdbcType=VARCHAR} and mieiuio.is_deleted = 0 and mieiuio.organization_id = so.id
+                 left join sys_code sc on sc.is_deleted = 0 and oei.organization_class = sc.value
+        where so.is_deleted = 0 and so.is_locked = 0
     </select>
 
     <select id="organizationCodeIsCorrect" resultType="java.lang.Integer">
@@ -31,7 +29,7 @@
         from sys_organizations so
                join organization_extra_info oei on oei.is_platform = 0 and oei.is_deleted = 0 and so.id = oei.organization_id
                join member_in_employee_in_user_in_organization mieiuio on mieiuio.user_id = #{userId,jdbcType=VARCHAR} and mieiuio.is_deleted = 0
-        where so.is_deleted = 0 and so.code = #{organizationCode,jdbcType=VARCHAR}
+        where so.is_deleted = 0 and so.code = #{organizationCode,jdbcType=VARCHAR} and so.is_locked = 0
     </select>
 
     <select id="isPlatformUser" resultType="java.lang.Integer">

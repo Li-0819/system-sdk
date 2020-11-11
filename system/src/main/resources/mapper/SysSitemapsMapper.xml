@@ -106,15 +106,24 @@
 
     <select id="getAuthSiteMapByTargetId" resultMap="getAuthList">
 
-        select ss.id, ss.parent_id, ss.is_platform, ss.name, ss.level, ss.component, ss.sequence, ss.icon, ss.title, ss.is_deleted, ss.sequence, 1 `show`
+        select ss.id, ss.parent_id, (case when #{orgClass} in ('1005-20', '1005-30') and ss.title = '机构管理' and ss.level != 1 then '部门管理' else ss.title end) title,
+                ss.is_platform, ss.name, ss.level, ss.component, ss.sequence, ss.icon, ss.is_deleted, ss.sequence, 1 `show`
         from sitemap_action_authority saa
-        join sys_sitemaps ss on ss.id = saa.sitemap_action_id and ss.is_deleted = 0
+            join sys_sitemaps ss on ss.id = saa.sitemap_action_id and ss.is_deleted = 0
         where saa.is_deleted = 0 and saa.authority_type = 'sitemap'
-        and saa.is_authorised = 1
-        and ss.id = saa.sitemap_action_id
+            and saa.is_authorised = 1
+            and ss.id = saa.sitemap_action_id
         <if test="targetIds != null and targetIds.size() > 0">
             and saa.target_id in
             <foreach collection="targetIds" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+
+<!--        过滤 -->
+        <if test="orgFiltration != null and orgFiltration.size() > 0">
+            and ss.id not in
+            <foreach collection="orgFiltration" item="id" open="(" separator="," close=")">
                 #{id}
             </foreach>
         </if>
@@ -193,4 +202,13 @@
             component = #{sysSitemaps.component}
         where id = #{sysSitemaps.id}
     </update>
+
+    <select id="getFiltrationId" resultType="java.lang.String">
+
+        select ss.id
+            from sitemap_action_authority saa
+            join sys_roles sr on sr.name = #{routeName,jdbcType=VARCHAR} and sr.is_default = 1 and saa.target_id = sr.id and saa.authority_type = 'sitemap' and saa.is_authorised = 1
+            join sys_sitemaps ss on ss.id = saa.sitemap_action_id and ss.is_deleted = 0 and ss.is_platform = 0
+        where saa.is_deleted = 0
+    </select>
 </mapper>

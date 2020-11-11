@@ -24,7 +24,9 @@ import com.iris.service.AuthUserService;
 import com.iris.utils.common.JudgeParam;
 import com.iris.utils.constants.SystemCommonField;
 import com.iris.utils.constants.SystemMsgConstants;
+import com.iris.utils.constants.SystemSpecialCode;
 import com.iris.utils.transfer.DataTransferUtil;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -82,7 +84,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         EmployeeInfoVO employeeInfo = authUserMapper.getEmployeeInfo(usersId);
 
         //获取组织部门
-        List<UserOrganizationVO> organizationList = authUserMapper.getOrganizationList(usersId);
+        UserOrganizationVO organizationList = authUserMapper.getOrganizationList(usersId);
 
         //TODO 获取菜单权限 authUserMapper.getUserSiteMapList(usersId);
         List<UserSiteMapVO> siteMapList = new ArrayList<>(0);
@@ -118,16 +120,35 @@ public class AuthUserServiceImpl implements AuthUserService {
      * @return
      */
     @Override
-    public List<SitemapsAuthVO> getAuthSiteMapByTargetId(List<String> targetIds, Integer isPlatform) {
+    public List<SitemapsAuthVO> getAuthSiteMapByTargetId(List<String> targetIds, String orgClass, Integer isPlatform) {
 
         List<SitemapsAuthVO> sitemapsAuthVOS;
 
+        List<String> orgFiltration = null;
         if (this.checkIsAdmin(targetIds)) {
 
             sitemapsAuthVOS = iSysSitemapsMapper.getAuthList(isPlatform);
         }else {
 
-            sitemapsAuthVOS = iSysSitemapsMapper.getAuthSiteMapByTargetId(targetIds, isPlatform);
+
+            switch (orgClass){
+
+                case SystemSpecialCode.PROVIDER:
+                    orgFiltration = iSysSitemapsMapper.getFiltrationId("服务商filtration");
+                    break;
+
+                case SystemSpecialCode.THIRDPARTNAR:
+                    orgFiltration = iSysSitemapsMapper.getFiltrationId("代运营filtration");
+                    break;
+
+                case SystemSpecialCode.CLIENT:
+                    orgFiltration = iSysSitemapsMapper.getFiltrationId("客户filtration");
+                    break;
+
+                default: break;
+            }
+
+            sitemapsAuthVOS = iSysSitemapsMapper.getAuthSiteMapByTargetId(targetIds, isPlatform, orgFiltration, orgClass);
         }
         return sitemapsAuthVOS;
     }

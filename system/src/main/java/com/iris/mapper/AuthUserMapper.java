@@ -32,7 +32,7 @@ public interface AuthUserMapper {
      * @param userId 用户ID
      * @return {@link UserOrganizationVO}
      */
-    List<UserOrganizationVO> getOrganizationList(@Param("userId") String userId);
+    UserOrganizationVO getOrganizationList(@Param("userId") String userId);
 
 //    /**
 //     * 查询菜单

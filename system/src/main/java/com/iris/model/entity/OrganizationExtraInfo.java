@@ -26,6 +26,9 @@ public class OrganizationExtraInfo extends BaseEntity {
     @Schema( description  = "隶属机构ID")
     private String organizationId;
 
+    @Schema( description  = "隶属代运营机构ID")
+    private String belongToOrg;
+
     @Schema( description  = "机构简称")
     private String organizationShortName;
 
