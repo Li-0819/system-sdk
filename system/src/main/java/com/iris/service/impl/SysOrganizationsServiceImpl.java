@@ -55,17 +55,27 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
 
     /**
      * 获取组织机构列表
-     * @param sysOrganizationsListDTO {@link SysOrganizationsListDTO}
+     * @param listDTO {@link SysOrganizationsListDTO}
      * @return
      */
     @Override
-    public PageResponseVO<SysOrganizationsListVO> getList(SysOrganizationsListDTO sysOrganizationsListDTO) {
+    public PageResponseVO<SysOrganizationsListVO> getList(SysOrganizationsListDTO listDTO) {
 
-        PageHelper.startPage(sysOrganizationsListDTO.getCurrentPage(), sysOrganizationsListDTO.getPageSize());
+        PageHelper.startPage(listDTO.getCurrentPage(), listDTO.getPageSize());
+        List<SysOrganizationsListVO> list = iSysOrganizationsMapper.getList(listDTO);
 
-        List<SysOrganizationsListVO> sysOrganizations = iSysOrganizationsMapper.getList(sysOrganizationsListDTO);
+//        if (null != listDTO.getSearchServiceBelow() && listDTO.getSearchServiceBelow()){
+//
+//            JudgeParam.paramIsNotNull(listDTO.getOrganizationId(), SystemMsgConstants.ORGANIZATION_ID);
+//
+//            list = iSysOrganizationsMapper.getServiceBelow(listDTO.getOrganizationId());
+//
+//        }else {
+//
+//            list =
+//        }
 
-        return PageResponseVO.of(sysOrganizations, SysOrganizationsListVO.class);
+        return PageResponseVO.of(list, SysOrganizationsListVO.class);
     }
 
     /**

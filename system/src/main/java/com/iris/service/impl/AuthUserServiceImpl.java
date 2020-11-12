@@ -205,9 +205,32 @@ public class AuthUserServiceImpl implements AuthUserService {
      * @return
      */
     @Override
-    public List<SitemapsAuthListVO> getSiteMapRelevanceByType(String type, String targetId, Integer isPlatform) {
+    public List<SitemapsAuthListVO> getSiteMapRelevanceByType(SitemapAuthListDTO listDTO) {
 
-        return iSysSitemapsMapper.getSiteMapRelevanceByType(type, targetId, isPlatform);
+        List<String> orgFiltration = null;
+
+        if (!JudgeParam.isNullOrUndefined(listDTO.getOrgClass())){
+
+            switch (listDTO.getOrgClass()){
+
+                case SystemSpecialCode.PROVIDER:
+                    orgFiltration = iSysSitemapsMapper.getFiltrationId("服务商filtration");
+                    break;
+
+                case SystemSpecialCode.THIRDPARTNAR:
+                    orgFiltration = iSysSitemapsMapper.getFiltrationId("代运营filtration");
+                    break;
+
+                case SystemSpecialCode.CLIENT:
+                    orgFiltration = iSysSitemapsMapper.getFiltrationId("客户filtration");
+                    break;
+
+                default: break;
+            }
+
+        }
+        listDTO.setOrgFiltration(orgFiltration);
+        return iSysSitemapsMapper.getSiteMapRelevanceByType(listDTO);
 
     }
 

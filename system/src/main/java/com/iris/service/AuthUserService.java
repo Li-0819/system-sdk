@@ -1,6 +1,7 @@
 package com.iris.service;
 
 import com.iris.model.dto.system.AuthorizationEditDTO;
+import com.iris.model.dto.system.SitemapAuthListDTO;
 import com.iris.model.dto.system.SysUserResetDTO;
 import com.iris.model.vo.system.SitemapsAuthListVO;
 import com.iris.model.vo.system.SitemapsAuthVO;
@@ -40,12 +41,10 @@ public interface AuthUserService extends UserDetailsService {
 
     /**
      * 根据不同的type获取权限列表
-     * @param type 授权目标类型
-     * @param targetId 授权目标ID
-     * @param isPlatform 是否为平台
+     * listDTO {@link SitemapAuthListDTO}
      * @return
      */
-    List<SitemapsAuthListVO> getSiteMapRelevanceByType(String type, String targetId, Integer isPlatform);
+    List<SitemapsAuthListVO> getSiteMapRelevanceByType(SitemapAuthListDTO listDTO);
 
     /**
      * 根据权限ID获取按钮权限

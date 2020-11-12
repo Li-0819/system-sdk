@@ -1,6 +1,7 @@
 package com.iris.mapper;
 
 
+import com.iris.model.dto.system.SitemapAuthListDTO;
 import com.iris.model.entity.SysSitemaps;
 import com.iris.model.vo.system.SitemapsAuthListVO;
 import com.iris.model.vo.system.SitemapsAuthVO;
@@ -43,12 +44,10 @@ public interface ISysSitemapsMapper {
     /**
      *
      * 根据不同的type获取权限列表
-     * @param type 授权目标类型
-     * @param targetId 授权目标ID
-     * @param isPlatform 是否是平台
+     * listDTO {@link }
      * @return
      */
-    List<SitemapsAuthListVO> getSiteMapRelevanceByType(@Param("type") String type, @Param("targetId") String targetId, @Param("isPlatform") Integer isPlatform);
+    List<SitemapsAuthListVO> getSiteMapRelevanceByType(@Param("listDTO") SitemapAuthListDTO listDTO);
 
     /**
      * 获取按钮权限

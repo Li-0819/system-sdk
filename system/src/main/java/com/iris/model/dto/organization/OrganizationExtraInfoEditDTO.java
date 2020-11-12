@@ -88,6 +88,9 @@ public class OrganizationExtraInfoEditDTO {
     @Schema(name = "businessScope", description = "经营范围")
     private String businessScope;
 
+    @Schema(name = "belongToOrg", description = "隶属机构ID（代运营）")
+    private String belongToOrg;
+
     @Schema(name = "remark", description = "备注")
     private String remark;
 

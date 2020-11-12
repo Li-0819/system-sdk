@@ -64,4 +64,10 @@ public interface ISysOrganizationsMapper {
      * @return
      */
     UsersListVO getIsDefaultUserByOrgId(@Param("orgId") String orgId);
+
+    /**
+     * organizationId
+     * @return
+     */
+    List<SysOrganizationsListVO> getServiceBelow(String organizationId);
 }

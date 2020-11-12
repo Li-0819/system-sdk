@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iris.mapper.ISysOrganizationsMapper">
 
-
     <resultMap id="SysOrganizationsMapBaseVO" type="com.iris.model.vo.system.SysOrganizationsMapBaseVO">
         <id property="id" column="id" />
         <result column="code" jdbcType="VARCHAR" property="code" />
@@ -34,6 +33,7 @@
             <result column="business_scope" property="businessScope"/>
             <result column="is_enterpriseAuth" property="isEnterpriseAuth"/>
             <result column="is_platform" property="isPlatform"/>
+            <result column="belong_to_org" property="belongToOrg"/>
 
             <result column="gender" property="gender"/>
             <result column="genderName" property="genderName"/>
@@ -67,10 +67,10 @@
     <select id="getList" resultMap="SysOrganizationsListVO">
 
         select so.id, so.parent_id, so.code, so.parent_code, so.name, so.sequence, so.remark, so.is_locked, so.is_deleted,
-                so.created_by, so.created_time, so.modified_by, so.modified_time,
-               oei.id extraInfo_id, oei.organization_id, oei.organization_short_name, oei.organization_class, sc.name organizationClassName,
-               oei.organization_logo,  oei.organization_size, sc_size.name organizationSizeName, oei.legal_person, oei.legal_person_number,
-               oei.organization_status, sc_status.name organizationStatusName, oei.region, oei.business_scope, oei.is_enterprise_auth, oei.is_platform
+                so.created_by, so.created_time, so.modified_by, so.modified_time, oei.belong_to_org,
+                oei.id extraInfo_id, oei.organization_id, oei.organization_short_name, oei.organization_class, sc.name organizationClassName,
+                oei.organization_logo,  oei.organization_size, sc_size.name organizationSizeName, oei.legal_person, oei.legal_person_number,
+                oei.organization_status, sc_status.name organizationStatusName, oei.region, oei.business_scope, oei.is_enterprise_auth, oei.is_platform
         from sys_organizations so
                 join organization_extra_info oei on oei.is_deleted = 0 and oei.organization_id = so.id
                 left join sys_code sc on sc.value = oei.organization_class and sc.is_deleted = 0
@@ -104,7 +104,14 @@
             </if>
             <choose>
                 <when test="listDTO.organizationId != null and listDTO.organizationId != ''">
-                    and so.id = #{listDTO.organizationId,jdbcType=VARCHAR}
+                    <choose>
+                        <when test="listDTO.searchServiceBelow != null and listDTO.searchServiceBelow == true">
+                            and oei.belong_to_org = #{listDTO.organizationId}
+                        </when>
+                        <otherwise>
+                            and so.id = #{listDTO.organizationId,jdbcType=VARCHAR}
+                        </otherwise>
+                    </choose>
                 </when>
                 <otherwise>
                     <choose>

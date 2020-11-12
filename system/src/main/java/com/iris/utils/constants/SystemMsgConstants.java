@@ -132,6 +132,7 @@ public class SystemMsgConstants {
     public static final String SITE_MAPS_DELETE_SUCCESS = "菜单管理删除成功！";
     public static final String SAME_PARENT_NAME_NOT_REPEAT = "同一父级菜单下名称不能重复！";
 
+    public static final String ORGANIZATION_ID = "机构ID不能为空";
     public static final String ORGANIZATION_INFO_DELETE_SUCCESS = "机构信息删除成功！";
     public static final String ORGANIZATION_INFO_EDIT_SUCCESS = "机构信息编辑成功！";
     public static final String ORGANIZATION_INFO_NOT_EXIST = "机构信息不存在或已锁定！";

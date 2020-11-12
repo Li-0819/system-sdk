@@ -5,6 +5,7 @@ import com.iris.aspect.annotation.SystemLog;
 import com.iris.model.dto.AuthListDTO;
 import com.iris.model.dto.ManualLoginDTO;
 import com.iris.model.dto.system.AuthorizationEditDTO;
+import com.iris.model.dto.system.SitemapAuthListDTO;
 import com.iris.model.dto.system.SysUserResetDTO;
 import com.iris.model.entity.SysUsers;
 import com.iris.model.vo.system.SitemapsAuthListVO;
@@ -145,12 +146,10 @@ public class AuthController {
 
     @SystemLog(description = "获取权限列表")
     @Operation(summary = "获取权限列表 -- WindChaser", tags = "Auth")
-    @GetMapping("/getSiteMapRelevanceByType")
-    public ResponseVO<List<SitemapsAuthListVO>> getSiteMapRelevanceByType(@RequestParam("type") String type,
-                                                                          @RequestParam("targetId") String targetId,
-                                                                          @RequestParam("isPlatform") Integer isPlatform
-                                                                          ) {
-        List<SitemapsAuthListVO> sitemapsVOS = authUserService.getSiteMapRelevanceByType(type,targetId, isPlatform);
+    @PostMapping("/getSiteMapRelevanceByType")
+    public ResponseVO<List<SitemapsAuthListVO>> getSiteMapRelevanceByType(@RequestBody SitemapAuthListDTO listDTO) {
+
+        List<SitemapsAuthListVO> sitemapsVOS = authUserService.getSiteMapRelevanceByType(listDTO);
 
         return ResponseVO.ok(sitemapsVOS);
     }

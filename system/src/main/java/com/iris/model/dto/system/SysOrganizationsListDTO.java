@@ -40,6 +40,9 @@ public class SysOrganizationsListDTO extends PageConditionDTO {
     @Schema(name = "parentId", description = "父节点ID")
     private String parentId;
 
+    @Schema(name = "searchServiceBelow", description = "查询代运营下")
+    private Boolean searchServiceBelow;
+
     @Schema(name = "startTime", description = "开始时间")
     private String startTime;
 

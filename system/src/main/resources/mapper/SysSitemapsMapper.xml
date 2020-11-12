@@ -135,7 +135,9 @@
 
     <select id="getSiteMapRelevanceByType" resultMap="getSiteMapRelevanceByType">
 
-        select ss.id, ss.parent_id,ss.is_platform, ss.name, ss.title, ss.level, ss.component, ss.sequence,
+        select ss.id, ss.parent_id,ss.is_platform, ss.name,
+                (case when #{listDTO.orgClass} in ('1005-20', '1005-40') and ss.title = '机构管理' and ss.level != 1 then '部门管理' else ss.title end) title,
+                ss.level, ss.component, ss.sequence,
                 (case when saa2.sitemap_action_id is null then 0 else 1 end ) ss_isAuth,
                 ss2.id ss2_id, ss2.parent_id ss2_parentId, ss2.name ss2_name, ss2.is_platform ss2_isPlatform,
                 ss2.title ss2_title, ss2.level ss2_level, ss2.component ss2_commponent, ss2.sequence ss2_sequence,
@@ -146,28 +148,44 @@
         from sys_sitemaps ss
             left join sys_sitemaps ss2 on ss2.is_deleted = 0
                                         and ss2.parent_id = ss.id
-                                        and ss2.is_platform = #{isPlatform}
+                                        and ss2.is_platform = #{listDTO.isPlatform}
 
             left join sitemap_action_authority saa on saa.sitemap_action_id = ss2.id
-                                                    and saa.target_id = #{targetId}
-                                                    and saa.authority_target_type = #{type}
+                                                    and saa.target_id = #{listDTO.targetId}
+                                                    and saa.authority_target_type = #{listDTO.type}
                                                     and saa.authority_type = 'sitemap'
 
             left join sitemap_action_authority saa2 on saa2.sitemap_action_id = ss.id
-                                                    and saa2.target_id = #{targetId}
-                                                    and saa2.authority_target_type = #{type}
+                                                    and saa2.target_id = #{listDTO.targetId}
+                                                    and saa2.authority_target_type = #{listDTO.type}
                                                     and saa2.authority_type = 'sitemap'
 
             left join sys_action sa on sa.is_deleted = 0 and sa.sitemap_id = ss2.id
-
+                                                    <if test="listDTO.filterActionKeys != null and listDTO.filterActionKeys.size() > 0 ">
+                                                        and sa.`key` not in
+                                                        <foreach collection="listDTO.filterActionKeys" item="actionKey" open="(" separator="," close=")">
+                                                            #{actionKey}
+                                                        </foreach>
+                                                    </if>
             left join sitemap_action_authority saa3 on saa3.sitemap_action_id = sa.id
-                                                    and saa3.target_id = #{targetId}
-                                                    and saa3.authority_target_type = #{type}
+                                                    and saa3.target_id = #{listDTO.targetId}
+                                                    and saa3.authority_target_type = #{listDTO.type}
                                                     and saa3.authority_type = 'action'
 
             where ss.parent_id is null and ss.is_deleted = 0
-            <if test="isPlatform != null">
-                and ss.is_platform = #{isPlatform}
+            <if test="listDTO.isPlatform != null">
+                and ss.is_platform = #{listDTO.isPlatform}
+            </if>
+
+            <if test="listDTO.orgFiltration != null and listDTO.orgFiltration.size() > 0">
+                and ss.id not in
+                <foreach collection="listDTO.orgFiltration" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+                and ss2.id not in
+                <foreach collection="listDTO.orgFiltration" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
             </if>
 
             order by ss.level, ss.sequence
