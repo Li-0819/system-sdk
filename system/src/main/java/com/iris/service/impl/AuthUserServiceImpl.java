@@ -130,22 +130,24 @@ public class AuthUserServiceImpl implements AuthUserService {
             sitemapsAuthVOS = iSysSitemapsMapper.getAuthList(isPlatform);
         }else {
 
+            if (!JudgeParam.isNullOrUndefined(orgClass)){
 
-            switch (orgClass){
+                switch (orgClass){
 
-                case SystemSpecialCode.PROVIDER:
-                    orgFiltration = iSysSitemapsMapper.getFiltrationId("服务商filtration");
-                    break;
+                    case SystemSpecialCode.PROVIDER:
+                        orgFiltration = iSysSitemapsMapper.getFiltrationId("服务商filtration");
+                        break;
 
-                case SystemSpecialCode.THIRDPARTNAR:
-                    orgFiltration = iSysSitemapsMapper.getFiltrationId("代运营filtration");
-                    break;
+                    case SystemSpecialCode.THIRDPARTNAR:
+                        orgFiltration = iSysSitemapsMapper.getFiltrationId("代运营filtration");
+                        break;
 
-                case SystemSpecialCode.CLIENT:
-                    orgFiltration = iSysSitemapsMapper.getFiltrationId("客户filtration");
-                    break;
+                    case SystemSpecialCode.CLIENT:
+                        orgFiltration = iSysSitemapsMapper.getFiltrationId("客户filtration");
+                        break;
 
-                default: break;
+                    default: break;
+                }
             }
 
             sitemapsAuthVOS = iSysSitemapsMapper.getAuthSiteMapByTargetId(targetIds, isPlatform, orgFiltration, orgClass);

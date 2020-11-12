@@ -52,7 +52,7 @@
         <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
         <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
 
-        <collection property="children" column="{sysOrganizationsListDTO.parentId = id}" ofType="com.iris.model.vo.system.Children" select="getList">
+        <collection property="children" column="{listDTO.parentId = id}" ofType="com.iris.model.vo.system.Children" select="getList">
         </collection>
     </resultMap>
 
@@ -78,39 +78,43 @@
                 left join sys_code sc_status on sc_status.value = oei.organization_status and sc_status.is_deleted = 0
         <where>
                 so.is_deleted = 0
-            <if test="sysOrganizationsListDTO.code != null and sysOrganizationsListDTO.code != ''">
-                and so.code = #{sysOrganizationsListDTO.code}
+            <if test="listDTO.code != null and listDTO.code != ''">
+                and so.code = #{listDTO.code}
             </if>
-            <if test="sysOrganizationsListDTO.name != null and sysOrganizationsListDTO.name != ''">
-                and so.name like concat('%',#{sysOrganizationsListDTO.name},'%')
+            <if test="listDTO.name != null and listDTO.name != ''">
+                and so.name like concat('%',#{listDTO.name},'%')
             </if>
-            <if test="sysOrganizationsListDTO.startTime != null and sysOrganizationsListDTO.startTime != ''">
-                and so.created_time &gt;= #{sysOrganizationsListDTO.startTime}
+            <if test="listDTO.startTime != null and listDTO.startTime != ''">
+                and so.created_time &gt;= #{listDTO.startTime}
             </if>
-            <if test="sysOrganizationsListDTO.endTime != null and sysOrganizationsListDTO.endTime != ''">
-                and so.created_time &lt;= #{sysOrganizationsListDTO.endTime}
+            <if test="listDTO.endTime != null and listDTO.endTime != ''">
+                and so.created_time &lt;= #{listDTO.endTime}
             </if>
-            <if test="sysOrganizationsListDTO.isPlatform != null">
-                and oei.is_platform = #{sysOrganizationsListDTO.isPlatform}
+            <if test="listDTO.isPlatform != null">
+                and oei.is_platform = #{listDTO.isPlatform}
             </if>
-            <if test="sysOrganizationsListDTO.organizationStatus != null and sysOrganizationsListDTO.organizationStatus != ''">
-                and oei.organization_status = #{sysOrganizationsListDTO.organizationStatus}
+            <if test="listDTO.organizationStatus != null and listDTO.organizationStatus != ''">
+                and oei.organization_status = #{listDTO.organizationStatus}
             </if>
-            <if test="sysOrganizationsListDTO.organizationClass != null and sysOrganizationsListDTO.organizationClass != ''">
-                and oei.organization_class = #{sysOrganizationsListDTO.organizationClass}
+            <if test="listDTO.organizationClass != null and listDTO.organizationClass != ''">
+                and oei.organization_class = #{listDTO.organizationClass}
             </if>
-            <if test="sysOrganizationsListDTO.organizationSize != null and sysOrganizationsListDTO.organizationSize != ''">
-                and oei.organization_size = #{sysOrganizationsListDTO.organizationSize}
+            <if test="listDTO.organizationSize != null and listDTO.organizationSize != ''">
+                and oei.organization_size = #{listDTO.organizationSize}
             </if>
             <choose>
-                <when test="sysOrganizationsListDTO.parentId != null and sysOrganizationsListDTO.parentId != ''">
-                    and so.parent_id = #{sysOrganizationsListDTO.parentId}
+                <when test="listDTO.organizationId != null and listDTO.organizationId != ''">
+                    and so.id = #{listDTO.organizationId,jdbcType=VARCHAR}
                 </when>
                 <otherwise>
-                    and (so.parent_id is null or so.parent_id = '')
-                    <if test="sysOrganizationsListDTO.organizationId != null and sysOrganizationsListDTO.organizationId != ''">
-                        and so.id = #{sysOrganizationsListDTO.organizationId,jdbcType=VARCHAR}
-                    </if>
+                    <choose>
+                        <when test="listDTO.parentId != null and listDTO.parentId != ''">
+                            and so.parent_id = #{listDTO.parentId}
+                        </when>
+                        <otherwise>
+                            and (so.parent_id is null or so.parent_id = '')
+                        </otherwise>
+                    </choose>
                 </otherwise>
             </choose>
         </where>

@@ -19,10 +19,10 @@ public interface ISysOrganizationsMapper {
 
     /**
      * 组织机构表
-     * @param sysOrganizationsListDTO
+     * @param listDTO {@link SysOrganizationsListDTO}
      * @return
      */
-    List<SysOrganizationsListVO> getList(@Param("sysOrganizationsListDTO") SysOrganizationsListDTO sysOrganizationsListDTO);
+    List<SysOrganizationsListVO> getList(@Param("listDTO") SysOrganizationsListDTO listDTO);
 
 
     /**
