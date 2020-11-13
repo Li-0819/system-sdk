@@ -102,11 +102,20 @@
             <if test="listDTO.organizationSize != null and listDTO.organizationSize != ''">
                 and oei.organization_size = #{listDTO.organizationSize}
             </if>
+
             <choose>
                 <when test="listDTO.organizationId != null and listDTO.organizationId != ''">
                     <choose>
                         <when test="listDTO.searchServiceBelow != null and listDTO.searchServiceBelow == true">
-                            and oei.belong_to_org = #{listDTO.organizationId}
+                            and (oei.belong_to_org = #{listDTO.organizationId} or
+                            so.id in
+                            (with recursive t as
+                                    (select * from sys_organizations where is_deleted = 0 and id = #{listDTO.organizationId}
+
+                                    union all
+                                    select a.* from sys_organizations a join t on a.parent_id = t.id and a.is_deleted = 0)
+                            select id from t)
+                            )
                         </when>
                         <otherwise>
                             and so.id = #{listDTO.organizationId,jdbcType=VARCHAR}

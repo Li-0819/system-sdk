@@ -223,7 +223,7 @@
 
     <select id="getFiltrationId" resultType="java.lang.String">
 
-        select ss.id, ss.title, saa.id
+        select ss.id
             from sitemap_action_authority saa
             join sys_roles sr on sr.name = #{routeName,jdbcType=VARCHAR} and sr.is_default = 1 and saa.target_id = sr.id and saa.authority_type = 'sitemap' and saa.is_authorised = 1
             join sys_sitemaps ss on ss.id = saa.sitemap_action_id and ss.is_deleted = 0 and ss.is_platform = 0

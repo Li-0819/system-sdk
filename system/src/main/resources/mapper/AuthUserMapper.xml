@@ -52,4 +52,20 @@
                 left join sys_code sc on sc.value = ei.employee_class and sc.is_deleted = 0
         where ei.is_deleted = 0
     </select>
+
+    <select id="getTopParentId" resultType="java.lang.String">
+
+        select T2.id
+        from (select
+                      @r as _id,
+                      (select @r := parent_id from sys_organizations where id = _id) as 2v2,
+                      @l := @l + 1 as lvl
+              from
+                      (select @r := #{id,jdbcType=VARCHAR},@l :=0) vars,
+                      sys_organizations h
+              where @r is not null) T1
+                     left join sys_organizations T2
+                on T1._id = T2.id
+        where T2.parent_id is null
+    </select>
 </mapper>

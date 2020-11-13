@@ -32,6 +32,9 @@ public class UserOrganizationVO {
     @Schema(description = "隶属代运营ID")
     private String belongToOrg;
 
+    @Schema(description = "顶级ID")
+    private String topParentId;
+
     @Schema(description = "父级ID")
     private String parentId;
 

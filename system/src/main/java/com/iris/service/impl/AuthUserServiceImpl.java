@@ -86,6 +86,11 @@ public class AuthUserServiceImpl implements AuthUserService {
         //获取组织部门
         UserOrganizationVO organizationList = authUserMapper.getOrganizationList(usersId);
 
+        if (null != organizationList){
+
+            organizationList.setTopParentId(authUserMapper.getTopParentId(organizationList.getId()));
+        }
+
         //TODO 获取菜单权限 authUserMapper.getUserSiteMapList(usersId);
         List<UserSiteMapVO> siteMapList = new ArrayList<>(0);
 

@@ -27,6 +27,9 @@ spring:
     store-type: redis
   datasource:
     druid:
+#      url: jdbc:mysql://124.71.150.188:3600/sharebus-dev?useSSL=false
+#      username: yyk_dev
+#      password: Yun2009#%!YiKeDev
       url: jdbc:mysql://124.71.150.98:3600/sharebus-sit?useSSL=false
       username: ykzt_dev
       password: YunKe2009R#%!ZhiTu

@@ -6,6 +6,7 @@ import com.iris.model.vo.UserSiteMapVO;
 import com.iris.model.vo.system.EmployeeInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -62,4 +63,6 @@ public interface AuthUserMapper {
      * @return
      */
     EmployeeInfoVO getEmployeeInfo(String usersId);
+
+    String getTopParentId(@Param("id") String id);
 }
