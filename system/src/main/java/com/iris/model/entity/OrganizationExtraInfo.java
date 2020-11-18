@@ -1,5 +1,7 @@
 package com.iris.model.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.iris.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -88,6 +90,16 @@ public class OrganizationExtraInfo extends BaseEntity {
 
     @Schema( description  = "是否是平台级别")
     private Integer isPlatform;
+
+    @Schema( description  = "是否企业包车")
+    private Integer isCharter;
+
+    @Schema( description  = "是否可以提现")
+    private Integer withdrawal;
+
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
+    @Schema( description  = "提现折扣")
+    private Integer discount;
 
     @Schema( description  = "备注")
     private String remark;

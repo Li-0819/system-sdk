@@ -13,6 +13,7 @@ import com.iris.utils.common.PageConditionUtil;
 import com.iris.utils.constants.SystemCommonField;
 import com.iris.utils.constants.SystemMsgConstants;
 import com.iris.utils.response.ResponseVO;
+import io.swagger.models.auth.In;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
@@ -101,6 +102,16 @@ public class SysOrganizationsController {
 
 
         iSysOrganizationsService.audit(id, status);
+
+        return ResponseVO.ok();
+    }
+
+    @Operation(summary = "是否开启企业包车 -- WindChaser", tags = "Organization")
+    @GetMapping("/updateIsCharterByOrgId")
+    public ResponseVO<?> updateIsCharterByOrgId(@RequestParam(name = "orgId") String orgId,
+                                                @RequestParam(name = "isCharter") Integer isCharter) {
+
+        iSysOrganizationsService.updateIsCharterByOrgId(orgId, isCharter);
 
         return ResponseVO.ok();
     }

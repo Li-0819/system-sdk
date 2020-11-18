@@ -15,7 +15,7 @@
     <select id="getOrganizationList" resultType="com.iris.model.vo.UserOrganizationVO">
 
         select so.id, so.code, so.name, oei.organization_class orgClass, sc.name orgClassName, oei.is_platform, oei.belong_to_org,
-                so.parent_id, so.parent_code
+                so.parent_id, so.parent_code, oei.discount, oei.is_charter, oei.withdrawal
         from sys_organizations so
                  join organization_extra_info oei on oei.is_deleted = 0 and so.id = oei.organization_id
                  join member_in_employee_in_user_in_organization mieiuio on mieiuio.user_id = #{userId,jdbcType=VARCHAR} and mieiuio.is_deleted = 0 and mieiuio.organization_id = so.id

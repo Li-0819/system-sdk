@@ -55,4 +55,11 @@ public interface ISysOrganizationsService extends IService<SysOrganizations> {
      * @param status 状态
      */
     void audit(String id, String status);
+
+    /**
+     * 是否企业包车
+     * @param orgId 机构ID
+     * @param isCharter 是否企业包车
+     */
+    void updateIsCharterByOrgId(String orgId, Integer isCharter);
 }

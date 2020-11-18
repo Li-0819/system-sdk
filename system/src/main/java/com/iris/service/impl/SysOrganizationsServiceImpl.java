@@ -226,4 +226,15 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
         memberInEmployeeInUserInOrganization.setEmployeeId(employeeInfoEntity.getId());
         iMemberInEmployeeInUserInOrganizationService.save(memberInEmployeeInUserInOrganization);
     }
+
+    /**
+     * 是否企业包车
+     * @param orgId 机构ID
+     * @param isCharter 是否企业包车
+     */
+    @Override
+    public void updateIsCharterByOrgId(String orgId, Integer isCharter) {
+
+        iSysOrganizationsMapper.updateIsCharterByOrgId(orgId, isCharter);
+    }
 }

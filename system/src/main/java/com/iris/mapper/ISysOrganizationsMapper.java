@@ -70,4 +70,11 @@ public interface ISysOrganizationsMapper {
      * @return
      */
     List<SysOrganizationsListVO> getServiceBelow(String organizationId);
+
+    /**
+     * 是否企业包车
+     * @param orgId 机构ID
+     * @param isCharter 是否企业包车
+     */
+    void updateIsCharterByOrgId(@Param("orgId") String orgId, @Param("isCharter") Integer isCharter);
 }

@@ -34,6 +34,10 @@
             <result column="is_enterpriseAuth" property="isEnterpriseAuth"/>
             <result column="is_platform" property="isPlatform"/>
             <result column="belong_to_org" property="belongToOrg"/>
+            <result column="withdrawal" property="withdrawal"/>
+            <result column="is_charter" property="isCharter"/>
+            <result column="belong_to_org" property="belongToOrg"/>
+            <result column="discount" property="discount"/>
 
             <result column="gender" property="gender"/>
             <result column="genderName" property="genderName"/>
@@ -67,7 +71,7 @@
     <select id="getList" resultMap="SysOrganizationsListVO">
 
         select so.id, so.parent_id, so.code, so.parent_code, so.name, so.sequence, so.remark, so.is_locked, so.is_deleted,
-                so.created_by, so.created_time, so.modified_by, so.modified_time, oei.belong_to_org,
+                so.created_by, so.created_time, so.modified_by, so.modified_time, oei.belong_to_org, oei.withdrawal, oei.is_charter, oei.discount,
                 oei.id extraInfo_id, oei.organization_id, oei.organization_short_name, oei.organization_class, sc.name organizationClassName,
                 oei.organization_logo,  oei.organization_size, sc_size.name organizationSizeName, oei.legal_person, oei.legal_person_number,
                 oei.organization_status, sc_status.name organizationStatusName, oei.region, oei.business_scope, oei.is_enterprise_auth, oei.is_platform
@@ -140,7 +144,7 @@
     <select id="getDetail" resultMap= "SysOrganizationsDetailVO">
 
         select so.id, so.parent_id, so.code, so.parent_code, so.name, so.sequence, so.remark, so.is_locked, so.is_deleted,
-               so.created_by, so.created_time, so.modified_by, so.modified_time,
+               so.created_by, so.created_time, so.modified_by, so.modified_time, oei.withdrawal, oei.is_charter, oei.discount,
                oei.id extraInfo_id, oei.organization_id, oei.organization_short_name, oei.organization_code, oei.organization_class, sc.name organizationClassName,
                oei.organization_logo,  oei.organization_size, sc_size.name organizationSizeName, oei.legal_person, oei.legal_person_number,
                oei.organization_status, sc_status.name organizationStatusName, oei.region, oei.business_scope, oei.is_enterprise_auth, oei.is_platform,
@@ -202,4 +206,17 @@
             left join sys_code sc_user_gender on sc_user_gender.is_deleted = 0 and sc_user_gender.value = su.gender
         where mieiuio.organization_id = #{orgId,jdbcType=VARCHAR} and mieiuio.is_deleted = 0
     </select>
+
+    <update id="updateIsCharterByOrgId">
+
+        update organization_extra_info set is_charter = #{isCharter,jdbcType=INTEGER} where organization_id in (
+                with recursive t as
+                                       (
+                                           select * from sys_organizations where id = #{orgId,jdbcType=VARCHAR}
+                                           union all
+                                           select a.* from sys_organizations a join t on a.parent_id = t.id
+                                       )
+                select t.id from t
+                )
+    </update>
 </mapper>

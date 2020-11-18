@@ -96,4 +96,13 @@ public class OrganizationExtraInfoEditDTO {
 
     @Schema( description  = "是否是平台级别")
     private Integer isPlatform;
+
+    @Schema( description  = "是否企业包车")
+    private Integer isCharter;
+
+    @Schema( description  = "是否可以提现")
+    private Integer withdrawal;
+
+    @Schema( description  = "提现折扣")
+    private Integer discount;
 }

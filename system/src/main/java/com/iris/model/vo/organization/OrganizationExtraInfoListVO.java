@@ -64,4 +64,13 @@ public class OrganizationExtraInfoListVO extends BaseVO {
 
     @Schema(name = "isEnterpriseAuth", description = "是否认证")
     private Integer isEnterpriseAuth;
+
+    @Schema( description  = "是否企业包车")
+    private Integer isCharter;
+
+    @Schema( description  = "是否可以提现")
+    private Integer withdrawal;
+
+    @Schema( description  = "提现折扣")
+    private Integer discount;
 }
