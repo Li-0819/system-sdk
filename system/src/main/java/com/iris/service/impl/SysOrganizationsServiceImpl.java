@@ -136,7 +136,7 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
         }
 
         // 是否为平台
-        if (organizationExtraInfo.getIsPlatform().equals(0)){
+        if (organizationExtraInfo.getIsPlatform().equals(0) && sysOrganizationsEditDTO.isAddAdmin()){
 
             if (JudgeParam.isNullOrUndefined(sysOrganizationsEditDTO.getUserEditDTO().getId())){
 
@@ -146,7 +146,6 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
                 sysOrganizationsEditDTO.getUserEditDTO().setIsDefault(1);
                 iSysUsersService.updateById(DataTransferUtil.model(sysOrganizationsEditDTO.getUserEditDTO(), new SysUsers()));
             }
-
         }
     }
 

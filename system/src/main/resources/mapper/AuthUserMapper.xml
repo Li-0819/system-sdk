@@ -14,13 +14,20 @@
 
     <select id="getOrganizationList" resultType="com.iris.model.vo.UserOrganizationVO">
 
-        select so.id, so.code, so.name, oei.organization_class orgClass, sc.name orgClassName, oei.is_platform, oei.belong_to_org,
-                so.parent_id, so.parent_code, oei.discount, oei.is_charter, oei.withdrawal
-        from sys_organizations so
-                 join organization_extra_info oei on oei.is_deleted = 0 and so.id = oei.organization_id
-                 join member_in_employee_in_user_in_organization mieiuio on mieiuio.user_id = #{userId,jdbcType=VARCHAR} and mieiuio.is_deleted = 0 and mieiuio.organization_id = so.id
-                 left join sys_code sc on sc.is_deleted = 0 and oei.organization_class = sc.value
-        where so.is_deleted = 0 and so.is_locked = 0
+        select org.id, org.code, org.name, org.orgClass, org.orgClassName, org.is_platform, org.belong_to_org, org.is_locked, org.is_deleted,
+               org.parent_id, org.parent_code, org.is_charter, org.withdrawal, org.discount, d.defaultDiscount, d.defaultWithdrawal
+        from
+            (select so.id, so.code, so.name, oei.organization_class orgClass, sc.name orgClassName, oei.is_platform, oei.belong_to_org,
+                           so.parent_id, so.parent_code, oei.is_charter, oei.withdrawal, oei.discount, so.is_locked, so.is_deleted
+
+            from sys_organizations so
+                                 join organization_extra_info oei on oei.is_deleted = 0 and so.id = oei.organization_id
+                                 join member_in_employee_in_user_in_organization mieiuio on mieiuio.user_id = #{userId,jdbcType=VARCHAR} and mieiuio.is_deleted = 0 and mieiuio.organization_id = so.id
+                                 left join sys_code sc on sc.is_deleted = 0 and oei.organization_class = sc.value
+            ) org,
+            (select discount defaultDiscount, (case when is_deleted = 0 then 1 else 0 end) defaultWithdrawal  from withdrawal_default_discount where is_company = 1) d
+
+        where org.is_deleted = 0 and org.is_locked = 0
     </select>
 
     <select id="organizationCodeIsCorrect" resultType="java.lang.Integer">

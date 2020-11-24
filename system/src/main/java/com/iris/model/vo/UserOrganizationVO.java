@@ -50,5 +50,9 @@ public class UserOrganizationVO {
     @Schema( description  = "提现折扣")
     private Integer discount;
 
+    @Schema( description  = "是否可以提现")
+    private Integer defaultWithdrawal;
 
+    @Schema( description  = "是否可以提现")
+    private Integer defaultDiscount;
 }

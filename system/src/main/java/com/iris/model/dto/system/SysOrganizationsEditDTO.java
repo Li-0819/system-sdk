@@ -44,4 +44,7 @@ public class SysOrganizationsEditDTO {
 
     @Schema(name = "isLocked", description = "是否锁定")
     private Integer isLocked;
+
+    @Schema(name = "addAdmin", description = "是否添加内置用戶")
+    private boolean addAdmin;
 }
