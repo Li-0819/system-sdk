@@ -23,7 +23,7 @@ public class SystemSpecialCode {
     /**
      * JWT 在 Redis 中保存的key前缀
      */
-    public static final String REDIS_JWT_KEY_PREFIX = "security:jwt:";
+    public static final String REDIS_JWT_KEY_PREFIX = "ykyz:security:jwt:";
 
     public static final String YYYY_AND_MM = "yyyyMM";
     public static final String MM_DD = "MM-dd";

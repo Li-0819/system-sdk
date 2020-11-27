@@ -18,7 +18,7 @@
 
     <groupId>com.iris</groupId>
     <artifactId>sdk</artifactId>
-    <version>ykyz-0.0.1</version>
+    <version>ykyz-0.0.2</version>
     <name>framework</name>
     <description>sdk</description>
     <properties>
