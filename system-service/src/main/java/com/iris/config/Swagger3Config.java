@@ -63,7 +63,7 @@ public class Swagger3Config {
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enable)
 //                .operationOrdering(Orderings.nickNameComparator())
-//                .host(host)
+                .host(host)
                 .apiInfo(apiInfo())
                 .select()
                 //此包路径下的类，才生成接口文档

@@ -21,7 +21,6 @@ public class SysMessageTemplateEditDTO {
     @Schema(name = "id", description = "消息模版库ID")
     private String id;
 
-    @NotNull(message = SystemMsgConstants.SMS_PLATFORM_ID_NOT_FOUND)
     @Schema(name = "platformId", description = "平台ID")
     private String platformId;
 

@@ -39,6 +39,9 @@ public class SysAppQuestionAnswerLibraryEditDTO {
     @Schema(name = "remark", description = "备注")
     private String remark;
 
+    @Schema(name = "sequence", description = "排序")
+    private Integer sequence;
+
     //    @Size(max = 3, message = SystemMsgConstants.UP_TO_UPLOAD_THREE_ACCESSORIES)
     @Schema(name = "attachIds", description = "附件id集合")
     private List<String> attachIds;

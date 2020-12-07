@@ -18,7 +18,7 @@
 
     <groupId>com.iris</groupId>
     <artifactId>sdk</artifactId>
-    <version>crm-0.0.5</version>
+    <version>crm-0.0.6</version>
     <name>framework</name>
     <description>sdk</description>
     <properties>

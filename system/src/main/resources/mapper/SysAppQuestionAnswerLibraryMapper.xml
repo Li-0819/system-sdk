@@ -4,33 +4,30 @@
 
     <select id="getList" resultType="com.iris.model.vo.system.SysAppQuestionAnswerLibraryVO">
 
-        select list.id, list.type, list.typeName, list.title, list.url, list.content, list.remark,
-        list.is_deleted, list.created_by, list.created_time, list.modified_by, list.modified_time
-        from (
         select saqal.id, saqal.type, sc.name typeName, saqal.title, saqal.url, saqal.content, saqal.remark,
-        saqal.is_deleted, saqal.created_by, saqal.created_time, saqal.modified_by, saqal.modified_time
+                saqal.is_deleted, saqal.created_by, saqal.created_time, saqal.modified_by, saqal.modified_time, saqal.sequence
         from sys_app_question_answer_library saqal
-        left join sys_code sc on sc.is_deleted = 0 and saqal.type = sc.value
-        ) list
+            left join sys_code sc on sc.is_deleted = 0 and saqal.type = sc.value
+
         <where>
-            list.is_deleted = 0
+                saqal.is_deleted = 0
             <if test="sysAppQuestionAnswerLibraryListDTO.type != null and sysAppQuestionAnswerLibraryListDTO.type != ''">
-                and list.type = #{sysAppQuestionAnswerLibraryListDTO.type}
+                and saqal.type = #{sysAppQuestionAnswerLibraryListDTO.type}
             </if>
             <if test="sysAppQuestionAnswerLibraryListDTO.startTime != null and sysAppQuestionAnswerLibraryListDTO.startTime != ''">
-                and list.created_time &gt;= #{sysAppQuestionAnswerLibraryListDTO.startTime}
+                and saqal.created_time &gt;= #{sysAppQuestionAnswerLibraryListDTO.startTime}
             </if>
             <if test="sysAppQuestionAnswerLibraryListDTO.endTime != null and sysAppQuestionAnswerLibraryListDTO.endTime != ''">
-                and list.created_time &lt;= #{sysAppQuestionAnswerLibraryListDTO.endTime}
+                and saqal.created_time &lt;= #{sysAppQuestionAnswerLibraryListDTO.endTime}
             </if>
         </where>
-        order by list.created_time desc
+        order by saqal.sequence, saqal.created_time desc
     </select>
 
     <select id="getDetail" resultType="com.iris.model.vo.system.SysAppQuestionAnswerLibraryVO">
 
         select saqal.id, saqal.type, sc.name typeName, saqal.title, saqal.url, saqal.content, saqal.remark,
-                    saqal.is_deleted, saqal.created_by, saqal.created_time, saqal.modified_by, saqal.modified_time
+                    saqal.is_deleted, saqal.created_by, saqal.created_time, saqal.modified_by, saqal.modified_time, saqal.sequence
         from sys_app_question_answer_library saqal
                     left join sys_code sc on sc.is_deleted = 0 and saqal.type = sc.value
         where saqal.id = #{id} and saqal.is_deleted = 0

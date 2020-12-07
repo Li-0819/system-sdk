@@ -34,4 +34,7 @@ public class SysAppQuestionAnswerLibrary extends BaseEntity {
 
     @Schema(name = "remark", description = "备注")
     private String remark;
+
+    @Schema(name = "sequence", description = "排序")
+    private Integer sequence;
 }

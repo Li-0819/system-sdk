@@ -45,17 +45,6 @@ spring:
         max-wait: 10000ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
         min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
       shutdown-timeout: 100ms
-    #  rabbitmq:
-    #    host: 192.168.45.146
-    #    port: 5672
-    #    username: kuai0901
-    #    password: kuai930901
-    #虚拟host 可以不设置,使用server默认host
-#    virtual-host: /
-#  security:
-#    user:
-#      name: admin
-#      password: 1
 
 mybatis-plus:
   configuration:
@@ -122,12 +111,3 @@ custom:
         - "/"
         - "/csrf"
 #        - "/**"
-
-#wx-pay:
-#  config:
-#    key: 3a8298d9696d667ace76a60c95df037c
-#    mch-id: 1493819852
-#    app-id: wxf1851cce70fce364
-#    cert-path: R:\pay\wxpay\cert\cert\apiclient_cert.p12
-#    notify-url: http://192.168.0.117:9008/test/payNotify
-#    sp-bill-create-ip: 47.110.241.252

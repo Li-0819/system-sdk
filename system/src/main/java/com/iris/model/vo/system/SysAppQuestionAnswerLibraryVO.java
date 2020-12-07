@@ -35,6 +35,9 @@ public class SysAppQuestionAnswerLibraryVO extends BaseVO {
     @Schema(name = "remark", description = "备注")
     private String remark;
 
+    @Schema(name = "sequence", description = "排序")
+    private Integer sequence;
+
     @Schema(name = "attachInfoVOS", description = "附件信息")
     private List<SysAttachInfoVO> attachInfoVOS;
 }
