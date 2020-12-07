@@ -39,7 +39,7 @@ import java.util.List;
 @Tag(name = "Auth", description = "登录登出")
 @RequestMapping("/auth")
 @RestController
-public class AuthController {
+public class SysAuthController {
 
     @Resource private AuthenticationManager authenticationManager;
 

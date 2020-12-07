@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.iris.mapper.AttachmentMapper;
+import com.iris.mapper.CommonAttachmentMapper;
 import com.iris.model.entity.SysAttachInfo;
-import com.iris.model.mapper.SysAttachInfoMapper;
+import com.iris.model.mapper.SystemAttachInfoMapper;
 import com.iris.model.vo.AttachmentInfoVO;
 import com.iris.model.vo.system.SysAttachInfoVO;
 import com.iris.service.AttachmentService;
@@ -30,13 +30,13 @@ import java.util.List;
  * @Description: impl
  */
 @Service
-public class AttachmentServiceImpl extends ServiceImpl<SysAttachInfoMapper, SysAttachInfo> implements AttachmentService {
+public class AttachmentServiceImpl extends ServiceImpl<SystemAttachInfoMapper, SysAttachInfo> implements AttachmentService {
 
     @Resource private AttachmentUpload attachmentUpload;
-    @Resource private AttachmentMapper attachmentMapper;
+    @Resource private CommonAttachmentMapper commonAttachmentMapper;
     @Resource private AttachmentUtil attachmentUtil;
     @Resource private OSSUtil ossUtil;
-    @Resource private SysAttachInfoMapper sysAttachInfoMapper;
+    @Resource private SystemAttachInfoMapper systemAttachInfoMapper;
 
     @Override
     public List<AttachmentInfoVO> commonFileUpload(
@@ -105,7 +105,7 @@ public class AttachmentServiceImpl extends ServiceImpl<SysAttachInfoMapper, SysA
                 }
 
                 //保存到数据库
-                attachmentMapper.insert(attachInfo);
+                commonAttachmentMapper.insert(attachInfo);
 
                 attachmentInfo.setId(attachInfo.getId());
 
@@ -142,7 +142,7 @@ public class AttachmentServiceImpl extends ServiceImpl<SysAttachInfoMapper, SysA
 
         JudgeParam.paramIsNotNull(refId, SystemMsgConstants.ATTACHMENT_REF_ID_NOT_FOUND);
 
-        return attachmentMapper.getAttachesByRefId(refId);
+        return commonAttachmentMapper.getAttachesByRefId(refId);
     }
 
     /**
@@ -160,7 +160,7 @@ public class AttachmentServiceImpl extends ServiceImpl<SysAttachInfoMapper, SysA
             queryWrapper.eq(SystemCommonField.REF_ID, refId);
             queryWrapper.in(SystemCommonField.ID, attachmentIds);
 
-            sysAttachInfoMapper.delete(queryWrapper);
+            systemAttachInfoMapper.delete(queryWrapper);
         }
     }
 }

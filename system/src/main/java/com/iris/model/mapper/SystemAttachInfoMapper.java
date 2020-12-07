@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2020-07-13
  */
 @Mapper
-public interface SysAttachInfoMapper extends BaseMapper<SysAttachInfo> {
+public interface SystemAttachInfoMapper extends BaseMapper<SysAttachInfo> {
 
 }

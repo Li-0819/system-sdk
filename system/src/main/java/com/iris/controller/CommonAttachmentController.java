@@ -24,11 +24,11 @@ import java.util.List;
 @Tag(name = "Attachment", description = "全局附件上传统一方法")
 @RestController
 @RequestMapping("/common/attachment")
-public class AttachmentController {
+public class CommonAttachmentController {
 
     @Resource private AttachmentService attachmentService;
 
-//    @Deprecated
+    @Deprecated
     @Operation(summary = "通用文件上传(多) - izanagi", tags = "Attachment")
     @PostMapping(path = "/commonFileUpload",headers="content-type=multipart/form-data")
     public ResponseVO<List<AttachmentInfoVO>> commonFileUpload(@RequestPart("files") List<MultipartFile> multipartFiles, @Valid CommonFileUploadDTO dto) {

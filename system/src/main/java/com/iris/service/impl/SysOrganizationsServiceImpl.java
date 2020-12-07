@@ -98,11 +98,6 @@ public class SysOrganizationsServiceImpl extends ServiceImpl<SysOrganizationsMap
 
             baseMapper.insert(sysOrganizations);
 
-            // 是否为平台
-//            if (!organizationExtraInfo.getIsPlatform().equals(1)){
-//
-//                this.saveOrgAttachInfo(sysOrganizationsEditDTO, sysOrganizations.getId(), sysOrganizations.getCode());
-//            }
         }else {
 
             SysOrganizations organizations = baseMapper.selectOne(new QueryWrapper<SysOrganizations>() {{

@@ -14,7 +14,7 @@ import java.util.List;
  * @Description: AttachmentMapper
  */
 @Mapper
-public interface AttachmentMapper extends BaseMapper<SysAttachInfo> {
+public interface CommonAttachmentMapper extends BaseMapper<SysAttachInfo> {
 
     /**
      * 根据关联ID获取附件
