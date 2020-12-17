@@ -26,7 +26,7 @@ public interface ISysSitemapsService extends IService<SysSitemaps> {
      * @param isPlatform 是否是平台
      * @return
      */
-    PageResponseVO<SitemapsVO> getList(String parentId, Integer isPlatform);
+    PageResponseVO<SitemapsVO> getList(String parentId);
 
     /**
      * 获取菜单管理详情

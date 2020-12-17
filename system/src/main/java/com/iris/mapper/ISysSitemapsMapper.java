@@ -19,9 +19,9 @@ import java.util.List;
 @Mapper
 public interface ISysSitemapsMapper {
 
-    List<SitemapsAuthVO> getAuthList(@Param("isPlatform") Integer isPlatform);
+    List<SitemapsAuthVO> getAuthList();
 
-    List<SitemapsVO> getList(@Param("parentId") String parentId,@Param("isPlatform") Integer isPlatform);
+    List<SitemapsVO> getList(@Param("parentId") String parentId);
 
     /**
      * 根据ID修改菜单管理
@@ -35,7 +35,7 @@ public interface ISysSitemapsMapper {
      * @param isPlatform 是否为平台
      * @return
      */
-    List<SitemapsAuthVO> getAuthSiteMapByTargetId(@Param("targetIds") List<String> targetIds,@Param("isPlatform") Integer isPlatform);
+    List<SitemapsAuthVO> getAuthSiteMapByTargetId(@Param("targetIds") List<String> targetIds);
 
     /**
      *

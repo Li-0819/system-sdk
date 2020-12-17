@@ -45,11 +45,9 @@ public class SysSitemapsController {
     @SystemLog(description = "获取菜单列表")
     @Operation(summary = "获取菜单列表 -- RubyWong", tags = "System")
     @GetMapping("/getList")
-    public ResponseVO<PageResponseVO<SitemapsVO>> getList(@RequestParam(name = "parentId",required = false) String parentId,
-                                                          @RequestParam("isPlatform")  Integer isPlatform
-    ) {
+    public ResponseVO<PageResponseVO<SitemapsVO>> getList(@RequestParam(name = "parentId",required = false) String parentId) {
 
-        PageResponseVO<SitemapsVO> pageResult = iSysSitemapsService.getList(parentId,isPlatform);
+        PageResponseVO<SitemapsVO> pageResult = iSysSitemapsService.getList(parentId);
 
         return ResponseVO.ok(pageResult);
     }

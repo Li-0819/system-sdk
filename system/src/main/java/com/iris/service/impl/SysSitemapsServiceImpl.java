@@ -38,7 +38,7 @@ public class SysSitemapsServiceImpl extends ServiceImpl<SysSitemapsMapper, SysSi
     @Override
     public PageResponseVO<SitemapsAuthVO> getAuthList() {
 
-        return PageResponseVO.of(iSysSitemapsMapper.getAuthList(null), SitemapsAuthVO.class);
+        return PageResponseVO.of(iSysSitemapsMapper.getAuthList(), SitemapsAuthVO.class);
     }
 
     /**
@@ -46,9 +46,9 @@ public class SysSitemapsServiceImpl extends ServiceImpl<SysSitemapsMapper, SysSi
      * @return
      */
     @Override
-    public PageResponseVO<SitemapsVO> getList(String parentId, Integer isPlatform) {
+    public PageResponseVO<SitemapsVO> getList(String parentId) {
 
-        return PageResponseVO.of(iSysSitemapsMapper.getList(parentId, isPlatform), SitemapsVO.class);
+        return PageResponseVO.of(iSysSitemapsMapper.getList(parentId), SitemapsVO.class);
     }
 
     /**

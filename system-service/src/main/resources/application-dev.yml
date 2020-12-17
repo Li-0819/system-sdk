@@ -27,11 +27,11 @@ spring:
     store-type: redis
   datasource:
     druid:
-      url: jdbc:mysql://124.71.150.188:3600/ykyz-dev?useSSL=false
-      username: yyk_dev
-      password: Yun2009#%!YiKeDev
+      url: jdbc:mysql://rm-uf6os7t90764pmiy1mo.mysql.rds.aliyuncs.com:3600/common-manage-dev
+      username: rds_dev
+      password: New2020#@$Life_DEV
   redis:
-    host: 124.71.169.25
+    host: 139.224.222.91
     port: 6397
     password: 1252131684042207233
     database: 0
@@ -119,12 +119,3 @@ custom:
         - "/"
         - "/csrf"
 #        - "/**"
-
-#wx-pay:
-#  config:
-#    key: 3a8298d9696d667ace76a60c95df037c
-#    mch-id: 1493819852
-#    app-id: wxf1851cce70fce364
-#    cert-path: R:\pay\wxpay\cert\cert\apiclient_cert.p12
-#    notify-url: http://192.168.0.117:9008/test/payNotify
-#    sp-bill-create-ip: 47.110.241.252

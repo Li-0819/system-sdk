@@ -113,10 +113,10 @@ public class AuthUserServiceImpl implements AuthUserService {
 
         if (this.checkIsAdmin(targetIds)) {
 
-            sitemapsAuthVOS = iSysSitemapsMapper.getAuthList(isPlatform);
+            sitemapsAuthVOS = iSysSitemapsMapper.getAuthList();
         }else {
 
-            sitemapsAuthVOS = iSysSitemapsMapper.getAuthSiteMapByTargetId(targetIds, isPlatform);
+            sitemapsAuthVOS = iSysSitemapsMapper.getAuthSiteMapByTargetId(targetIds);
         }
         return sitemapsAuthVOS;
     }
